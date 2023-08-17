@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Snap4City Editor</title>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow/dist/drawflow.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow@0.0.48/dist/drawflow.min.css">
+  <link rel="stylesheet" type="text/css" href="editor.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+
+
+  <header>
+    <h2>Snap4City Editor</h2>
+  </header>
+  <div class="wrapper">
+    <div class="col">
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="RadarSeries">
+        <span>RadarSeries</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="TimeTrend">
+        <span>TimeTrend</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="CurvedLineSeries">
+        <span>CurvedLineSeries</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="PieChart">
+        <span>PieChart</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="BarSeries">
+        <span>BarSeries</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="Map">
+        <span>Map</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="Speedometer">
+        <span>Speedometer</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="GaugeChart">
+        <span>GaugeChart</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="Knob">
+        <span>Knob</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="NumericKeyboard">
+        <span>NumericKeyboard</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="SingleContent">
+        <span>SingleContent</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="ExternalContent">
+        <span>ExternalContent</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="Table">
+        <span>Table</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="DeviceTable">
+        <span>DeviceTable</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="EventTable">
+        <span>EventTable</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="Button">
+        <span>Button</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="OnOffButton">
+        <span>OnOffButton</span>
+      </div>
+      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="ImpulseButton">
+        <span>ImpulseButton</span>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="menu">
+        <ul>
+          <li onclick="editor.changeModule('Home'); changeModule(event);" class="selected">Home</li>
+          <li onclick="editor.changeModule('Other'); changeModule(event);">Other Module</li>
+        </ul>
+      </div>
+      <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+        <div class="btn-export" onclick="Swal.fire({ title: 'Export',
+        html: '<pre><code>'+JSON.stringify(editor.export(), null,4)+'</code></pre>'
+        })">Export</div>
+        <div class="btn-clear" onclick="editor.clearModuleSelected()">Clear</div>
+        <div class="btn-lock">
+          <i id="lock" class="fas fa-lock" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
+          <i id="unlock" class="fas fa-lock-open" onclick="editor.editor_mode='edit'; changeMode('unlock');"
+            style="display:none;"></i>
+        </div>
+        <div class="bar-zoom">
+          <i class="fas fa-search-minus" onclick="editor.zoom_out()"></i>
+          <i class="fas fa-search" onclick="editor.zoom_reset()"></i>
+          <i class="fas fa-search-plus" onclick="editor.zoom_in()"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    var df = document.getElementById("drawflow");
+    const editor = new Drawflow(df);
+    editor.reroute = false;
+    editor.reroute_fix_curvature = true;
+    editor.force_first_input = false;
+    const dataToImport = { "drawflow": { "Home": { "data": { "1": { "id": 1, "name": "welcome", "data": {}, "class": "welcome", "html": "\n    <div>\n      <div class=\"title-box\">👏 Welcome!!</div>\n      <div class=\"box\">\n        <p>Simple flow library <b>demo</b>\n        <a href=\"https://github.com/jerosoler/Drawflow\" target=\"_blank\">Drawflow</a> by <b>Jero Soler</b></p><br>\n\n        <p>Multiple input / outputs<br>\n           Data sync nodes<br>\n           Import / export<br>\n           Modules support<br>\n           Simple use<br>\n           Type: Fixed or Edit<br>\n           Events: view console<br>\n           Pure Javascript<br>\n        </p>\n        <br>\n        <p><b><u>Shortkeys:</u></b></p>\n        <p>🎹 <b>Delete</b> for remove selected<br>\n        💠 Mouse Left Click == Move<br>\n        ❌ Mouse Right == Delete Option<br>\n        🔍 Ctrl + Wheel == Zoom<br>\n        📱 Mobile support<br>\n        ...</p>\n      </div>\n    </div>\n    ", "typenode": false, "inputs": {}, "outputs": {}, "pos_x": 50, "pos_y": 50 },"2": { "id": 2, "name": "legenda", "data": {}, "class": "legenda", "html": "\n    <div>\n      <div class=\"title-box\">Legenda</div>\n      <div class=\"box\">\n   🔴 List of SURI #e81224<br>\n   🟢 Time Interval #16c60c<br>\n   🔵 SURI #0078d7<br>\n   🟡 Timestamp #fff100<br>\n  🟠 Action #f7630c<br>\n  🟣 GPS Coordinates #886ce4<br>\n   🟤#8e562e<br>\n   ⚫#383838<br>\n   ⚪#f2f2f2<br>\n   </div>", "typenode": false, "inputs": {}, "outputs": {}, "pos_x": 400, "pos_y": 400 }}}}}
+    editor.start();
+    editor.import(dataToImport);
+
+    var port_types = [
+        {"type":"ListSURI","color": "#e81224"},
+        {"type":"time_interval","color": "#16c60c"},
+        {"type":"SURI","color": "#0078d7"},
+        {"type":"timestamp","color": "#fff100"},
+        {"type":"action","color": "#f7630c"},
+        {"type":"GPS_coordinates","color": "#886ce4"}];
+
+
+    // Events!
+    editor.on('nodeCreated', function (id) {
+      console.log("Node created " + id);
+    })
+
+    editor.on('nodeRemoved', function (id) {
+      console.log("Node removed " + id);
+    })
+
+    editor.on('nodeSelected', function (id) {
+      console.log("Node selected " + id);
+    })
+
+    editor.on('moduleCreated', function (name) {
+      console.log("Module Created " + name);
+    })
+
+    editor.on('moduleChanged', function (name) {
+      console.log("Module Changed " + name);
+    })
+
+    editor.on('connectionCreated', function (connection) {
+      let output_node=editor.getNodeFromId(connection.output_id);
+      let input_node=editor.getNodeFromId(connection.input_id);
+      console.log(output_node.data.port_types[connection.output_class].type);
+      if(output_node.data.port_types[connection.output_class].type != input_node.data.port_types[connection.input_class].type)
+        editor.removeSingleConnection(connection.output_id, connection.input_id, connection.output_class, connection.input_class);
+      console.log('Connection created');
+      console.log(output_node);
+      console.log(input_node);
+      console.log(connection);
+    })
+
+    editor.on('connectionRemoved', function (connection) {
+      console.log('Connection removed');
+      console.log(connection);
+    })
+    /*
+        editor.on('mouseMove', function(position) {
+          console.log('Position mouse x:' + position.x + ' y:'+ position.y);
+        })
+    */
+    editor.on('nodeMoved', function (id) {
+      console.log("Node moved " + id);
+    })
+
+    editor.on('zoom', function (zoom) {
+      console.log('Zoom level ' + zoom);
+    })
+
+    editor.on('translate', function (position) {
+      console.log('Translate x:' + position.x + ' y:' + position.y);
+    })
+
+    editor.on('addReroute', function (id) {
+      console.log("Reroute added " + id);
+    })
+
+    editor.on('removeReroute', function (id) {
+      console.log("Reroute removed " + id);
+    })
+    /* DRAG EVENT */
+
+    /* Mouse and Touch Actions */
+
+    var elements = document.getElementsByClassName('drag-drawflow');
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].addEventListener('touchend', drop, false);
+      elements[i].addEventListener('touchmove', positionMobile, false);
+      elements[i].addEventListener('touchstart', drag, false);
+    }
+
+    var mobile_item_selec = '';
+    var mobile_last_move = null;
+    function positionMobile(ev) {
+      mobile_last_move = ev;
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      if (ev.type === "touchstart") {
+        mobile_item_selec = ev.target.closest(".drag-drawflow").getAttribute('data-node');
+      } else {
+        ev.dataTransfer.setData("node", ev.target.getAttribute('data-node'));
+      }
+    }
+
+    function drop(ev) {
+      if (ev.type === "touchend") {
+        var parentdrawflow = document.elementFromPoint(mobile_last_move.touches[0].clientX, mobile_last_move.touches[0].clientY).closest("#drawflow");
+        if (parentdrawflow != null) {
+          addNodeToDrawFlow(mobile_item_selec, mobile_last_move.touches[0].clientX, mobile_last_move.touches[0].clientY);
+        }
+        mobile_item_selec = '';
+      } else {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("node");
+        addNodeToDrawFlow(data, ev.clientX, ev.clientY);
+      }
+
+    }
+
+    function addNodeToDrawFlow(name, pos_x, pos_y) {
+      if (editor.editor_mode === 'fixed') {
+        return false;
+      }
+      pos_x = pos_x * (editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)) - (editor.precanvas.getBoundingClientRect().x * (editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)));
+      pos_y = pos_y * (editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)) - (editor.precanvas.getBoundingClientRect().y * (editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)));
+
+      switch (name) {
+        case 'RadarSeries':
+          var radarSeries = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> RadarSeries</div>
+            <div class="box">
+              <div>CK editor</div>
+              <textarea df-template class="ck-editor-box"></textarea>
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[3],"output_1":port_types[2],"output_2" : port_types[3]}};
+          editor.addNode('RadarSeries', 2, 2, pos_x, pos_y, 'radarseries', data, radarSeries);
+          break;
+
+        case 'TimeTrend':
+          var timeTrend = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> TimeTrend</div>
+            <div class="box">
+              <div>CK editor</div>
+              <textarea df-template class="ck-editor-box"></textarea>
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[2],"output_1":port_types[3],"output_2" : port_types[2],"output_3" : port_types[1]}};
+          editor.addNode('TimeTrend', 1, 3, pos_x, pos_y, 'timetrend', data, timeTrend);
+          break;
+
+        case 'CurvedLineSeries':
+          var curvedLineSeries = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> CurvedLineSeries</div>
+            <div class="box">
+              <div>CK editor</div>
+              <textarea df-template class="ck-editor-box"></textarea>
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"input_3" : port_types[3],"output_1":port_types[3],"output_2" : port_types[2],"output_3" : port_types[1],"output_4" : port_types[0]}};
+          editor.addNode('CurvedLineSeries', 3, 4, pos_x, pos_y, 'curvedlineseries', data, curvedLineSeries);
+          break;
+
+        case 'PieChart':
+          var pieChart = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> PieChart</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('PieChart', 2, 2, pos_x, pos_y, 'piechart', data, pieChart);
+          break;
+
+        case 'BarSeries':
+          var barSeries = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> BarSeries</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('BarSeries', 2, 2, pos_x, pos_y, 'barseries', data, barSeries);
+          break;
+
+        case 'Map':
+          var map = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> Map</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('Map', 2, 2, pos_x, pos_y, 'map', data, map);
+          break;
+
+        case 'Speedometer':
+          var speedometer = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> Speedometer</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('Speedometer', 2, 2, pos_x, pos_y, 'speedometer', data, speedometer);
+          break;
+
+        case 'GaugeChart':
+          var gaugeChart = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> GaugeChart</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('GaugeChart', 2, 2, pos_x, pos_y, 'gaugechart', data, gaugeChart);
+          break;
+
+        case 'Knob':
+          var knob = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> Knob</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('Knob', 2, 2, pos_x, pos_y, 'knob', data, knob);
+          break;
+
+        case 'NumericKeyboard':
+          var numericKeyboard = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> NumericKeyboard</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('NumericKeyboard', 2, 2, pos_x, pos_y, 'numerickeyboard', data, numericKeyboard);
+          break;
+
+        case 'SingleContent':
+          var singleContent = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> SingleContent</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('SingleContent', 2, 2, pos_x, pos_y, 'singlecontent', data, singleContent);
+          break;
+
+        case 'ExternalContent':
+          var externalContent = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> ExternalContent</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('ExternalContent', 2, 2, pos_x, pos_y, 'externalcontent', data, externalContent);
+          break;
+
+        case 'Table':
+          var table = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> Table</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('Table', 2, 2, pos_x, pos_y, 'table', data, table);
+          break;
+
+        case 'DeviceTable':
+          var deviceTable = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> DeviceTable</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('DeviceTable', 2, 2, pos_x, pos_y, 'devicetable', data, deviceTable);
+          break;
+
+        case 'EventTable':
+          var eventTable = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> EventTable</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('EventTable', 2, 2, pos_x, pos_y, 'eventtable', data, eventTable);
+          break;
+
+        case 'Button':
+          var button = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> Button</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('Button', 2, 2, pos_x, pos_y, 'button', data, button);
+          break;
+
+        case 'OnOffButton':
+          var onOffButton = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> OnOffButton</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('OnOffButton', 2, 2, pos_x, pos_y, 'onoffbutton', data, onOffButton);
+          break;
+
+        case 'ImpulseButton':
+          var impulseButton = `
+          <div>
+            <div class="title-box"><i class="fas fa-code"></i> ImpulseButton</div>
+            <div class="box">
+              Ger Vars
+              <textarea df-template></textarea>
+              Output template with vars
+            </div>
+          </div>
+          `;
+          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[1],"output_1":port_types[0],"output_2" : port_types[1]}};
+          editor.addNode('ImpulseButton', 2, 2, pos_x, pos_y, 'impulsebutton', data, impulseButton);
+          break;
+
+        default:
+      }
+    }
+    function verifyConnection(){
+
+    }
+    var transform = '';
+    function showpopup(e) {
+      e.target.closest(".drawflow-node").style.zIndex = "9999";
+      e.target.children[0].style.display = "block";
+      //document.getElementById("modalfix").style.display = "block";
+
+      //e.target.children[0].style.transform = 'translate('+translate.x+'px, '+translate.y+'px)';
+      transform = editor.precanvas.style.transform;
+      editor.precanvas.style.transform = '';
+      editor.precanvas.style.left = editor.canvas_x + 'px';
+      editor.precanvas.style.top = editor.canvas_y + 'px';
+      console.log(transform);
+
+      //e.target.children[0].style.top  =  -editor.canvas_y - editor.container.offsetTop +'px';
+      //e.target.children[0].style.left  =  -editor.canvas_x  - editor.container.offsetLeft +'px';
+      editor.editor_mode = "fixed";
+
+    }
+
+    function closemodal(e) {
+      e.target.closest(".drawflow-node").style.zIndex = "2";
+      e.target.parentElement.parentElement.style.display = "none";
+      //document.getElementById("modalfix").style.display = "none";
+      editor.precanvas.style.transform = transform;
+      editor.precanvas.style.left = '0px';
+      editor.precanvas.style.top = '0px';
+      editor.editor_mode = "edit";
+    }
+
+    function changeModule(event) {
+      var all = document.querySelectorAll(".menu ul li");
+      for (var i = 0; i < all.length; i++) {
+        all[i].classList.remove('selected');
+      }
+      event.target.classList.add('selected');
+    }
+
+    function changeMode(option) {
+
+      //console.log(lock.id);
+      if (option == 'lock') {
+        lock.style.display = 'none';
+        unlock.style.display = 'block';
+      } else {
+        lock.style.display = 'block';
+        unlock.style.display = 'none';
+      }
+
+    }
+
+  </script>
+</body>
+
+</html>
