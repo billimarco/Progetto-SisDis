@@ -129,6 +129,17 @@
 
     // Events!
     editor.on('nodeCreated', function (id) {
+      let node=editor.getNodeFromId(id);
+      let nodeBox=document.getElementById("node-"+id).childNodes[1];
+      nodeBox.innerHTML +=`
+      <div class="box">
+        <div>WidgetName: <input df-widget_name type="text"></input></div>
+        <textarea id="code-`+id+`" df-code class="ck-editor-box"></textarea>
+        <div id="trigger-room-`+id+`" class="trigger-room"></div>
+        <button onclick="addTrigger(`+id+`)">add</button>
+      </div>
+      `;
+      console.log(nodeBox);
       console.log("Node created " + id);
     })
 
@@ -137,7 +148,7 @@
     })
 
     editor.on('nodeSelected', function (id) {
-      console.log("Node selected " + id);
+      console.log(editor.getNodeFromId(id));
     })
 
     editor.on('moduleCreated', function (name) {
@@ -231,6 +242,34 @@
       }
 
     }
+    
+    function addTrigger(id){
+      let triggerRoom = document.getElementById("trigger-room-"+id);
+      let node=editor.getNodeFromId(id);
+      let trigger_id=Object.keys(node.data["triggers"]).length;
+      let trigger_name = "trigger_"+trigger_id;
+      let trigger={"type":"","target_widget":"","passed_data":""};
+      node.data.triggers[trigger_name]=trigger;
+      editor.updateNodeDataFromId(id,node.data);
+      triggerRoom.insertAdjacentHTML("beforeend",`
+      <div class="Trigger-Box" id="trigger-box-`+id+"-"+trigger_id+`">
+        <div>Type: <input df-triggers-`+trigger_name+`-type type="text"></input></div>
+        <div>TargetWidget: <input df-triggers-`+trigger_name+`-target_widget type="text"></input></div>
+        <div>PassedData: <textarea df-triggers-`+trigger_name+`-passed_data class="ck-editor-box"></textarea></div>
+        <button onclick="deleteTrigger(`+id+`,`+trigger_id+`)">delete</button>
+      </div>
+      `);
+      console.log(editor.getNodeFromId(id));
+    }
+
+    function deleteTrigger(id,trigger_id){
+      let triggerRoom = document.getElementById("trigger-box-"+id+"-"+trigger_id);
+      triggerRoom.remove();
+      let node=editor.getNodeFromId(id);
+      delete node.data.triggers["trigger_"+trigger_id];
+      editor.updateNodeDataFromId(id,node.data);
+      console.log(editor.getNodeFromId(id));
+    }
 
     function addNodeToDrawFlow(name, pos_x, pos_y) {
       if (editor.editor_mode === 'fixed') {
@@ -242,15 +281,9 @@
       switch (name) {
         case 'RadarSeries':
           var radarSeries = `
-          <div>
             <div class="title-box"><i class="fas fa-code"></i> RadarSeries</div>
-            <div class="box">
-              <div>CK editor</div>
-              <textarea df-template class="ck-editor-box"></textarea>
-            </div>
-          </div>
           `;
-          var data = { "port_types":{"input_1":port_types[0],"input_2" : port_types[3],"output_1":port_types[2],"output_2" : port_types[3]}};
+          var data = {"widget_name":"", "code":"" ,"port_types":{"input_1":port_types[0],"input_2" : port_types[3],"output_1":port_types[2],"output_2" : port_types[3]}, "triggers":{}};
           editor.addNode('RadarSeries', 2, 2, pos_x, pos_y, 'radarseries', data, radarSeries);
           break;
 
