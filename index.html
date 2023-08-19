@@ -111,6 +111,8 @@
   </div>
 
   <script>
+    
+    //IMPORTANT for acceding some data of the node for update, like the HTML or others, we need to use <--editor.drawflow.drawflow[module].data[id]-->.
 
     var df = document.getElementById("drawflow");
     const editor = new Drawflow(df);
@@ -132,9 +134,10 @@
 
     // Events!
     editor.on('nodeCreated', function (id) {
-      let node=editor.getNodeFromId(id);
-      let nodeBox=document.getElementById("node-"+id).childNodes[1];
-      nodeBox.innerHTML +=`
+      let nodeBox = document.getElementById("node-"+id).childNodes[1];
+
+      //Update node HTML
+      nodeBox.innerHTML += `
       <div class="box">
         <div class="separator">
           <label for="widgetname-`+id+`">WidgetName</label>
@@ -150,7 +153,9 @@
         </div>
       </div>
       `;
-      console.log(nodeBox);
+      updateHTMLFromNodeId(id);
+
+      console.log(editor);
       console.log("Node created " + id);
     })
 
@@ -255,14 +260,18 @@
     }
     
     function addTrigger(id){
+      let node = editor.getNodeFromId(id);
       let triggerRoom = document.getElementById("trigger-room-"+id);
-      let node=editor.getNodeFromId(id);
       let trigger_id=node.data.trigger_number;
       let trigger_name = "trigger_"+trigger_id;
       let trigger={"type":"","target_widget":"","passed_data":""};
+
+      //Add a new trigger to node.data.triggers
       node.data.trigger_number +=1;
       node.data.triggers[trigger_name] = trigger;
       editor.updateNodeDataFromId(id,node.data);
+
+      //Modify node HTML with a new trigger form
       triggerRoom.insertAdjacentHTML("beforeend",`
       <div class="trigger-box accordion-item" id="trigger-box-`+id+"-"+trigger_id+`">
         <div class="accordion-header">
@@ -289,16 +298,31 @@
         </div>
       </div>
       `);
+      updateHTMLFromNodeId(id);
+
       console.log(editor.getNodeFromId(id));
     }
 
     function deleteTrigger(id,trigger_id){
       let triggerRoom = document.getElementById("trigger-box-"+id+"-"+trigger_id);
-      triggerRoom.remove();
       let node=editor.getNodeFromId(id);
+
+      //Delete a trigger from node.data.triggers
       delete node.data.triggers["trigger_"+trigger_id];
       editor.updateNodeDataFromId(id,node.data);
+
+      //Remove node HTML of a trigger
+      triggerRoom.remove();
+      updateHTMLFromNodeId(id);
+
       console.log(editor.getNodeFromId(id));
+    }
+
+    function updateHTMLFromNodeId(id){
+      let module = editor.getModuleFromNodeId(id);
+      let node = editor.getNodeFromId(id);
+      let nodeContent = document.getElementById("node-"+id).childNodes[1];
+      editor.drawflow.drawflow[module].data[id].html = nodeContent.innerHTML;
     }
 
     function addNodeToDrawFlow(name, pos_x, pos_y) {
