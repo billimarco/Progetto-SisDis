@@ -9,14 +9,17 @@
 </head>
 
 <body>
-  <script src="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow/dist/drawflow.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow@0.0.48/dist/drawflow.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="editor.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/gh/jerosoler/Drawflow/dist/drawflow.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 
   <header>
@@ -114,7 +117,7 @@
     editor.reroute = false;
     editor.reroute_fix_curvature = true;
     editor.force_first_input = false;
-    const dataToImport = { "drawflow": { "Home": { "data": { "1": { "id": 1, "name": "welcome", "data": {}, "class": "welcome", "html": "\n    <div>\n      <div class=\"title-box\">👏 Welcome!!</div>\n      <div class=\"box\">\n        <p>Simple flow library <b>demo</b>\n        <a href=\"https://github.com/jerosoler/Drawflow\" target=\"_blank\">Drawflow</a> by <b>Jero Soler</b></p><br>\n\n        <p>Multiple input / outputs<br>\n           Data sync nodes<br>\n           Import / export<br>\n           Modules support<br>\n           Simple use<br>\n           Type: Fixed or Edit<br>\n           Events: view console<br>\n           Pure Javascript<br>\n        </p>\n        <br>\n        <p><b><u>Shortkeys:</u></b></p>\n        <p>🎹 <b>Delete</b> for remove selected<br>\n        💠 Mouse Left Click == Move<br>\n        ❌ Mouse Right == Delete Option<br>\n        🔍 Ctrl + Wheel == Zoom<br>\n        📱 Mobile support<br>\n        ...</p>\n      </div>\n    </div>\n    ", "typenode": false, "inputs": {}, "outputs": {}, "pos_x": 50, "pos_y": 50 },"2": { "id": 2, "name": "legenda", "data": {}, "class": "legenda", "html": "\n    <div>\n      <div class=\"title-box\">Legenda</div>\n      <div class=\"box\">\n   🔴 List of SURI #e81224<br>\n   🟢 Time Interval #16c60c<br>\n   🔵 SURI #0078d7<br>\n   🟡 Timestamp #fff100<br>\n  🟠 Action #f7630c<br>\n  🟣 GPS Coordinates #886ce4<br>\n   🟤#8e562e<br>\n   ⚫#383838<br>\n   ⚪#f2f2f2<br>\n   </div>", "typenode": false, "inputs": {}, "outputs": {}, "pos_x": 400, "pos_y": 400 }}}}}
+    const dataToImport = { "drawflow": { "Home": { "data": {"1": { "id": 1, "name": "legenda", "data": {}, "class": "legenda", "html": "\n    <div>\n      <div class=\"title-box\">Legenda</div>\n      <div class=\"box\">\n   🔴 List of SURI #e81224<br>\n   🟢 Time Interval #16c60c<br>\n   🔵 SURI #0078d7<br>\n   🟡 Timestamp #fff100<br>\n  🟠 Action #f7630c<br>\n  🟣 GPS Coordinates #886ce4<br>\n   🟤#8e562e<br>\n   ⚫#383838<br>\n   ⚪#f2f2f2<br>\n   <p><b><u>Shortkeys:</u></b></p>\n        <p>🎹 <b>Delete</b> for remove selected<br>\n        💠 Mouse Left Click == Move<br>\n        ❌ Mouse Right == Delete Option<br>\n        🔍 Ctrl + Wheel == Zoom<br>\n        📱 Mobile support<br>\n        ...</p>\n      </div>\n    </div>\n    </div>", "typenode": false, "inputs": {}, "outputs": {}, "pos_x": 50, "pos_y": 50 }}}}}
     editor.start();
     editor.import(dataToImport);
 
@@ -133,10 +136,18 @@
       let nodeBox=document.getElementById("node-"+id).childNodes[1];
       nodeBox.innerHTML +=`
       <div class="box">
-        <div>WidgetName: <input df-widget_name type="text"></input></div>
-        <textarea id="code-`+id+`" df-code class="ck-editor-box"></textarea>
-        <div id="trigger-room-`+id+`" class="trigger-room"></div>
-        <button onclick="addTrigger(`+id+`)">add</button>
+        <div class="separator">
+          <label for="widgetname-`+id+`">WidgetName</label>
+          <input id="widgetname-`+id+`" df-widget_name type="text"></input>
+        </div>
+        <div id="ck-editor-`+id+`" class="ck-editor accordion accordion-flush">
+          <div id="code-room-`+id+`" class="code-room">
+            <label for="code-`+id+`">CK editor</label>
+            <textarea id="code-`+id+`" df-code class="code-box"></textarea>
+          </div>
+          <div id="trigger-room-`+id+`" class="trigger-room"></div>
+          <button onclick="addTrigger(`+id+`)" class="btn-add-trigger">add</button>
+        </div>
       </div>
       `;
       console.log(nodeBox);
@@ -246,17 +257,36 @@
     function addTrigger(id){
       let triggerRoom = document.getElementById("trigger-room-"+id);
       let node=editor.getNodeFromId(id);
-      let trigger_id=Object.keys(node.data["triggers"]).length;
+      let trigger_id=node.data.trigger_number;
       let trigger_name = "trigger_"+trigger_id;
       let trigger={"type":"","target_widget":"","passed_data":""};
-      node.data.triggers[trigger_name]=trigger;
+      node.data.trigger_number +=1;
+      node.data.triggers[trigger_name] = trigger;
       editor.updateNodeDataFromId(id,node.data);
       triggerRoom.insertAdjacentHTML("beforeend",`
-      <div class="Trigger-Box" id="trigger-box-`+id+"-"+trigger_id+`">
-        <div>Type: <input df-triggers-`+trigger_name+`-type type="text"></input></div>
-        <div>TargetWidget: <input df-triggers-`+trigger_name+`-target_widget type="text"></input></div>
-        <div>PassedData: <textarea df-triggers-`+trigger_name+`-passed_data class="ck-editor-box"></textarea></div>
-        <button onclick="deleteTrigger(`+id+`,`+trigger_id+`)">delete</button>
+      <div class="trigger-box accordion-item" id="trigger-box-`+id+"-"+trigger_id+`">
+        <div class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse`+id+"-"+trigger_id+`" aria-expanded="true" aria-controls="collapse`+id+"-"+trigger_id+`">
+            trigger-box-`+id+"-"+trigger_id+`
+          </button>
+        </div>
+        <div id="collapse`+id+"-"+trigger_id+`" class="accordion-collapse collapse show" data-bs-parent="#trigger-room-`+id+`">
+          <div class="accordion-body">
+            <div class="separator">
+              <label for="type-`+id+"-"+trigger_id+`">Type</label>
+              <input id="type-`+id+"-"+trigger_id+`" df-triggers-`+trigger_name+`-type type="text" class="trigger-box-type-input"></input>
+            </div>
+            <div class="separator">
+              <label for="targetwidget-`+id+"-"+trigger_id+`">TargetWidget</label>
+              <input id="targetwidget-`+id+"-"+trigger_id+`" df-triggers-`+trigger_name+`-target_widget type="text" class="trigger-box-targetwidget-input"></input>
+            </div>
+            <div class="separator">
+              <label for="passeddata-`+id+"-"+trigger_id+`">PassedData</label>
+              <textarea id="passeddata-`+id+"-"+trigger_id+`" df-triggers-`+trigger_name+`-passed_data class="trigger-box-passeddata-textarea"></textarea>
+            </div>
+            <button onclick="deleteTrigger(`+id+`,`+trigger_id+`)" class="btn-delete-trigger">delete</button>
+          </div>
+        </div>
       </div>
       `);
       console.log(editor.getNodeFromId(id));
@@ -283,7 +313,7 @@
           var radarSeries = `
             <div class="title-box"><i class="fas fa-code"></i> RadarSeries</div>
           `;
-          var data = {"widget_name":"", "code":"" ,"port_types":{"input_1":port_types[0],"input_2" : port_types[3],"output_1":port_types[2],"output_2" : port_types[3]}, "triggers":{}};
+          var data = {"widget_name":"", "code":"" ,"port_types":{"input_1":port_types[0],"input_2" : port_types[3],"output_1":port_types[2],"output_2" : port_types[3]}, "trigger_number": 0, "triggers":{}};
           editor.addNode('RadarSeries', 2, 2, pos_x, pos_y, 'radarseries', data, radarSeries);
           break;
 

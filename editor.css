@@ -79,6 +79,7 @@ header a {
   background: white;
   width: 100%;
 }
+
 .menu ul {
   padding: 0px;
   margin: 0px;
@@ -127,6 +128,7 @@ header a {
   cursor: pointer;
   z-index: 5;
 }
+
 .swal-wide{
     width:80% !important;
 }
@@ -163,10 +165,11 @@ header a {
 }
 .bar-zoom svg {
   cursor: pointer;
-  padding-left: 10px;
+  padding: 2px;
 }
-.bar-zoom svg:nth-child(1) {
-  padding-left: 0px;
+.bar-zoom svg:nth-child(2) {
+  margin-right:10px;
+  margin-left: 10px;
 }
 
 #drawflow {
@@ -336,7 +339,8 @@ header a {
   position: initial;
 }
 .drawflow-node .box {
-  padding: 10px 20px 20px 20px;
+  margin: 20px 20px 20px 20px;
+  width: 300px;
   font-size: 14px;
   color: var(--text-color);
 
@@ -357,11 +361,15 @@ header a {
 .drawflow-node input, .drawflow-node select, .drawflow-node textarea {
   border-radius: 4px;
   border: 1px solid var(--border-color);
+  width:100%;
   height: 30px;
+  padding: 5px;
   font-size: 14px;
   line-height: 1.5;
-  width: 158px;
   color: #555555;
+  overflow: auto;
+  overflow-wrap: normal;
+  white-space: pre;
 }
 
 .drawflow .connection .point {
@@ -374,15 +382,64 @@ header a {
   fill: #4ea9ff;
 }
 
-.drawflow-node .ck-editor-box{
-  width: 300px;
-  height: 200px;
-  overflow: auto;
-  overflow-wrap: normal;
-  white-space: pre;
-  padding-left: 5px;
+.drawflow-node .ck-editor{
+  border: 1px solid white;
+  background: var(--background-color);
 }
 
+.drawflow-node .code-room{
+  padding: 5px;
+}
+
+.drawflow-node .code-box{
+  height: 200px;
+}
+
+.drawflow-node .trigger-room{
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.drawflow-node .trigger-box{
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: var(--background-color);
+  border-top: 1px solid white;
+  color:white;
+}
+
+.drawflow-node .trigger-box .trigger-box-passeddata-textarea {
+  height: 100px;
+}
+
+.btn-delete-trigger {
+  color: white;
+  font-weight: bold;
+  border: 1px solid var(--border-color);
+  background: #e3195a;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-add-trigger {
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  background: #00a2d3;
+  border: 0;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.drawflow-node .separator{
+  margin-top: 8px;
+  margin-bottom : 8px;
+}
 
 /* Modal */
 .modal {
