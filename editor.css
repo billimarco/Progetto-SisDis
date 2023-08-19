@@ -204,8 +204,8 @@ header a {
   background: var(--background-node);
   color: var(--text-color);
   border: 1px solid var(--border-color-node);
-  -webkit-box-shadow: 0 2px 15px 2px var(--border-color-node);
-  box-shadow: 0 2px 15px 2px var(--border-color-node);
+  -webkit-box-shadow: 0 0 15px 2px var(--border-color-node);
+  box-shadow: 0 0 15px 2px var(--border-color-node);
   padding: 0px;
   width: auto;
 }
@@ -214,8 +214,8 @@ header a {
   background: var(--background-node);
   color: var(--text-color);
   border: 1px solid var(--border-color-node);
-  -webkit-box-shadow: 0 2px 15px 13px var(--border-color-node-selected);
-  box-shadow: 0 2px 15px 13px var(--border-color-node-selected);
+  -webkit-box-shadow: 0 0 15px 13px var(--border-color-node-selected);
+  box-shadow: 0 0 15px 13px var(--border-color-node-selected);
 }
 
 .drawflow .connection .main-path {
