@@ -38,16 +38,6 @@ header h2 {
 header a {
   color: black;
 }
-.them-edit-link {
-  position: absolute;
-  top: 10px;
-  right: 100px;
-  color: black;
-  font-size: 40px;
-}
-.them-edit-link a {
-  text-decoration: none;
-}
 
 .wrapper {
   width: 100%;
@@ -70,33 +60,6 @@ header a {
   padding-left: 20px;
   cursor: move;
   user-select: none;
-}
-
-.menu {
-  position: absolute;
-  height: 40px;
-  display: block;
-  background: white;
-  width: 100%;
-}
-
-.menu ul {
-  padding: 0px;
-  margin: 0px;
-  line-height: 40px;
-}
-
-.menu ul li {
-  display: inline-block;
-  margin-left: 10px;
-  border-right: 1px solid var(--border-color);
-  padding-right: 10px;
-  line-height: 40px;
-  cursor: pointer;
-}
-
-.menu ul li.selected {
-  font-weight: bold;
 }
 
 .btn-export {
@@ -175,8 +138,7 @@ header a {
 #drawflow {
   position: relative;
   width: calc(100vw - 251px);
-  height: calc(100% - 41px);
-  top: 40px;
+  height: calc(100%);
   background: var(--background-color);
   background-size: 25px 25px;
   background-image:
