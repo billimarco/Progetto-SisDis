@@ -1,17 +1,11 @@
 :root {
-  --border-color: rgba(81,81,81,255);
-  --background-color: #333435;
-  --background-color-hover: #00a2d3;
+  --primary-color: #00a2d3;
+  --secondary-color: #333435;
+  --tertiary-color: #6c8793;
+
   --text-color: #ffffff;
-
-  --background-box-title: #00a2d3;
-  --background-title: #00a2d3;
-  --background-node: #6c8793;
-
   --border-color-node: #ffffff;
-  --border-color-node-selected: #00a2d3;
-
-  --path-color: #00a2d3;
+  --border-color: #515151;
 }
 
 html, body {
@@ -27,7 +21,7 @@ header {
   height: 66px;
   border-bottom: 1px solid var(--border-color);
   padding-left: 20px;
-  background: var(--background-title);
+  background: var(--primary-color);
   color: var(--text-color);
 }
 
@@ -45,23 +39,6 @@ header a {
   display: flex;
 }
 
-.col {
-  overflow: auto;
-  width: 250px;
-  height: 100%;
-  border-right: 1px solid var(--border-color);
-}
-
-.drag-drawflow {
-  line-height: 50px;
-  border-bottom: 1px solid var(--border-color);
-  background: var(--background-color);
-  color: var(--text-color);
-  padding-left: 20px;
-  cursor: move;
-  user-select: none;
-}
-
 .btn-export {
   float: right;
   position: absolute;
@@ -77,18 +54,17 @@ header a {
   z-index: 5;
 }
 
-.btn-clear {
+.legenda{
   float: right;
   position: absolute;
-  top: 10px;
-  right: 85px;
+  top: 60px;
+  right: 10px;
   color: white;
   font-weight: bold;
   border: 1px solid var(--border-color);
-  background: #e3195a;
+  background: var(--tertiary-color);
   padding: 5px 10px;
   border-radius: 4px;
-  cursor: pointer;
   z-index: 5;
 }
 
@@ -107,7 +83,7 @@ header a {
   padding: 5px 10px;
   background: #6c8793;
   border-radius: 4px;
-  border-right: 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   z-index: 5;
   cursor: pointer;
 }
@@ -123,7 +99,7 @@ header a {
   padding: 5px 10px;
   background: #6c8793;
   border-radius: 4px;
-  border-right: 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   z-index: 5;
 }
 .bar-zoom svg {
@@ -137,25 +113,13 @@ header a {
 
 #drawflow {
   position: relative;
-  width: calc(100vw - 251px);
+  width: calc(100vw);
   height: calc(100%);
-  background: var(--background-color);
+  background: var(--secondary-color);
   background-size: 25px 25px;
   background-image:
    linear-gradient(to right, var(--border-color) 1px, transparent 1px),
    linear-gradient(to bottom, var(--border-color) 1px, transparent 1px);
-}
-
-@media only screen and (max-width: 768px) {
-  .col {
-    width: 50px;
-  }
-  .col .drag-drawflow span {
-    display:none;
-  }
-  #drawflow {
-    width: calc(100vw - 51px);
-  }
 }
 
 
@@ -163,7 +127,7 @@ header a {
 /* Editing Drawflow */
 
 .drawflow .drawflow-node {
-  background: var(--background-node);
+  background: var(--tertiary-color);
   color: var(--text-color);
   border: 1px solid var(--border-color-node);
   -webkit-box-shadow: 0 0 15px 2px var(--border-color-node);
@@ -173,16 +137,20 @@ header a {
 }
 
 .drawflow .drawflow-node.selected  {
-  background: var(--background-node);
+  background: var(--tertiary-color);
   color: var(--text-color);
   border: 1px solid var(--border-color-node);
-  -webkit-box-shadow: 0 0 15px 13px var(--border-color-node-selected);
-  box-shadow: 0 0 15px 13px var(--border-color-node-selected);
+  -webkit-box-shadow: 0 0 15px 13px var(--primary-color);
+  box-shadow: 0 0 15px 13px var(--primary-color);
 }
 
 .drawflow .connection .main-path {
-  stroke: var(--path-color);
+  stroke: var(--primary-color);
   stroke-width: 6px;
+}
+
+.drawflow .connection .main-path.selected {
+   stroke: var(--border-color-node); 
 }
 
 .drawflow .drawflow-node .input, .drawflow .drawflow-node .output {
@@ -205,79 +173,36 @@ header a {
   background: white;
 }
 
-/* RadarSeries */
-.drawflow .radarseries .input_1{
+.drawflow .inputs .port_red , .drawflow .outputs .port_red{
   background: #e81224;
 }
-.drawflow .radarseries .input_2{
-  background: #fff100;
-}
-.drawflow .radarseries .output_1{
-  background: #0078d7;
-}
-.drawflow .radarseries .output_2{
-  background: #fff100;
-}
-
-/* TimeTrend */
-.drawflow .timetrend .input_1{
-  background: #0078d7;
-}
-.drawflow .timetrend .output_1{
-  background: #fff100;
-}
-.drawflow .timetrend .output_2{
-  background: #0078d7;
-}
-.drawflow .timetrend .output_3{
+.drawflow .inputs .port_green , .drawflow .outputs .port_green{
   background: #16c60c;
 }
-
-/* CurvedLineSeries */
-.drawflow .curvedlineseries .input_1{
-  background: #e81224;
-}
-.drawflow .curvedlineseries .input_2{
-  background: #16c60c;
-}
-.drawflow .curvedlineseries .input_3{
-  background: #fff100;
-}
-.drawflow .curvedlineseries .output_1{
-  background: #fff100;
-}
-.drawflow .curvedlineseries .output_2{
+.drawflow .inputs .port_blue , .drawflow .outputs .port_blue{
   background: #0078d7;
 }
-.drawflow .curvedlineseries .output_3{
-  background: #16c60c;
+.drawflow .inputs .port_yellow , .drawflow .outputs .port_yellow{
+  background: #fff100;
 }
-.drawflow .curvedlineseries .output_4{
-  background: #e81224;
+.drawflow .inputs .port_orange , .drawflow .outputs .port_orange{
+  background: #f7630c;
 }
-
-/* PieChart */
-.drawflow .piechart .input_1{
-  background: #FF0000;
+.drawflow .inputs .port_purple , .drawflow .outputs .port_purple{
+  background: #886ce4;
 }
-.drawflow .piechart .input_2{
-  background: #00FF00;
+.drawflow .inputs .port_brown , .drawflow .outputs .port_brown{
+  background: #8e562e;
 }
-.drawflow .piechart .output_1{
-  background: #FF0000;
+.drawflow .inputs .port_black , .drawflow .outputs .port_black{
+  background: #383838;
 }
-.drawflow .piechart .output_2{
-  background: #00FFFF;
+.drawflow .inputs .port_white , .drawflow .outputs .port_white{
+  background: #f2f2f2;
 }
-
-
 
 .drawflow > .drawflow-delete {
-  border: 2px solid #43b993;
-  background: white;
-  color: #43b993;
-  -webkit-box-shadow: 0 2px 20px 2px #43b993;
-  box-shadow: 0 2px 20px 2px #43b993;
+  display:none;
 }
 
 .drawflow-delete {
@@ -291,39 +216,33 @@ header a {
 .drawflow-node .title-box {
   height: 50px;
   line-height: 50px;
-  background: var(--background-box-title);
+  background: var(--primary-color);
   border-bottom: 1px solid var(--border-color-node);
   border-radius: 4px 4px 0px 0px;
   text-align: center;
   font-weight: bold;
 }
+
 .drawflow .title-box svg {
   position: initial;
 }
-.drawflow-node .box {
+
+.drawflow-node .box-full {
+  margin: 20px 20px 20px 20px;
+  width: 600px;
+  font-size: 14px;
+}
+
+.drawflow-node .box-half {
   margin: 20px 20px 20px 20px;
   width: 300px;
   font-size: 14px;
-  color: var(--text-color);
-
-}
-.drawflow-node .box p {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.drawflow-node.welcome {
-  width: 250px;
-}
-
-.drawflow-node.slack .title-box {
-  border-radius: 4px;
 }
 
 .drawflow-node input, .drawflow-node select, .drawflow-node textarea {
   border-radius: 4px;
   border: 1px solid var(--border-color);
-  width:100%;
+  width: 100%;
   height: 30px;
   padding: 5px;
   font-size: 14px;
@@ -332,6 +251,10 @@ header a {
   overflow: auto;
   overflow-wrap: normal;
   white-space: pre;
+}
+
+.drawflow label{
+  font-weight: bold;
 }
 
 .drawflow .connection .point {
@@ -344,36 +267,60 @@ header a {
   fill: #4ea9ff;
 }
 
-.drawflow-node .ck-editor{
+.drawflow .widget-body{
+  display: flex;
+  margin-bottom: 8px;
+  color: var(--text-color);
   border: 1px solid white;
-  background: var(--background-color);
+  background: var(--secondary-color);
+}
+
+.drawflow .widget-body-element-half{
+  width: 50%;
+  padding: 5px;
+}
+
+.drawflow .widget-body-element-full{
+  width: 100%;
+  padding: 5px;
+}
+
+.drawflow-node .ck-editor{
+  height : 300px;
+  display: flex;
+  color: var(--text-color);
+  border: 1px solid white;
+  background: var(--secondary-color);
 }
 
 .drawflow-node .code-room{
+  width : 50%;
   padding: 5px;
 }
 
 .drawflow-node .code-box{
-  height: 200px;
+  height: 80%;
 }
 
 .drawflow-node .trigger-room{
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  width: 50%;
+  border-left: 1px solid white;
+  overflow: auto;
 }
 
 .drawflow-node .trigger-box{
   width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  background: var(--background-color);
+  padding: 5px;
+  background: var(--secondary-color);
   border-top: 1px solid white;
   color:white;
 }
 
-.drawflow-node .trigger-box .trigger-box-passeddata-textarea {
+.drawflow-node .trigger-room .trigger-box:last-child{
+  border-bottom: 1px solid white;
+}
+
+.drawflow-node .others-room textarea {
   height: 100px;
 }
 
@@ -389,6 +336,7 @@ header a {
 
 .btn-add-trigger {
   width: 100%;
+  height: 10%;
   text-align: center;
   color: white;
   font-weight: bold;
@@ -403,41 +351,6 @@ header a {
   margin-bottom : 8px;
 }
 
-/* Modal */
-.modal {
+.drawflow-node .ck-editor.hide{
   display: none;
-  position: fixed;
-  z-index: 7;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.7);
-
-}
-
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 400px; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.modal .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor:pointer;
-}
-
-@media only screen and (max-width: 768px) {
-  .modal-content {
-    width: 80%;
-  }
 }
