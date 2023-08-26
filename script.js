@@ -5,59 +5,64 @@ const editor = new Drawflow(df);
 const module = "Home";
 editor.reroute = true;
 editor.reroute_fix_curvature = true;
-editor.force_first_input = false;
 editor.start();
 //COPY MODELS
 
 var widget_data = {
-    "RadarSeries" : {"widget_ports":"IN/OUT", "widget_type":"RadarSeries", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}},"1":{"event_name":"click","code":"", "trigger_number": 0, "triggers":{}},"2":{"event_name":"legendItemClick","code":"", "trigger_number": 0, "triggers":{}}}},
-    "TimeTrend" : {"widget_ports":"IN/OUT", "widget_type":"TimeTrend", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "CurvedLineSeries" : {"widget_ports":"IN/OUT", "widget_type":"CurvedLineSeries", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "PieChart" : {"widget_ports":"IN/OUT", "widget_type":"PieChart", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "BarSeries" : {"widget_ports":"IN/OUT", "widget_type":"BarSeries", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "Map" : {"widget_ports":"IN/OUT", "widget_type":"Map", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
+    "RadarSeries" : {"widget_ports":"IN/OUT", "widget_type":"RadarSeries", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}},"1":{"event_name":"click","code":"", "trigger_number": 0, "triggers":{}},"2":{"event_name":"legendItemClick","code":"", "trigger_number": 0, "triggers":{}}}},
+    "TimeTrend" : {"widget_ports":"IN/OUT", "widget_type":"TimeTrend", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "CurvedLineSeries" : {"widget_ports":"IN/OUT", "widget_type":"CurvedLineSeries", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "PieChart" : {"widget_ports":"IN/OUT", "widget_type":"PieChart", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "BarSeries" : {"widget_ports":"IN/OUT", "widget_type":"BarSeries", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "Map" : {"widget_ports":"IN/OUT", "widget_type":"Map", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "Speedometer" : {"widget_ports":"IN", "widget_type":"Speedometer", "events":{}},
     "GaugeChart" : {"widget_ports":"IN", "widget_type":"GaugeChart", "events":{}},
-    "Knob" : {"widget_ports":"IN/OUT", "widget_type":"Knob", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "NumericKeyboard" : {"widget_ports":"IN/OUT", "widget_type":"NumericKeyboard", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
+    "Knob" : {"widget_ports":"IN/OUT", "widget_type":"Knob", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "NumericKeyboard" : {"widget_ports":"IN/OUT", "widget_type":"NumericKeyboard", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "SingleContent" : {"widget_ports":"IN", "widget_type":"SingleContent", "events":{}},
-    "ExternalContent" : {"widget_ports":"IN/OUT", "widget_type":"ExternalContent", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
+    "ExternalContent" : {"widget_ports":"IN/OUT", "widget_type":"ExternalContent", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "Table" : {"widget_ports":"IN", "widget_type":"Table", "events":{}},
     "DeviceTable" : {"widget_ports":"IN", "widget_type":"DeviceTable", "events":{}},
-    "EventTable" : {"widget_ports":"OUT", "widget_type":"EventTable", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "Button" : {"widget_ports":"OUT", "widget_type":"Button", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "OnOffButton" : {"widget_ports":"IN/OUT", "widget_type":"OnOffButton", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}},
-    "ImpulseButton" : {"widget_ports":"OUT", "widget_type":"ImpulseButton", "events":{"0":{"event_name":"no_event","code":"", "trigger_number": 0, "triggers":{}}}}
+    "EventTable" : {"widget_ports":"OUT", "widget_type":"EventTable", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "Button" : {"widget_ports":"OUT", "widget_type":"Button", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "OnOffButton" : {"widget_ports":"IN/OUT", "widget_type":"OnOffButton", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "ImpulseButton" : {"widget_ports":"OUT", "widget_type":"ImpulseButton", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}}
 }
 
-var port_types = [
-    {"type":"None","color_class": "port_white","possible_output_links":[""]},
-    {"type":"ListSURI","color_class": "port_red","possible_output_links":["ListSURI"]},
-    {"type":"time_interval","color_class": "port_green","possible_output_links":["time_interval"]},
-    {"type":"SURI","color_class": "port_blue","possible_output_links":["SURI"]},
-    {"type":"timestamp","color_class": "port_yellow","possible_output_links":["timestamp"]},
-    {"type":"action","color_class": "port_orange","possible_output_links":["action"]},
-    {"type":"GPS_coordinates","color_class": "port_purple","possible_output_links":["GPS_coordinates"]}
-];
+var port_designs_input = {
+    "External" : {"type":"External","color_class": "port_white"}
+}
 
+var port_designs_output = {
+    "ListSURI" : {"type":"ListSURI","color_class": "port_red","associated_event_id": "0","associated_trigger_id":"0"},
+    "time_interval" : {"type":"time_interval","color_class": "port_green","associated_event_id": "0","associated_trigger_id":"0"},
+    "SURI" : {"type":"SURI","color_class": "port_blue","associated_event_id": "0","associated_trigger_id":"0"},
+    "timestamp" : {"type":"timestamp","color_class": "port_yellow","associated_event_id": "0","associated_trigger_id":"0"},
+    "action" : {"type":"action","color_class": "port_orange","associated_event_id": "0","associated_trigger_id":"0"},
+    "GPS_coordinates" : {"type":"GPS_coordinates","color_class": "port_purple","associated_event_id": "0","associated_trigger_id":"0"},
+    "JSON" : {"type":"JSON","color_class": "port_black","associated_event_id": "0","associated_trigger_id":"0"}
+};
 
+var connections = [];
+
+var dashboard_connection = {"output_id": "0" , "event_id": "0", "trigger_id": "0", "input_id":"0"};
 
 var trigger_types = [
-    {"id": 0,"type": "empty", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":[""], "output_types": ["ListSURI"], "others": {}},
-    {"id": 0,"type": "showRadarSeriesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["RadarSeries"], "output_types": ["ListSURI"], "others": {"event_generator":{"type":"input","value":"$(this)"} , "passed_data":{"type":"textarea","value":""}}},
-    {"id": 0,"type": "showTableFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["Table"], "output_types": ["ListSURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
-    {"id": 0,"type": "showLastDataFromExternalContentGis", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["SingleContent","Speedometer","GaugeChart"], "output_types": ["SURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "field":{"type":"input","value":""}, "service_uri":{"type":"input","value":""}}},
-    {"id": 0,"type": "showSingleContentFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["SingleContent"], "output_types": ["SURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}}},
-    {"id": 0,"type": "showTimeTrendFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["TimeTrend"], "output_types": ["SURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "field":{"type":"input","value":""}, "service_uri":{"type":"input","value":""}}},
-    {"id": 0,"type": "showCurvedLinesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["CurvedLineSeries"], "output_types": ["ListSURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "field":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}, "t1":{"type":"input","value":""}, "t2":{"type":"input","value":""}, "event":{"type":"input","value":""}}},
-    {"id": 0,"type": "showDeviceTableFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["DeviceTable"], "output_types": ["ListSURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":"ordering:\nquery:\nactions:\ncolumnsToShow:"}}},
-    {"id": 0,"type": "addSelectorPin", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["Map"], "output_types": ["ListSURI"], "others": {"passed_data":{"type":"textarea","value":"event_generator:$(this)\ndesc:\nquery:\ncolor1:\ncolor2:\ntargets:\ndisplay:\nqueryType:\niconTextMode:\npinattr:\npincolor:\nsymbolcolor:\nbubbleSelectedMetric:"}}},
-    {"id": 0,"type": "showOnOffButtonFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["OnOffButton"], "output_types": ["action"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
-    {"id": 0,"type": "showKnobFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["Knob"], "output_types": ["action"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
-    {"id": 0,"type": "showNumericKeyboardFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["NumericKeyboard"], "output_types": ["action"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
-    {"id": 0,"type": "showPieChartFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["PieChart"], "output_types": ["ListSURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
-    {"id": 0,"type": "showBarSeriesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["BarSeries"], "output_types": ["ListSURI"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
-    {"id": 0,"type": "showExternalContentFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widget":"", "target_widgets_typologies":["ExternalContent"], "output_types": ["action"], "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "events":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}}}
+    {"type": "empty", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":[""], "output_type": "ListSURI", "others": {}},
+    {"type": "showRadarSeriesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["RadarSeries"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"} , "passed_data":{"type":"textarea","value":""}}},
+    {"type": "showTableFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Table"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
+    {"type": "showLastDataFromExternalContentGis", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["SingleContent","Speedometer","GaugeChart"], "output_type": "SURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "field":{"type":"input","value":""}, "service_uri":{"type":"input","value":""}}},
+    {"type": "showSingleContentFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["SingleContent"], "output_type": "SURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}}},
+    {"type": "showTimeTrendFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["TimeTrend"], "output_type": "SURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "field":{"type":"input","value":""}, "service_uri":{"type":"input","value":""}}},
+    {"type": "showCurvedLinesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["CurvedLineSeries"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "field":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}, "t1":{"type":"input","value":""}, "t2":{"type":"input","value":""}, "event":{"type":"input","value":""}}},
+    {"type": "showDeviceTableFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["DeviceTable"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":"ordering:\nquery:\nactions:\ncolumnsToShow:"}}},
+    {"type": "addSelectorPin", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Map"], "output_type": "ListSURI", "others": {"passed_data":{"type":"textarea","value":"event_generator:$(this)\ndesc:\nquery:\ncolor1:\ncolor2:\ntargets:\ndisplay:\nqueryType:\niconTextMode:\npinattr:\npincolor:\nsymbolcolor:\nbubbleSelectedMetric:"}}},
+    {"type": "showOnOffButtonFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["OnOffButton"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
+    {"type": "showKnobFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Knob"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
+    {"type": "showNumericKeyboardFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["NumericKeyboard"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
+    {"type": "showPieChartFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["PieChart"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
+    {"type": "showBarSeriesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["BarSeries"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
+    {"type": "showExternalContentFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["ExternalContent"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "events":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}}}
 ];
 
 // TRIAL EXAMPLE
@@ -65,9 +70,9 @@ let dashboard = [
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_1","ck_editor":``},
     {"widget_type":"TimeTrend","widget_name":"w_time_trend_2","ck_editor":``},
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_3","ck_editor":``},
-    {"widget_type":"CurvedLineSeries","widget_name":"w_curved_line_series_4","ck_editor":``},
-    {"widget_type":"SingleContent","widget_name":"w_single_content_5","ck_editor":``},
-    {"widget_type":"Button","widget_name":"w_button_6","ck_editor":``}
+    {"widget_type":"CurvedLineSeries","widget_name":"w_curved_line_series_4","ck_editor":``}
+    //{"widget_type":"SingleContent","widget_name":"w_single_content_5","ck_editor":``},
+    //{"widget_type":"Button","widget_name":"w_button_6","ck_editor":``}
 
 ];
 importDashboard(dashboard);
@@ -76,51 +81,38 @@ importDashboard(dashboard);
 //EDITOR EVENTS
 
 editor.on('nodeSelected', function (id) {
+    console.log("Node selected")
     console.log(editor.getNodeFromId(id));
 })
 
 editor.on('connectionCreated', function (connection) {
     let input_id = connection.input_id;
-    let input_class = connection.input_class
+    let input_class = connection.input_class;
     let output_id = connection.output_id;
     let output_class = connection.output_class;
+    let output_port_design = editor.getNodeFromId(output_id).outputs[output_class].port_design;
 
-    //verifing if a connection exist already
-    if(editor.getNodeFromId(output_id).outputs[output_class].port_type.possible_output_links.includes(editor.getNodeFromId(input_id).inputs[input_class].port_type.type)){
-        
-        let output_port_type = editor.getNodeFromId(output_id).outputs[output_class].port_type.type;
-        let node_select_value = document.getElementById("events-select-"+output_id).value;
-        let con_exist = false;
-        let exist_trig_to_add = false;
-        let new_trigger, trigger_tocheck;
-        Object.keys(editor.getNodeFromId(output_id).data.events[node_select_value].triggers).forEach(trigger_name =>{
-            trigger_tocheck = editor.getNodeFromId(output_id).data.events[node_select_value].triggers[trigger_name];
-            if(trigger_tocheck.target_widget == editor.getNodeFromId(input_id).name && trigger_tocheck.output_types.includes(output_port_type)){
-                con_exist = true;
-            }
-        });
-        Object.keys(trigger_types).forEach(i =>{
-            if(trigger_types[i].perform_widgets_typologies.includes(editor.getNodeFromId(output_id).data.widget_type) && trigger_types[i].target_widgets_typologies.includes(editor.getNodeFromId(input_id).data.widget_type) && trigger_types[i].output_types.includes(output_port_type)){
-                new_trigger = JSON.parse(JSON.stringify(trigger_types[i]));
-                exist_trig_to_add=true;
-            }
-        });
-        //create a new trigger in the actual selected event
-        if(!con_exist){
-            if(exist_trig_to_add){
-                addTrigger(output_id, node_select_value,new_trigger,editor.getNodeFromId(input_id).name);
-            }else{
-                editor.removeSingleConnection(output_id, input_id, output_class, input_class);
-            }
-        }
-        //create a new trigger in the actual selected event
+    if(editor.getNodeFromId(output_id).data.events[output_port_design.associated_event_id].triggers[output_port_design.associated_trigger_id].target_widgets_typologies.includes(editor.getNodeFromId(input_id).data.widget_type)){
+        addSingleTriggerConnection(output_id,output_port_design.associated_event_id,output_port_design.associated_trigger_id,input_id);
     }else{
-        editor.removeSingleConnection(output_id, input_id, output_class, input_class);
+        editor.removeSingleConnection(output_id,input_id,output_class,input_class);
     }
-    console.log('Connection created');
-    console.log(connection);
+    
+    console.log("Connection created");
+    console.log(connections);
 })
 
+editor.on('connectionRemoved', function (connection) {
+    let input_id = connection.input_id;
+    let output_id = connection.output_id;
+    let output_class = connection.output_class;
+    let output_port_design = editor.getNodeFromId(output_id).outputs[output_class].port_design;
+
+    removeSingleTriggerConnection(output_id,output_port_design.associated_event_id,output_port_design.associated_trigger_id,input_id);
+
+    console.log("Connection created");
+    console.log(connections);
+})
 //FUNCTIONAL METHODS
 
 //an easy way function for take widget typologies based on port types
@@ -170,17 +162,6 @@ function exportDashboard(){
 
 //add node into our editor based on widget type //TODO finish
 function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
-
-    function assignPort(type,port_id,port_type){
-        if(type==="IN"){
-            editor.drawflow.drawflow[module].data[id].inputs["input_"+port_id].port_type = JSON.parse(JSON.stringify(port_type));
-            document.getElementById("node-"+id).childNodes[0].childNodes[(port_id-1)].classList.add(port_type.color_class);
-        } else if (type==="OUT"){
-            editor.drawflow.drawflow[module].data[id].outputs["output_"+port_id].port_type = JSON.parse(JSON.stringify(port_type));
-            document.getElementById("node-"+id).childNodes[2].childNodes[(port_id-1)].classList.add(port_type.color_class);
-        }
-    }
-
     var html=`<div class="title-box"><i class="fas fa-code"></i> `+type+`</div>`;
     var data = JSON.parse(JSON.stringify(widget_data[type]));
 
@@ -217,30 +198,27 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
   
     switch (type) {
         case 'RadarSeries':
-            editor.addNode(name, 2, 2, pos_x, pos_y, 'radarseries', data, html);
-            assignPort("IN",1,port_types[1]);
-            assignPort("IN",2,port_types[4]);
-            assignPort("OUT",1,port_types[3]);
-            assignPort("OUT",2,port_types[4]);
+            editor.addNode(name, 1, 2, pos_x, pos_y, 'radarseries', data, html);
+            assignPort(id,"IN",1,"External");
+            assignPort(id,"OUT",1,"SURI");
+            assignPort(id,"OUT",2,"SURI");
             break;
 
         case 'TimeTrend':
             editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            assignPort("IN",1,port_types[3]);
-            assignPort("OUT",1,port_types[2]);
-            assignPort("OUT",2,port_types[3]);
-            assignPort("OUT",3,port_types[4]);
+            assignPort(id,"IN",1,"External");
+            assignPort(id,"OUT",1,"SURI");
+            assignPort(id,"OUT",2,"SURI");
+            assignPort(id,"OUT",3,"SURI");
             break;
 
         case 'CurvedLineSeries':
-            editor.addNode(name, 3, 4, pos_x, pos_y, 'curvedlineseries', data, html);
-            assignPort("IN",1,port_types[1]);
-            assignPort("IN",2,port_types[2]);
-            assignPort("IN",3,port_types[4]);
-            assignPort("OUT",1,port_types[1]);
-            assignPort("OUT",2,port_types[2]);
-            assignPort("OUT",3,port_types[3]);
-            assignPort("OUT",4,port_types[4]);
+            editor.addNode(name, 1, 4, pos_x, pos_y, 'curvedlineseries', data, html);
+            assignPort(id,"IN",1,"External");
+            assignPort(id,"OUT",1,"SURI");
+            assignPort(id,"OUT",2,"SURI");
+            assignPort(id,"OUT",3,"SURI");
+            assignPort(id,"OUT",4,"SURI");
             break;
 
         case 'PieChart':
@@ -273,7 +251,7 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
 
         case 'SingleContent':
             editor.addNode(name, 1, 0, pos_x, pos_y, 'singlecontent', data, html);
-            assignPort("IN",1,port_types[3]);
+            assignPort(id,"IN",1,"External");
             break;
 
         case 'ExternalContent':
@@ -293,8 +271,7 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
             break;
 
         case 'Button':
-            editor.addNode(name, 0, 1, pos_x, pos_y, 'button', data, html);
-            assignPort("OUT",1,port_types[5]);
+            editor.addNode(name, 0, 0, pos_x, pos_y, 'button', data, html);
             break;
 
         case 'OnOffButton':
@@ -314,6 +291,19 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
 
     console.log("addNodeToEditor("+id+","+type+","+name+","+"splitted_ck_editor"+","+pos_x+","+pos_y+")");
     console.log(editor);
+}
+
+//assign a port type to a node port
+function assignPort(node_id, type, port_id, port_design_type, associated_event_id="0", associated_trigger_id="0"){
+    if(type==="IN"){
+        editor.drawflow.drawflow[module].data[node_id].inputs["input_"+port_id].port_design = JSON.parse(JSON.stringify(port_designs_input[port_design_type]));
+        document.getElementById("node-"+node_id).childNodes[0].childNodes[(port_id-1)].classList.add(port_designs_input[port_design_type].color_class);
+    } else if (type==="OUT"){
+        editor.drawflow.drawflow[module].data[node_id].outputs["output_"+port_id].port_design = JSON.parse(JSON.stringify(port_designs_output[port_design_type]));
+        editor.drawflow.drawflow[module].data[node_id].outputs["output_"+port_id].port_design.associated_event_id = associated_event_id+"";
+        editor.drawflow.drawflow[module].data[node_id].outputs["output_"+port_id].port_design.associated_trigger_id = associated_trigger_id+"";
+        document.getElementById("node-"+node_id).childNodes[2].childNodes[(port_id-1)].classList.add(port_designs_output[port_design_type].color_class);
+    }
 }
 
 //add events to the nodes with a certain widget type
@@ -342,11 +332,11 @@ function addEventsBasedOnWidgetType(id){
 
 //switch widget event to display in a widget node
 function switchEventDisplayed(id){
-    let node_select_value = document.getElementById("events-select-"+id).value;
+    let ev_id = document.getElementById("events-select-"+id).value;
     let node_event_editor;
     Object.keys(editor.getNodeFromId(id).data.events).forEach(ev =>{
         node_event_editor = document.getElementById("ck-editor-"+id+"-"+ev);
-        if(ev!=node_select_value){
+        if(ev!=ev_id){
             if(!node_event_editor.classList.contains("hide"))
                 node_event_editor.classList.add("hide");
         } else {
@@ -355,7 +345,83 @@ function switchEventDisplayed(id){
         }
     });
 
+    calculateEventTriggersOutputPorts(id, ev_id);
+
+    calculateEventTriggersConnections(id , ev_id);
+
     console.log("switchEventDisplayed("+id+")");
+    console.log(editor);
+}
+
+//calculate event trigger output ports every time a node change its event
+function calculateEventTriggersOutputPorts(id, ev_id){
+    let output_counter, save_conns = [], changed_ev_id, changed_trigger_id;
+
+    for(output_counter=Object.keys(editor.getNodeFromId(id).outputs).length; output_counter > 0; output_counter--){
+        //saving connections from delete
+        changed_ev_id = editor.getNodeFromId(id).outputs["output_"+output_counter].port_design.associated_event_id;
+        changed_trigger_id = editor.getNodeFromId(id).outputs["output_"+output_counter].port_design.associated_trigger_id;
+        for(let i=0;i < connections.length; i++){
+            if(connections[i].output_id == id && connections[i].event_id == changed_ev_id && connections[i].trigger_id == changed_trigger_id){
+                save_conns.push(JSON.parse(JSON.stringify(connections[i])));
+            }
+        }
+
+        //removing output port
+        editor.removeNodeOutput(id, "output_"+output_counter);
+    }
+
+    //re-insert deleted connections for the next switch event
+    connections = connections.concat(save_conns);
+
+    //adding new output port
+    Object.keys(editor.getNodeFromId(id).data.events[ev_id].triggers).forEach(trigger_id =>{
+        addTriggerOutputPort(id,ev_id,trigger_id);
+    });
+
+    console.log("changeEventTriggerOutputPorts("+id+","+ev_id+")");
+    console.log(editor);
+}
+
+//add an output port based on trigger_type of a certain trigger
+function addTriggerOutputPort(id,ev_id,trigger_id){
+    let output_counter = Object.keys(editor.getNodeFromId(id).outputs).length;
+    let output_type = editor.getNodeFromId(id).data.events[ev_id].triggers[trigger_id].output_type;
+    editor.addNodeOutput(id);
+    assignPort(id, "OUT", output_counter+1, output_type, ev_id, trigger_id);
+
+    console.log("addTriggerOutputPort("+id+","+ev_id+","+trigger_id+")");
+    console.log(editor);
+}
+
+//change an output port based on trigger_type of a certain trigger
+function changeTriggerOutputPort(id,ev_id,trigger_id){
+    let output_type = editor.getNodeFromId(id).data.events[ev_id].triggers[trigger_id].output_type;
+    Object.keys(editor.getNodeFromId(id).outputs).forEach(output_class =>{
+        if(editor.getNodeFromId(id).outputs[output_class].port_design.associated_event_id == ev_id && editor.getNodeFromId(id).outputs[output_class].port_design.associated_trigger_id == trigger_id){
+            for(let i=0; i<connections.length; i++){
+                if(connections[i].output_id==id && connections[i].event_id==ev_id && connections[i].trigger_id==trigger_id){
+                    editor.removeSingleConnection(id,connections[i].input_id,output_class,"input_1");
+                }
+            }
+            port_id = output_class.slice(7);
+            document.getElementById("node-"+id).childNodes[2].childNodes[(port_id-1)].classList.remove(editor.getNodeFromId(id).outputs[output_class].port_design.color_class);
+            assignPort(id, "OUT", port_id, output_type, ev_id, trigger_id);
+        }
+    });
+
+    console.log("changeTriggerOutputPort("+id+","+ev_id+","+trigger_id+")");
+    console.log(editor);
+}
+
+//remove an output port linked with a certain trigger
+function removeTriggerOutputPort(id,ev_id,trigger_id){
+    Object.keys(editor.getNodeFromId(id).outputs).forEach(output_class =>{
+        if(editor.getNodeFromId(id).outputs[output_class].port_design.associated_event_id == ev_id && editor.getNodeFromId(id).outputs[output_class].port_design.associated_trigger_id == trigger_id)
+            editor.removeNodeOutput(id, output_class);
+    });
+
+    console.log("removeTriggerOutputPort("+id+","+ev_id+","+trigger_id+")");
     console.log(editor);
 }
 
@@ -418,26 +484,26 @@ function splitCKeditorCode(ck_editor){
 //rebuild code of a ck editor into a defined structure
 function rebuildCKeditorCode(id){
     let node = editor.getNodeFromId(id);
-    let first_event = true, field_name="", other_arr=[], tab_counter=1;
+    let first_event = true, tab_counter=1;
     let rebuilded = "function execute(){\n";
-    rebuilded += "\t".repeat(tab_counter)+"Var e = JSON.parse(param)\n";
+    rebuilded += "\t".repeat(tab_counter) + "Var e = JSON.parse(param)\n";
     if(Object.keys(node.data.events).length>1){
         Object.keys(node.data.events).forEach(ev_id => {
-            
-            if(first_event){
-                rebuilded += "\t".repeat(tab_counter)+"if(e.event == \""+node.data.events[ev_id].event_name+"\"){\n";
-                first_event = false;
-            } else {
-                rebuilded += "}else if(e.event == \""+node.data.events[ev_id].event_name+"\"){\n";
+            if(ev_id != 0){
+                if(first_event){
+                    rebuilded += "\t".repeat(tab_counter) + "if(e.event == \"" + node.data.events[ev_id].event_name + "\"){\n";
+                    first_event = false;
+                } else {
+                    rebuilded += "\t".repeat(tab_counter) + "}else if(e.event == \"" + node.data.events[ev_id].event_name + "\"){\n";
+                }
+    
+                tab_counter++;
+                formatCode(ev_id);
+                rebuildEventTriggers(ev_id);
+                tab_counter--;
             }
-
-            tab_counter++;
-            formatCode(ev_id);
-            rebuildEventTriggers(ev_id);
-            tab_counter--;
-
         });
-        rebuilded += "}else{\n";
+        rebuilded += "\t".repeat(tab_counter) + "}else{\n";
 
         tab_counter++;
         formatCode(0);
@@ -452,29 +518,34 @@ function rebuildCKeditorCode(id){
     rebuilded += "}";
 
     function rebuildEventTriggers(ev_id){
-        Object.keys(node.data.events[ev_id].triggers).forEach(trigger_name => {
-            rebuilded += "\t".repeat(tab_counter)+"$('body').trigger({\n";
-            tab_counter++;
-            rebuilded += "\t".repeat(tab_counter)+"type: \""+ node.data.events[ev_id].triggers[trigger_name].type +"_"+node.data.events[ev_id].triggers[trigger_name].target_widget+"\",\n";
-            rebuilded += "\t".repeat(tab_counter)+"targetWidget: \""+node.data.events[ev_id].triggers[trigger_name].target_widget+"\",";
-            Object.keys(node.data.events[ev_id].triggers[trigger_name].others).forEach(other_field => {
-                other_arr = [] , field_name = "";
-                other_arr = other_field.split("_");
-                for(let i=0; i< other_arr.length; i++){
-                    if(i!=0){
-                        field_name += other_arr[i].charAt(0).toUpperCase() + other_arr[i].slice(1);
-                    }else{
-                        field_name += other_arr[i];
-                    }
+        let field_name = "", other_arr=[];
+        Object.keys(node.data.events[ev_id].triggers).forEach(trigger_id => {
+            for(let i=0; i < connections.length; i++){
+                if(connections[i].output_id == id && connections[i].event_id == ev_id && connections[i].trigger_id){
+                    rebuilded += "\t".repeat(tab_counter) + "$('body').trigger({\n";
+                    tab_counter++;
+                    rebuilded += "\t".repeat(tab_counter) + "type: \"" + node.data.events[ev_id].triggers[trigger_id].type + "_" + node.data.events[ev_id].triggers[trigger_id].target_widget + "\",\n";
+                    rebuilded += "\t".repeat(tab_counter) + "targetWidget: \"" + editor.getNodeFromId(connections[i].input_id).name + "\",";
+                    Object.keys(node.data.events[ev_id].triggers[trigger_id].others).forEach(other_field => {
+                        other_arr = [] , field_name = "";
+                        other_arr = other_field.split("_");
+                        for(let j=0; j< other_arr.length; j++){
+                            if(j!=0){
+                                field_name += other_arr[j].charAt(0).toUpperCase() + other_arr[j].slice(1);
+                            }else{
+                                field_name += other_arr[j];
+                            }
+                        }
+                        rebuilded += "\t".repeat(tab_counter) + field_name + ": " + node.data.events[ev_id].triggers[trigger_id].others[other_field].value + ",\n";
+                    });
+                    //remove last ,
+                    rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(",")-1);
+                    rebuilded += "\n";
+                    
+                    tab_counter--;
+                    rebuilded += "\t".repeat(tab_counter) + "});\n"
                 }
-                rebuilded += "\t".repeat(tab_counter)+field_name+": "+node.data.events[ev_id].triggers[trigger_name].others[other_field].value+",\n";
-            });
-            //remove last ,
-            rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(",")-1);
-            rebuilded += "\n";
-            
-            tab_counter--;
-            rebuilded += "\t".repeat(tab_counter)+"});\n"
+            }
         });
     }
 
@@ -482,13 +553,12 @@ function rebuildCKeditorCode(id){
         let code_strings = [];
         code_strings = node.data.events[ev_id].code.split("\n");
         for (let i=0 ; i < code_strings.length; i++){
-            rebuilded += "\t".repeat(tab_counter)+code_strings[i]+"\n";
+            rebuilded += "\t".repeat(tab_counter) + code_strings[i]+"\n";
         };
     }
 
     console.log("rebuildCKeditorCode("+id+")");
     console.log(rebuilded);
-    alert(rebuilded);
     return rebuilded;
 }
 
@@ -508,14 +578,12 @@ function addExistingTriggersToNode(id,triggers){
 }
 
 //add a trigger to a node event
-function addTrigger(id,ev_id,trigger=trigger_types[0],selected_target_widget_name=""){
+function addTrigger(id,ev_id,trigger=trigger_types[0]){
 
     //Add a new trigger to node.data.triggers
     let trigger_id = editor.drawflow.drawflow[module].data[id].data.events[ev_id].trigger_number;
-    let trigger_name = "trigger_"+trigger_id;
     let new_trigger = JSON.parse(JSON.stringify(trigger));
-    editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name] = new_trigger;
-    editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].id = trigger_id;
+    editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_id] = new_trigger;
     editor.drawflow.drawflow[module].data[id].data.events[ev_id].trigger_number += 1;
 
     //Modify node HTML with a new trigger form
@@ -531,11 +599,7 @@ function addTrigger(id,ev_id,trigger=trigger_types[0],selected_target_widget_nam
             <div class="accordion-body">
                 <div class="separator">
                     <label for="type-`+id+"-"+ev_id+"-"+trigger_id+`">type</label>
-                    <select onchange="changeTriggerComposition(`+id+`,`+ev_id+`,`+trigger_id+`)" id="type-`+id+"-"+ev_id+"-"+trigger_id+`" df-events-`+ev_id+`-triggers-`+trigger_name+`-type type="text"></select>
-                </div>
-                <div class="separator">
-                    <label for="targetwidget-`+id+"-"+ev_id+"-"+trigger_id+`">target_widget</label>
-                    <select onchange="calculateNodeConnections(`+id+`)" id="targetwidget-`+id+"-"+ev_id+"-"+trigger_id+`" df-events-`+ev_id+`-triggers-`+trigger_name+`-target_widget type="text"></select>
+                    <select onchange="changeTriggerComposition(`+id+`,`+ev_id+`,`+trigger_id+`)" id="type-`+id+"-"+ev_id+"-"+trigger_id+`" df-events-`+ev_id+`-triggers-`+trigger_id+`-type type="text"></select>
                 </div>
                 <div id="other-html-`+id+"-"+ev_id+"-"+trigger_id+`" class="others-room">
                 </div>
@@ -556,11 +620,13 @@ function addTrigger(id,ev_id,trigger=trigger_types[0],selected_target_widget_nam
             }
     }
 
+    addTriggerOutputPort(id,ev_id,trigger_id);
+
     updateHTMLFromNodeId(id);
 
-    changeTriggerComposition(id,ev_id,trigger_id,selected_target_widget_name);
+    changeTriggerComposition(id,ev_id,trigger_id);
 
-    console.log("addTrigger("+id+","+ev_id+",trigger,"+selected_target_widget_name+")");
+    console.log("addTrigger("+id+","+ev_id+",trigger)");
     console.log(editor);
 }
 
@@ -576,7 +642,9 @@ function deleteTrigger(id,ev_id,trigger_id){
     //Remove node HTML of a trigger
     triggerRoom.remove();
 
-    calculateNodeConnections(id);
+    removeTriggerOutputPort(id,ev_id,trigger_id);
+
+    removeTriggerConnections(id,ev_id,trigger_id);
 
     updateHTMLFromNodeId(id);
 
@@ -585,102 +653,98 @@ function deleteTrigger(id,ev_id,trigger_id){
 }
 
 //change a trigger composition based on the choice of a specified trigger
-function changeTriggerComposition(id, ev_id, trigger_id, selected_target_widget_name=""){
-
-    let trigger_name = "trigger_"+trigger_id;
-
+function changeTriggerComposition(id, ev_id, trigger_id){
     //generating new trigger composition
     Object.keys(trigger_types).forEach(tt_id =>{
         if(trigger_types[tt_id].type==document.getElementById("type-"+id+"-"+ev_id+"-"+trigger_id).value){
-            editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name] = JSON.parse(JSON.stringify(trigger_types[tt_id]));
-            editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].id = trigger_id;
+            editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_id] = JSON.parse(JSON.stringify(trigger_types[tt_id]));
         }
     });
 
-    //modify target_widget field
-    let target_widget_trigger = document.getElementById("targetwidget-"+id+"-"+ev_id+"-"+trigger_id);
-    target_widget_trigger.innerHTML = `<option value="empty"></option>`;
-    Object.keys(editor.drawflow.drawflow[module].data).forEach(key =>
-    {
-        if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].target_widgets_typologies.includes(editor.drawflow.drawflow[module].data[key].data["widget_type"]))
-            if(editor.getNodeFromId(key).name == selected_target_widget_name){
-                target_widget_trigger.insertAdjacentHTML("beforeend",`<option value="`+editor.getNodeFromId(key).name+`" selected>`+editor.getNodeFromId(key).name+`</option>`);
-            } else {
-                target_widget_trigger.insertAdjacentHTML("beforeend",`<option value="`+editor.getNodeFromId(key).name+`">`+editor.getNodeFromId(key).name+`</option>`);
-            }
-    });
-
-    editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].target_widget = target_widget_trigger.value;
-
-
+    //modify other html div based on trigger type
     let other_html = document.getElementById("other-html-"+id+"-"+ev_id+"-"+trigger_id);
     other_html.innerHTML = "";
     let field;
-    Object.keys(editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].others).forEach(key =>{
-        field = editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].others[key].type;
+    Object.keys(editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_id].others).forEach(key =>{
+        field = editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_id].others[key].type;
         other_html.insertAdjacentHTML("beforeend",`
         <div class="separator">
             <label for="`+key+"-"+id+"-"+ev_id+"-"+trigger_id+`">`+key+`</label>
-            <`+field+` id="`+key+"-"+id+"-"+ev_id+"-"+trigger_id+`" df-events-`+ev_id+`-triggers-`+trigger_name+`-others-`+key+`-value></`+field+`>
+            <`+field+` id="`+key+"-"+id+"-"+ev_id+"-"+trigger_id+`" df-events-`+ev_id+`-triggers-`+trigger_id+`-others-`+key+`-value></`+field+`>
         </div>
         `);
-        document.getElementById(key+"-"+id+"-"+ev_id+"-"+trigger_id).value = editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_name].others[key].value;
+        document.getElementById(key+"-"+id+"-"+ev_id+"-"+trigger_id).value = editor.drawflow.drawflow[module].data[id].data.events[ev_id].triggers[trigger_id].others[key].value;
     });
 
-    calculateNodeConnections(id);
+    changeTriggerOutputPort(id,ev_id,trigger_id);
+    
+    removeTriggerConnections(id,ev_id,trigger_id);
 
     updateHTMLFromNodeId(id);
 
-    console.log("changeTriggerComposition("+id+","+ev_id+","+trigger_id+","+selected_target_widget_name+")");
+    console.log("changeTriggerComposition("+id+","+ev_id+","+trigger_id+")");
     console.log(editor);
 }
 
-//calculate node connections based on triggers of the node
-function calculateNodeConnections(id){
+//calculate node connections based on triggers of the node event
+function calculateEventTriggersConnections(id,ev_id){
     Object.keys(editor.getNodeFromId(id).outputs).forEach(output_class =>{
-        let connection;
-        console.log(editor.getNodeFromId(id).outputs[output_class].connections);
-        for(let i=0;i<editor.getNodeFromId(id).outputs[output_class].connections.length;i++){
-            connection=editor.getNodeFromId(id).outputs[output_class].connections[i];
-            editor.removeSingleConnection(id,connection.node,output_class,connection.output);
+        if(editor.getNodeFromId(id).outputs[output_class].port_design.associated_event_id==ev_id){
+            for(let i=0;i<connections.length;i++){
+                if(connections[i].output_id==id && connections[i].event_id==ev_id && connections[i].trigger_id==editor.getNodeFromId(id).outputs[output_class].port_design.associated_trigger_id){
+                    editor.addConnection(connections[i].output_id, connections[i].input_id, output_class, "input_1")
+                }
+            }
         }
     });
-    let events_list=editor.getNodeFromId(id).data.events;
-    let trigger_list;
-    Object.keys(events_list).forEach(ev_id => {
-        trigger_list = editor.getNodeFromId(id).data.events[ev_id].triggers;
-        Object.keys(trigger_list).forEach(trigger => {
-            calculateTriggerConnections(id,ev_id,trigger_list[trigger].id);
-        });
-    });
-    console.log("calculateNodeConnections("+id+")");
+
+    console.log("calculateEventTriggersConnections("+id+","+ev_id+")");
     console.log(editor);
 }
 
-//calculate node connections based on a single trigger of the node
-function calculateTriggerConnections(id,ev_id,trigger_id){
-    let target_widget_trigger = document.getElementById("targetwidget-"+id+"-"+ev_id+"-"+trigger_id);
-    if(target_widget_trigger.value!="empty"){
-        let output_node = editor.getNodeFromId(id);
-        let input_node;
-        Object.keys(editor.drawflow.drawflow[module].data).forEach(input_id =>{
-            if(editor.drawflow.drawflow[module].data[input_id].name==target_widget_trigger.value)
-                input_node = editor.getNodeFromId(input_id);
-        });
-        let output_types = output_node.data.events[ev_id].triggers["trigger_"+trigger_id].output_types;
-        Object.keys(output_node.outputs).forEach(output =>
-        {
-            if(output_types.includes(output_node.outputs[output].port_type.type));
-                Object.keys(input_node.inputs).forEach(input =>{
-                    if(output_node.outputs[output].port_type.possible_output_links.includes(input_node.inputs[input].port_type.type))
-                        editor.addConnection(output_node.id, input_node.id, output, input);
-                });
+//add a single trigger connection to connections
+function addSingleTriggerConnection(output_id,ev_id,trigger_id,input_id){
+    let new_connection=JSON.parse(JSON.stringify(dashboard_connection));
+    let check_presence = false;
+    new_connection.output_id = output_id;
+    new_connection.event_id = ev_id;
+    new_connection.trigger_id = trigger_id;
+    new_connection.input_id = input_id;
 
-        });
+    for(let i=0;i<connections.length;i++){
+        if(connections[i].output_id==output_id && connections[i].event_id==ev_id && connections[i].trigger_id==trigger_id && connections[i].input_id==input_id){
+            check_presence = true;
+        }
     }
 
-    console.log("calculateTriggerConnections("+id+","+ev_id+","+trigger_id+")");
-    console.log(editor);
+    if(!check_presence){
+        connections.push(new_connection);
+    }
+
+    console.log("addSingleTriggerConnection("+output_id+","+ev_id+","+trigger_id+","+input_id+")");
+    console.log(connections);
+}
+
+//remove a single trigger connection from connections
+function removeSingleTriggerConnection(output_id,ev_id,trigger_id,input_id){
+    for(let i=0;i<connections.length;i++){
+        if(connections[i].output_id==output_id && connections[i].event_id==ev_id && connections[i].trigger_id==trigger_id && connections[i].input_id==input_id){
+            connections.splice(i,1);
+        }
+    }
+
+    console.log("removeSingleTriggerConnection("+output_id+","+ev_id+","+trigger_id+","+input_id+")");
+    console.log(connections);
+}
+
+//remove all connections of a trigger from connections
+function removeTriggerConnections(output_id,ev_id,trigger_id){
+    Object.keys(editor.drawflow.drawflow[module].data).forEach(input_id => {
+        removeSingleTriggerConnection(output_id,ev_id,trigger_id,input_id);
+    });
+
+    console.log("removeTriggerConnections("+output_id+","+ev_id+","+trigger_id+")");
+    console.log(connections);
 }
 
 //change editor.editor_mode button

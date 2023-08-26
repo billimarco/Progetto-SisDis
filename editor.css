@@ -201,16 +201,12 @@ header a {
   background: #f2f2f2;
 }
 
-.drawflow > .drawflow-delete {
-  display:none;
-}
-
 .drawflow-delete {
-  border: 2px solid #4ea9ff;
-  background: white;
-  color: #4ea9ff;
-  -webkit-box-shadow: 0 2px 20px 2px #4ea9ff;
-  box-shadow: 0 2px 20px 2px #4ea9ff;
+  border: 2px solid var(--primary-color);
+  background: var(--border-color-node);
+  color: var(--primary-color);
+  -webkit-box-shadow: 0 2px 20px 2px var(--primary-color);
+  box-shadow: 0 2px 20px 2px var(--primary-color);
 }
 
 .drawflow-node .title-box {
