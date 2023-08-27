@@ -8,6 +8,7 @@ editor.reroute_fix_curvature = true;
 editor.start();
 //COPY MODELS
 
+//IMPORTANT events[0] is only for externalCommands
 var widget_data = {
     "RadarSeries" : {"widget_ports":"IN/OUT", "widget_type":"RadarSeries", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}},"1":{"event_name":"click","code":"", "trigger_number": 0, "triggers":{}},"2":{"event_name":"legendItemClick","code":"", "trigger_number": 0, "triggers":{}}}},
     "TimeTrend" : {"widget_ports":"IN/OUT", "widget_type":"TimeTrend", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
@@ -15,23 +16,23 @@ var widget_data = {
     "PieChart" : {"widget_ports":"IN/OUT", "widget_type":"PieChart", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "BarSeries" : {"widget_ports":"IN/OUT", "widget_type":"BarSeries", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "Map" : {"widget_ports":"IN/OUT", "widget_type":"Map", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
-    "Speedometer" : {"widget_ports":"IN", "widget_type":"Speedometer", "events":{}},
-    "GaugeChart" : {"widget_ports":"IN", "widget_type":"GaugeChart", "events":{}},
+    "Speedometer" : {"widget_ports":"IN", "widget_type":"Speedometer", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "GaugeChart" : {"widget_ports":"IN", "widget_type":"GaugeChart", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "Knob" : {"widget_ports":"IN/OUT", "widget_type":"Knob", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "NumericKeyboard" : {"widget_ports":"IN/OUT", "widget_type":"NumericKeyboard", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
-    "SingleContent" : {"widget_ports":"IN", "widget_type":"SingleContent", "events":{}},
+    "SingleContent" : {"widget_ports":"IN", "widget_type":"SingleContent", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
     "ExternalContent" : {"widget_ports":"IN/OUT", "widget_type":"ExternalContent", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
-    "Table" : {"widget_ports":"IN", "widget_type":"Table", "events":{}},
-    "DeviceTable" : {"widget_ports":"IN", "widget_type":"DeviceTable", "events":{}},
-    "EventTable" : {"widget_ports":"OUT", "widget_type":"EventTable", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
-    "Button" : {"widget_ports":"OUT", "widget_type":"Button", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "Table" : {"widget_ports":"IN", "widget_type":"Table", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "DeviceTable" : {"widget_ports":"IN", "widget_type":"DeviceTable", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
+    "EventTable" : {"widget_ports":"OUT", "widget_type":"EventTable", "events":{"1":{"event_name":"click","code":"", "trigger_number": 0, "triggers":{}}}},
+    "Button" : {"widget_ports":"OUT", "widget_type":"Button", "events":{"1":{"event_name":"click","code":"", "trigger_number": 0, "triggers":{}}}},
     "OnOffButton" : {"widget_ports":"IN/OUT", "widget_type":"OnOffButton", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}},
-    "ImpulseButton" : {"widget_ports":"OUT", "widget_type":"ImpulseButton", "events":{"0":{"event_name":"externalCommands","code":"", "trigger_number": 0, "triggers":{}}}}
-}
+    "ImpulseButton" : {"widget_ports":"OUT", "widget_type":"ImpulseButton", "events":{"1":{"event_name":"click","code":"", "trigger_number": 0, "triggers":{}}}}
+};
 
 var port_designs_input = {
     "External" : {"type":"External","color_class": "port_white"}
-}
+};
 
 var port_designs_output = {
     "ListSURI" : {"type":"ListSURI","color_class": "port_red","associated_event_id": "0","associated_trigger_id":"0"},
@@ -70,9 +71,9 @@ let dashboard = [
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_1","ck_editor":``},
     {"widget_type":"TimeTrend","widget_name":"w_time_trend_2","ck_editor":``},
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_3","ck_editor":``},
-    {"widget_type":"CurvedLineSeries","widget_name":"w_curved_line_series_4","ck_editor":``}
-    //{"widget_type":"SingleContent","widget_name":"w_single_content_5","ck_editor":``},
-    //{"widget_type":"Button","widget_name":"w_button_6","ck_editor":``}
+    {"widget_type":"CurvedLineSeries","widget_name":"w_curved_line_series_4","ck_editor":``},
+    {"widget_type":"SingleContent","widget_name":"w_single_content_5","ck_editor":``},
+    {"widget_type":"Button","widget_name":"w_button_6","ck_editor":``}
 
 ];
 importDashboard(dashboard);
@@ -162,22 +163,11 @@ function exportDashboard(){
 
 //add node into our editor based on widget type //TODO finish
 function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
-    var html=`<div class="title-box"><i class="fas fa-code"></i> `+type+`</div>`;
+    var html=`<div class="title-box"><i class="fas fa-code"></i> `+type+` `+"("+widget_data[type].widget_ports+")"+`</div>`;
     var data = JSON.parse(JSON.stringify(widget_data[type]));
 
     //Update node HTML
-    if (widget_data[type].widget_ports === "IN"){
-        html += `
-        <div class="box-half">
-            <div class="widget-body">
-                <div class="widget-body-element-full">
-                    <label for="widgetname-`+id+`">WidgetName</label>
-                    <input id="widgetname-`+id+`" type="text" value=`+name+` readonly></input>
-                </div>
-            </div>
-        </div>
-        `;
-    } else {
+    if(widget_data[type].widget_ports != "IN"){
         html += `
         <div class="box-full">
             <div class="widget-body">
@@ -194,35 +184,57 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
             </div>
         </div>
         `;
+        
+        if(widget_data[type].widget_ports == "IN/OUT"){
+            editor.addNode(name, 1, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
+            assignPort(id,"IN",1,"External");
+        }else if(widget_data[type].widget_ports == "OUT"){
+            editor.addNode(name, 0, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
+        }
+
+    }else{
+        html += `
+        <div class="box-full">
+            <div class="widget-body">
+                <div class="widget-body-element-half">
+                    <label for="widgetname-`+id+`">WidgetName</label>
+                    <input id="widgetname-`+id+`" type="text" value=`+name+` readonly></input>
+                </div>
+                <div class="widget-body-element-half">
+                    <label for="events-select-`+id+`">Event</label>
+                    <select id="events-select-`+id+`"></select>
+                </div>
+            </div>
+            <div id="events-room-`+id+`">
+            </div>
+        </div>
+        `;
+
+        editor.addNode(name, 1, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
+        assignPort(id,"IN",1,"External");
     }
-  
+    
+    //NOTE let the switch in case of future different implementation
+    /**
     switch (type) {
         case 'RadarSeries':
-            editor.addNode(name, 1, 2, pos_x, pos_y, 'radarseries', data, html);
+            editor.addNode(name, 1, 0, pos_x, pos_y, 'radarseries', data, html);
             assignPort(id,"IN",1,"External");
-            assignPort(id,"OUT",1,"SURI");
-            assignPort(id,"OUT",2,"SURI");
             break;
 
         case 'TimeTrend':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
+            editor.addNode(name, 1, 0, pos_x, pos_y, 'timetrend', data, html);
             assignPort(id,"IN",1,"External");
-            assignPort(id,"OUT",1,"SURI");
-            assignPort(id,"OUT",2,"SURI");
-            assignPort(id,"OUT",3,"SURI");
             break;
 
         case 'CurvedLineSeries':
-            editor.addNode(name, 1, 4, pos_x, pos_y, 'curvedlineseries', data, html);
+            editor.addNode(name, 1, 0, pos_x, pos_y, 'curvedlineseries', data, html);
             assignPort(id,"IN",1,"External");
-            assignPort(id,"OUT",1,"SURI");
-            assignPort(id,"OUT",2,"SURI");
-            assignPort(id,"OUT",3,"SURI");
-            assignPort(id,"OUT",4,"SURI");
             break;
 
         case 'PieChart':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
+            editor.addNode(name, 1, 0, pos_x, pos_y, 'piechart', data, html);
+            assignPort(id,"IN",1,"External");
             break;
 
         case 'BarSeries':
@@ -284,10 +296,10 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
 
         default:
     }
+    */
 
     //add all events of a widget
-    if(widget_data[type].widget_ports != "IN")
-        addEventsBasedOnWidgetType(id);
+    addEventsBasedOnWidgetType(id,widget_data[type].widget_ports);
 
     console.log("addNodeToEditor("+id+","+type+","+name+","+"splitted_ck_editor"+","+pos_x+","+pos_y+")");
     console.log(editor);
@@ -307,26 +319,38 @@ function assignPort(node_id, type, port_id, port_design_type, associated_event_i
 }
 
 //add events to the nodes with a certain widget type
-function addEventsBasedOnWidgetType(id){
-    let node_select_event = document.getElementById("events-select-"+id);
+function addEventsBasedOnWidgetType(id,widget_ports){
     let node_event_room = document.getElementById("events-room-"+id);
-    Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_id => {
-        node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_id+`>`+editor.getNodeFromId(id).data.events[ev_id].event_name+`</option>`);
-        node_event_room.insertAdjacentHTML("beforeend",`
-            <div id="ck-editor-`+id+`-`+ev_id+`" class="ck-editor accordion accordion-flush">
-                <div id="code-room-`+id+`-`+ev_id+`" class="code-room">
-                    <label for="code-`+id+`-`+ev_id+`">Code</label>
-                    <textarea id="code-`+id+`-`+ev_id+`" df-events-`+ev_id+`-code class="code-box"></textarea>
-                    <button onclick="addTrigger(`+id+","+ev_id+`)" class="btn-add-trigger">add trigger</button>
-                </div>
-                <div id="trigger-room-`+id+`-`+ev_id+`" class="trigger-room"></div>
-            </div>`);
-    });
-    node_select_event.value = 0;
-    switchEventDisplayed(id);
+    let node_select_event = document.getElementById("events-select-"+id);
+    if(widget_ports != "IN"){
+        Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_id => {
+            node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_id+`>`+editor.getNodeFromId(id).data.events[ev_id].event_name+`</option>`);
+            node_event_room.insertAdjacentHTML("beforeend",`
+                <div id="ck-editor-`+id+`-`+ev_id+`" class="ck-editor accordion accordion-flush">
+                    <div id="code-room-`+id+`-`+ev_id+`" class="code-room">
+                        <label for="code-`+id+`-`+ev_id+`">Code</label>
+                        <textarea id="code-`+id+`-`+ev_id+`" df-events-`+ev_id+`-code class="code-box"></textarea>
+                        <button onclick="addTrigger(`+id+","+ev_id+`)" class="btn-add-trigger">add trigger</button>
+                    </div>
+                    <div id="trigger-room-`+id+`-`+ev_id+`" class="trigger-room"></div>
+                </div>`);
+        });
+        switchEventDisplayed(id);
+    } else {
+        Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_id => {
+            node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_id+`>`+editor.getNodeFromId(id).data.events[ev_id].event_name+`</option>`);
+            node_event_room.insertAdjacentHTML("beforeend",`
+                <div id="ck-editor-`+id+`-`+ev_id+`" class="ck-editor accordion accordion-flush">
+                    <div id="code-room-`+id+`-`+ev_id+`" class="code-room-in">
+                        <label for="code-`+id+`-`+ev_id+`">Code</label>
+                        <textarea id="code-`+id+`-`+ev_id+`" df-events-`+ev_id+`-code class="code-box-in"></textarea>
+                    </div>
+                </div>`);
+        });
+    }
     updateHTMLFromNodeId(id);
 
-    console.log("addEventsBasedOnWidgetType("+id+")");
+    console.log("addEventsBasedOnWidgetType("+id+","+widget_ports+")");
     console.log(editor);
 }
 
@@ -484,48 +508,55 @@ function splitCKeditorCode(ck_editor){
 //rebuild code of a ck editor into a defined structure
 function rebuildCKeditorCode(id){
     let node = editor.getNodeFromId(id);
-    let first_event = true, tab_counter=1;
+    let first_event = true, tab_counter=1, event_counter=0;
     let rebuilded = "function execute(){\n";
     rebuilded += "\t".repeat(tab_counter) + "Var e = JSON.parse(param)\n";
-    if(Object.keys(node.data.events).length>1){
-        Object.keys(node.data.events).forEach(ev_id => {
-            if(ev_id != 0){
-                if(first_event){
-                    rebuilded += "\t".repeat(tab_counter) + "if(e.event == \"" + node.data.events[ev_id].event_name + "\"){\n";
-                    first_event = false;
-                } else {
-                    rebuilded += "\t".repeat(tab_counter) + "}else if(e.event == \"" + node.data.events[ev_id].event_name + "\"){\n";
-                }
-    
-                tab_counter++;
-                formatCode(ev_id);
-                rebuildEventTriggers(ev_id);
-                tab_counter--;
+    Object.keys(node.data.events).forEach(ev_id => {
+        if(ev_id != 0){
+            if(first_event){
+                rebuilded += "\t".repeat(tab_counter) + "if(e.event == \"" + node.data.events[ev_id].event_name + "\"){\n";
+                first_event = false;
+            } else {
+                rebuilded += "\t".repeat(tab_counter) + "}else if(e.event == \"" + node.data.events[ev_id].event_name + "\"){\n";
             }
-        });
-        rebuilded += "\t".repeat(tab_counter) + "}else{\n";
 
-        tab_counter++;
-        formatCode(0);
-        rebuildEventTriggers(0);
-        tab_counter--;
+            tab_counter++;
+            formatCode(ev_id);
+            rebuildEventTriggers(ev_id);
+            tab_counter--;
 
-        rebuilded += "\t".repeat(tab_counter)+"}\n"
+            event_counter++;
+        }
+    });
+
+    //manage external commands code
+    if(event_counter > 0){
+        if(node.data.events[0] !== undefined){
+            rebuilded += "\t".repeat(tab_counter) + "}else{\n";
+            tab_counter++;
+            formatCode(0);
+            rebuildEventTriggers(0);
+            tab_counter--;
+        }
+        rebuilded += "\t".repeat(tab_counter)+"}\n";
     }else{
-        formatCode(0);
-        rebuildEventTriggers(0);
+        if(node.data.events[0] !== undefined){
+            formatCode(0);
+            rebuildEventTriggers(0);
+        } 
     }
+        
     rebuilded += "}";
 
     function rebuildEventTriggers(ev_id){
-        let field_name = "", other_arr=[];
+        let field_name = "", other_arr=[], check_connection=false;
         Object.keys(node.data.events[ev_id].triggers).forEach(trigger_id => {
             for(let i=0; i < connections.length; i++){
                 if(connections[i].output_id == id && connections[i].event_id == ev_id && connections[i].trigger_id){
                     rebuilded += "\t".repeat(tab_counter) + "$('body').trigger({\n";
                     tab_counter++;
                     rebuilded += "\t".repeat(tab_counter) + "type: \"" + node.data.events[ev_id].triggers[trigger_id].type + "_" + node.data.events[ev_id].triggers[trigger_id].target_widget + "\",\n";
-                    rebuilded += "\t".repeat(tab_counter) + "targetWidget: \"" + editor.getNodeFromId(connections[i].input_id).name + "\",";
+                    rebuilded += "\t".repeat(tab_counter) + "targetWidget: \"" + editor.getNodeFromId(connections[i].input_id).name + "\",\n";
                     Object.keys(node.data.events[ev_id].triggers[trigger_id].others).forEach(other_field => {
                         other_arr = [] , field_name = "";
                         other_arr = other_field.split("_");
@@ -539,13 +570,42 @@ function rebuildCKeditorCode(id){
                         rebuilded += "\t".repeat(tab_counter) + field_name + ": " + node.data.events[ev_id].triggers[trigger_id].others[other_field].value + ",\n";
                     });
                     //remove last ,
-                    rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(",")-1);
+                    rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(","));
                     rebuilded += "\n";
                     
                     tab_counter--;
                     rebuilded += "\t".repeat(tab_counter) + "});\n"
+                    
+                    check_connection = true;
                 }
             }
+
+            //In case there is not a connection
+            if(!check_connection){
+                rebuilded += "\t".repeat(tab_counter) + "$('body').trigger({\n";
+                    tab_counter++;
+                    rebuilded += "\t".repeat(tab_counter) + "type: \"" + node.data.events[ev_id].triggers[trigger_id].type + "\",\n";
+                    rebuilded += "\t".repeat(tab_counter) + "targetWidget: \"\",\n";
+                    Object.keys(node.data.events[ev_id].triggers[trigger_id].others).forEach(other_field => {
+                        other_arr = [] , field_name = "";
+                        other_arr = other_field.split("_");
+                        for(let j=0; j< other_arr.length; j++){
+                            if(j!=0){
+                                field_name += other_arr[j].charAt(0).toUpperCase() + other_arr[j].slice(1);
+                            }else{
+                                field_name += other_arr[j];
+                            }
+                        }
+                        rebuilded += "\t".repeat(tab_counter) + field_name + ": " + node.data.events[ev_id].triggers[trigger_id].others[other_field].value + ",\n";
+                    });
+                    //remove last ,
+                    rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(","));
+                    rebuilded += "\n";
+                    
+                    tab_counter--;
+                    rebuilded += "\t".repeat(tab_counter) + "});\n"
+            }
+
         });
     }
 

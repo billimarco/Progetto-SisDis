@@ -43,7 +43,7 @@ header a {
   float: right;
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 100px;
   color: white;
   font-weight: bold;
   border: 1px solid var(--border-color);
@@ -52,6 +52,22 @@ header a {
   border-radius: 4px;
   cursor: pointer;
   z-index: 5;
+}
+
+.btn-legenda {
+  float: right;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  font-weight: bold;
+  border: 1px solid var(--border-color);
+  background: #e3195a;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 5;
+  text-decoration: none;
 }
 
 .legenda{
@@ -296,6 +312,15 @@ header a {
 
 .drawflow-node .code-box{
   height: 80%;
+}
+
+.drawflow-node .code-room-in{
+  width : 100%;
+  padding: 5px;
+}
+
+.drawflow-node .code-box-in{
+  height: 92%;
 }
 
 .drawflow-node .trigger-room{
