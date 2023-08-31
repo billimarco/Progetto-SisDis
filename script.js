@@ -36,11 +36,12 @@ var port_designs_input = {
 
 var port_designs_output = {
     "ListSURI" : {"type":"ListSURI","color_class": "port_red","associated_event_id": "0","associated_trigger_id":"0"},
-    "time_interval" : {"type":"time_interval","color_class": "port_green","associated_event_id": "0","associated_trigger_id":"0"},
+    "DateTime_Interval" : {"type":"DateTime_Interval","color_class": "port_green","associated_event_id": "0","associated_trigger_id":"0"},
     "SURI" : {"type":"SURI","color_class": "port_blue","associated_event_id": "0","associated_trigger_id":"0"},
-    "timestamp" : {"type":"timestamp","color_class": "port_yellow","associated_event_id": "0","associated_trigger_id":"0"},
-    "action" : {"type":"action","color_class": "port_orange","associated_event_id": "0","associated_trigger_id":"0"},
+    "DateTime" : {"type":"DateTime","color_class": "port_yellow","associated_event_id": "0","associated_trigger_id":"0"},
+    "Action" : {"type":"Action","color_class": "port_orange","associated_event_id": "0","associated_trigger_id":"0"},
     "GPS_coordinates" : {"type":"GPS_coordinates","color_class": "port_purple","associated_event_id": "0","associated_trigger_id":"0"},
+    "ResetCommand" : {"type":"ResetCommand","color_class": "port_brown","associated_event_id": "0","associated_trigger_id":"0"},
     "JSON" : {"type":"JSON","color_class": "port_black","associated_event_id": "0","associated_trigger_id":"0"}
 };
 
@@ -49,7 +50,7 @@ var connections = [];
 var dashboard_connection = {"output_id": "0" , "event_id": "0", "trigger_id": "0", "input_id":"0"};
 
 var trigger_types = [
-    {"type": "empty", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":[""], "output_type": "ListSURI", "others": {}},
+    {"type": "empty", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":[""], "output_type": "JSON", "others": {}},
     {"type": "showRadarSeriesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["RadarSeries"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"} , "passed_data":{"type":"textarea","value":""}}},
     {"type": "showTableFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Table"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
     {"type": "showLastDataFromExternalContentGis", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["SingleContent","Speedometer","GaugeChart"], "output_type": "SURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "field":{"type":"input","value":""}, "service_uri":{"type":"input","value":""}}},
@@ -58,12 +59,12 @@ var trigger_types = [
     {"type": "showCurvedLinesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["CurvedLineSeries"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "field":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}, "t1":{"type":"input","value":""}, "t2":{"type":"input","value":""}, "event":{"type":"input","value":""}}},
     {"type": "showDeviceTableFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["DeviceTable"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":"ordering:\nquery:\nactions:\ncolumnsToShow:"}}},
     {"type": "addSelectorPin", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Map"], "output_type": "ListSURI", "others": {"passed_data":{"type":"textarea","value":"event_generator:$(this)\ndesc:\nquery:\ncolor1:\ncolor2:\ntargets:\ndisplay:\nqueryType:\niconTextMode:\npinattr:\npincolor:\nsymbolcolor:\nbubbleSelectedMetric:"}}},
-    {"type": "showOnOffButtonFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["OnOffButton"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
-    {"type": "showKnobFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Knob"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
-    {"type": "showNumericKeyboardFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["NumericKeyboard"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
+    {"type": "showOnOffButtonFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["OnOffButton"], "output_type": "Action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
+    {"type": "showKnobFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["Knob"], "output_type": "Action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
+    {"type": "showNumericKeyboardFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["NumericKeyboard"], "output_type": "Action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "widget_title":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":"\"dataOperation\":"}}},
     {"type": "showPieChartFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["PieChart"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
     {"type": "showBarSeriesFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["BarSeries"], "output_type": "ListSURI", "others": {"event_generator":{"type":"input","value":"$(this)"}, "passed_data":{"type":"textarea","value":""}}},
-    {"type": "showExternalContentFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["ExternalContent"], "output_type": "action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "events":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}}}
+    {"type": "showExternalContentFromExternalContent", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":["ExternalContent"], "output_type": "Action", "others": {"event_generator":{"type":"input","value":"$(this)"}, "range":{"type":"input","value":""}, "color1":{"type":"input","value":""}, "color2":{"type":"input","value":""}, "events":{"type":"input","value":""}, "passed_data":{"type":"textarea","value":""}}}
 ];
 
 // TRIAL EXAMPLE
@@ -77,6 +78,36 @@ let dashboard = [
 
 ];
 importDashboard(dashboard);
+
+let ck = `function execute(){
+	Var e = JSON.parse(param)
+	if(e.event == "click"){
+		dsfsdfds
+		$('body').trigger({
+			type: "showRadarSeriesFromExternalContent_undefined",
+			targetWidget: "w_radar_series_3",
+			eventGenerator: $(this),
+			passedData: 
+		});
+	}else if(e.event == "legendItemClick"){
+		dfsdsdsdfsdf
+	}else{
+		qualcosa di non detto
+		$('body').trigger({
+			type: "showTimeTrendFromExternalContent_undefined",
+			targetWidget: "w_time_trend_2",
+			eventGenerator: $(this),
+			range: ,
+			color1: ,
+			color2: ,
+			widgetTitle: ,
+			field: ,
+			serviceUri: 
+		});
+	}
+}`
+
+splitCKeditorCode(ck);
 //FINISH EXAMPLE
 
 //EDITOR EVENTS
@@ -114,6 +145,7 @@ editor.on('connectionRemoved', function (connection) {
     console.log("Connection created");
     console.log(connections);
 })
+
 //FUNCTIONAL METHODS
 
 //an easy way function for take widget typologies based on port types
@@ -161,7 +193,7 @@ function exportDashboard(){
     return dashboard;
 }
 
-//add node into our editor based on widget type //TODO finish
+//add node into our editor based on widget type
 function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
     var html=`<div class="title-box"><i class="fas fa-code"></i> `+type+` `+"("+widget_data[type].widget_ports+")"+`</div>`;
     var data = JSON.parse(JSON.stringify(widget_data[type]));
@@ -458,51 +490,95 @@ function updateHTMLFromNodeId(id){
     console.log(editor);
 }
 
-//split code of a ck editor for finding events,triggers ecc.//TODO
+//split code of a ck editor for finding events,triggers ecc. 
+//TODO incompleted, we have to assume that "e.event" and "else" are only in certain parts of the code (otherwise it doesn't work)
 function splitCKeditorCode(ck_editor){
-    let splitted = {"code":"","triggers":{}};
+    let arr = [];
+    let splitted = {"event_name":"","code":"","triggers":{}};
+    let event_counter = 0;
+    let new_splitted = "";
 
     //removing function execute(){}
     ck_editor = ck_editor.trim();
     ck_editor = ck_editor.slice(ck_editor.indexOf("{")+1,ck_editor.lastIndexOf("}"));
+    ck_editor = ck_editor.slice(ck_editor.indexOf(";")+1);
     ck_editor = ck_editor.trim();
 
-    //take code part
-    splitted["code"] = ck_editor.slice(0,ck_editor.indexOf("$"));
+    //take events codes and triggers
+    while(ck_editor.indexOf("e.event")!=-1){
+        new_splitted = JSON.parse(JSON.stringify(splitted));
+        ck_editor = ck_editor.slice(ck_editor.indexOf("e.event"));
+        ck_editor = ck_editor.slice(ck_editor.indexOf("\"")+1);
 
-    //take triggers_part
-    let trigger_code = ck_editor.slice(ck_editor.indexOf("$('body').trigger"));
-    let trigger, trigger_number = 0;
-    while(trigger_code.indexOf("$('body').trigger")!=-1){
-        splitted.triggers[trigger_number] = {};
+        new_splitted["event_name"] = ck_editor.slice(0,ck_editor.indexOf("\""));
 
-        //removing $('body').trigger({});
-        trigger = trigger_code.slice(trigger_code.indexOf("{")+1,trigger_code.indexOf("}"))
-        trigger = trigger.trim();
+        ck_editor = ck_editor.slice(ck_editor.indexOf("{")+1);
 
-        //split fields
-        let array = trigger.split(",");
-        for(let i=0;i<array.length;i++){
-            field = array[i].slice(0,array[i].indexOf(":")).trim();
-            value = array[i].slice(array[i].indexOf(":")+1).trim();
-            if(value.indexOf("\"")!=-1){
-                value = value.slice(value.indexOf("\"")+1, value.lastIndexOf("\""));
-                if(field=="type")
-                    value = value.slice(0, value.indexOf("_"));
-            }
-            splitted.triggers[trigger_number][field] = value;
-        }
+        takeEventCodeAndTriggers();
 
-        //take next trigger
-        trigger_code = trigger_code.slice(1);
-        trigger_code = trigger_code.slice(trigger_code.indexOf("$('body').trigger"));
-        trigger_number++;
+        arr.push(new_splitted);
+        event_counter++;
+        ck_editor = ck_editor.slice(ck_editor.indexOf("else"));
     }
 
-    console.log("splitCKeditorCode(ck_editor)");
-    console.log(splitted);
+    //take externalCommands codes and triggers
+    new_splitted = JSON.parse(JSON.stringify(splitted));
+    new_splitted["event_name"] = "externalCommands";
 
-    return splitted;
+    if(event_counter != 0){
+        ck_editor = ck_editor.slice(ck_editor.indexOf("{")+1);
+    }
+
+    takeEventCodeAndTriggers();
+    arr.push(new_splitted);
+    event_counter++;
+    
+
+    //Internal function for take code and triggers code
+    function takeEventCodeAndTriggers(){
+        if(ck_editor.indexOf("$('body').trigger") > ck_editor.indexOf("else") && ck_editor.indexOf("else")!=-1){
+            new_splitted["code"] = ck_editor.slice(0,ck_editor.indexOf("else"));
+            new_splitted["code"] = new_splitted["code"].slice(0,new_splitted["code"].lastIndexOf("}"));
+        } else {
+            new_splitted["code"] = ck_editor.slice(0,ck_editor.indexOf("$('body').trigger"));
+
+            ck_editor = ck_editor.slice(ck_editor.indexOf("$('body').trigger"));
+
+            let trigger_code = ck_editor.slice(ck_editor.indexOf("$('body').trigger"),ck_editor.indexOf("else"));
+            let trigger, trigger_number = 0;
+            while(trigger_code.indexOf("$('body').trigger")!=-1){
+                new_splitted.triggers[trigger_number] = {};
+
+                //removing $('body').trigger({});
+                trigger = trigger_code.slice(trigger_code.indexOf("{")+1,trigger_code.indexOf("}"))
+                trigger = trigger.trim();
+
+                //split fields
+                let array = trigger.split(",");
+                for(let i=0;i<array.length;i++){
+                    field = array[i].slice(0,array[i].indexOf(":")).trim();
+                    value = array[i].slice(array[i].indexOf(":")+1).trim();
+                    if(value.indexOf("\"")!=-1){
+                        value = value.slice(value.indexOf("\"")+1, value.lastIndexOf("\""));
+                        if(field=="type")
+                            value = value.slice(0, value.indexOf("_"));
+                    }
+                    new_splitted.triggers[trigger_number][field] = value;
+                }
+
+                //take next trigger
+                trigger_code = trigger_code.slice(1);
+                trigger_code = trigger_code.slice(trigger_code.indexOf("$('body').trigger"));
+                trigger_number++;
+            }
+        }
+    }
+
+
+    console.log("splitCKeditorCode(ck_editor)");
+    console.log(arr);
+
+    return arr;
 }
 
 //rebuild code of a ck editor into a defined structure
