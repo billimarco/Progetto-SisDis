@@ -910,3 +910,23 @@ function removeOutputPortConnections(output_id,ev_id,port_box_id){
     console.log("removeOutputPortsConnections("+output_id+","+ev_id+","+port_box_id+")");
     console.log(connections);
 }
+
+
+//USERS METHODS
+
+
+function sendSURI(port_name,data){}
+
+function sendListSURI(port_name,data){}
+
+function sendDateTimeInterval(port_name,data){}
+
+function sendDateTime(port_name,data){}
+
+function sendAction(port_name,data){}
+
+function sendGPSCoordinates(port_name,data){}
+
+function sendResetCommand(port_name,data){}
+
+function sendJSON(port_name,data){}
