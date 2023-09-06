@@ -323,21 +323,38 @@ header a {
   height: 92%;
 }
 
-.drawflow-node .trigger-room{
+.drawflow-node .ports-room{
   width: 50%;
   border-left: 1px solid white;
   overflow: auto;
 }
 
-.drawflow-node .trigger-box{
+.drawflow-node .port-box{
   width: 100%;
   padding: 5px;
   background: var(--secondary-color);
   border-top: 1px solid white;
-  color:white;
+  color:var(--text-color);
 }
 
-.drawflow-node .trigger-room .trigger-box:last-child{
+.drawflow-node .port-box-button{
+  width: 100%;
+  background: var(--primary-color);
+  border: 1px solid white;
+  box-shadow: none;
+}
+
+.drawflow-node .port-box-name{
+  font-weight: bold;
+  font-size: 22px;
+  color : var(--text-color);
+  text-align: center;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.drawflow-node .ports-room .port-box:last-child{
   border-bottom: 1px solid white;
 }
 
@@ -345,7 +362,7 @@ header a {
   height: 100px;
 }
 
-.btn-delete-trigger {
+.btn-delete-port-box {
   color: white;
   font-weight: bold;
   border: 1px solid var(--border-color);
@@ -355,7 +372,7 @@ header a {
   cursor: pointer;
 }
 
-.btn-add-trigger {
+.btn-add-port-box {
   width: 100%;
   height: 10%;
   text-align: center;
