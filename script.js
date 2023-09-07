@@ -549,7 +549,6 @@ function rebuildCKeditorCode(id){
 
             tab_counter++;
             formatCode(ev_id);
-            rebuildEventPortBoxes(ev_id);
             tab_counter--;
 
             event_counter++;
@@ -562,85 +561,26 @@ function rebuildCKeditorCode(id){
             rebuilded += "\t".repeat(tab_counter) + "}else{\n";
             tab_counter++;
             formatCode(0);
-            rebuildEventPortBoxes(0);
             tab_counter--;
         }
         rebuilded += "\t".repeat(tab_counter)+"}\n";
     }else{
         if(node.data.events[0] !== undefined){
             formatCode(0);
-            rebuildEventPortBoxes(0);
         } 
     }
         
     rebuilded += "}";
 
-    function rebuildEventPortBoxes(ev_id){
-        let field_name = "", other_arr=[], check_connection=false;
-        Object.keys(node.data.events[ev_id].port_boxes).forEach(port_box_id => {
-            for(let i=0; i < connections.length; i++){
-                if(connections[i].output_id == id && connections[i].event_id == ev_id && connections[i].port_box_id){
-                    rebuilded += "\t".repeat(tab_counter) + "$('body').trigger({\n";
-                    tab_counter++;
-                    rebuilded += "\t".repeat(tab_counter) + "type: \"" + node.data.events[ev_id].port_boxes[port_box_id].type + "_" + node.data.events[ev_id].port_boxes[port_box_id].target_widget + "\",\n";
-                    rebuilded += "\t".repeat(tab_counter) + "targetWidget: \"" + editor.getNodeFromId(connections[i].input_id).name + "\",\n";
-                    Object.keys(node.data.events[ev_id].port_boxes[port_box_id].others).forEach(other_field => {
-                        other_arr = [] , field_name = "";
-                        other_arr = other_field.split("_");
-                        for(let j=0; j< other_arr.length; j++){
-                            if(j!=0){
-                                field_name += other_arr[j].charAt(0).toUpperCase() + other_arr[j].slice(1);
-                            }else{
-                                field_name += other_arr[j];
-                            }
-                        }
-                        rebuilded += "\t".repeat(tab_counter) + field_name + ": " + node.data.events[ev_id].port_boxes[port_box_id].others[other_field].value + ",\n";
-                    });
-                    //remove last ,
-                    rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(","));
-                    rebuilded += "\n";
-                    
-                    tab_counter--;
-                    rebuilded += "\t".repeat(tab_counter) + "});\n"
-                    
-                    check_connection = true;
-                }
-            }
-
-            //In case there is not a connection
-            if(!check_connection){
-                rebuilded += "\t".repeat(tab_counter) + "$('body').trigger({\n";
-                    tab_counter++;
-                    rebuilded += "\t".repeat(tab_counter) + "type: \"" + node.data.events[ev_id].port_boxes[port_box_id].type + "\",\n";
-                    rebuilded += "\t".repeat(tab_counter) + "targetWidget: \"\",\n";
-                    Object.keys(node.data.events[ev_id].port_boxes[port_box_id].others).forEach(other_field => {
-                        other_arr = [] , field_name = "";
-                        other_arr = other_field.split("_");
-                        for(let j=0; j< other_arr.length; j++){
-                            if(j!=0){
-                                field_name += other_arr[j].charAt(0).toUpperCase() + other_arr[j].slice(1);
-                            }else{
-                                field_name += other_arr[j];
-                            }
-                        }
-                        rebuilded += "\t".repeat(tab_counter) + field_name + ": " + node.data.events[ev_id].port_boxes[port_box_id].others[other_field].value + ",\n";
-                    });
-                    //remove last ,
-                    rebuilded = rebuilded.slice(0,rebuilded.lastIndexOf(","));
-                    rebuilded += "\n";
-                    
-                    tab_counter--;
-                    rebuilded += "\t".repeat(tab_counter) + "});\n"
-            }
-
-        });
-    }
-
     function formatCode(ev_id){
         let code_strings = [];
         code_strings = node.data.events[ev_id].code.split("\n");
         for (let i=0 ; i < code_strings.length; i++){
-            rebuilded += "\t".repeat(tab_counter) + code_strings[i]+"\n";
+            if(code_strings[i] == ""){
+                //TODO for functions
+            }else{
+                rebuilded += "\t".repeat(tab_counter) + code_strings[i]+"\n";
+            }
         };
     }
 
@@ -913,20 +853,698 @@ function removeOutputPortConnections(output_id,ev_id,port_box_id){
 
 
 //USERS METHODS
+//methods formalizzation : first insert the code, next check validity and at last for every connection insert triggers
+//possible problems : create code with the same variables name. This can create conflicts if we want to use more than one in an event
+//possible solutions : distinguish every variables create of each events using `+port_name+`_var_name
 
+function sendSURI(port_name, json_var_name, node_id, ev_id){
+    let code="",check_validity=false,finded_port_box_id;
 
-function sendSURI(port_name,data){}
+    code += `
+        var `+port_name+`_data = [];
+        `+port_name+`_data[0] = {};
+        var `+port_name+`_coordsAndType = [];
+        `+port_name+`_coordsAndType[0] = {};
+        var `+port_name+`_serviceUri = "";
+        if (`+json_var_name+`.value.metricName.includes(":")) {
+            `+port_name+`_serviceUri = "http://www.disit.org/km4city/resource/iot/" + `+json_var_name+`.value.metricName.split(":")[1] + "/" + `+json_var_name+`.value.metricName.split(":")[0] + "/" + `+json_var_name+`.value.metricName.split(":")[2];
+            `+port_name+`_data[0].metricId = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+            `+port_name+`_data[0].metricHighLevelType = "IoT Device Variable";
+            `+port_name+`_coordsAndType[0].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+            `+port_name+`_coordsAndType[0].queryType = "Default";
+        } else {
+            `+port_name+`_serviceUri = `+json_var_name+`.value.metricId;
+            `+port_name+`_data[0].metricId = `+port_name+`_serviceUri;
+            `+port_name+`_data[0].metricHighLevelType = "MyKPI";
+            `+port_name+`_coordsAndType[0].query = "datamanager/api/v1/poidata/" + `+port_name+`_serviceUri;
+			`+port_name+`_coordsAndType[0].queryType = "MyPOI";
+        }
+        `+port_name+`_data[0].metricName = `+json_var_name+`.value.metricName;
+        `+port_name+`_data[0].metricType = `+json_var_name+`.value.metricType;
+        `+port_name+`_data[0].smField = `+json_var_name+`.value.metricType;
+        `+port_name+`_data[0].serviceUri = `+port_name+`_serviceUri;
 
-function sendListSURI(port_name,data){}
+        `+port_name+`_coordsAndType[0].desc = `+port_name+`_data[0].metricName;
+        `+port_name+`_coordsAndType[0].color1 = "#ebb113";
+        `+port_name+`_coordsAndType[0].color2 = "#eb8a13";
+    `
+    
+    //Find and check validity of the specific port of an event of a widget
+    Object.keys(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes).forEach(port_box_id => {
+        if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].port_name == port_name){
+            if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].output_type == "SURI"){
+                finded_port_box_id = port_box_id;
+                check_validity = true;
+            }
+        }       
+    });
 
-function sendDateTimeInterval(port_name,data){}
+    if(check_validity){
+        let widget_type,widget_name;
+        for(let i=0; i<connections.length;i++){
+            if(connections[i].output_id == node_id && connections[i].event_id == ev_id && connections[i].port_box_id == finded_port_box_id){
+                
+                widget_type = editor.getNodeFromId(connections[i].input_id).data.widget_type;
+                widget_name = editor.getNodeFromId(connections[i].input_id).name;
+                
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        code +=`
 
-function sendDateTime(port_name,data){}
+                        `;
+                        break;
+            
+                    case 'TimeTrend':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        code +=`
+                            $('body').trigger({
+                                type: "showCurvedLinesFromExternalContent_" + "`+widget_name+`",	
+                                targetWidget: "`+widget_name+`",
+                                field: `+port_name+`_data[0].smField,
+                                passedData: `+port_name+`_data
+                            });	        
+                        `;
+                        break;
+            
+                    case 'PieChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'BarSeries':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Map':
+                        code +=`
+                            for (let n=0; n<`+port_name+`_coordsAndType.length; n++) {
+                                $('body').trigger({
+                                    type: "addSelectorPin",
+                                    target: "`+widget_name+`",
+                                    passedData: `+port_name+`_coordsAndType[n]
+                                });
+                            }
+                        `;
+                        break;
+            
+                    case 'Speedometer':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'GaugeChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Knob':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'NumericKeyboard':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'SingleContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ExternalContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Table':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'DeviceTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'EventTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Button':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'OnOffButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ImpulseButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    default:
+                }
 
-function sendAction(port_name,data){}
+            }
+        }
+        return code;
+    }
+    return "";
+}
 
-function sendGPSCoordinates(port_name,data){}
+function sendListSURIandMetrics(port_name, json_var_name, node_id, ev_id){
+    let code="",check_validity=false,finded_port_box_id;
 
-function sendResetCommand(port_name,data){}
+    code += `
+        var `+port_name+`_coordsAndType = [];
+        var `+port_name+`_data = [];
+        var `+port_name+`_h = 0;
+        var `+port_name+`_i = 0;
+        var `+port_name+`_serviceUri = "";
+        for (var l in `+json_var_name+`.layers) {
+            if (!`+json_var_name+`.layers[l].visible || (`+json_var_name+`.layers[l].visible == true)) {
+                `+port_name+`_coordsAndType[i] = {};
+                `+port_name+`_coordsAndType[i].desc = `+json_var_name+`.layers[l].name;
+                `+port_name+`_coordsAndType[i].color1 = "#ebb113";
+                `+port_name+`_coordsAndType[i].color2 = "#eb8a13";
+                if (!`+json_var_name+`.metrics || `+json_var_name+`.metrics.length<1) {
+                    if (`+json_var_name+`.layers[l].realtimeAttributes) {
+                        `+json_var_name+`.metrics = Object.keys(`+json_var_name+`.layers[l].realtimeAttributes);
+                    }
+                    if (`+json_var_name+`.layers[l].kpidata) {
+						`+json_var_name+`.metrics = `+json_var_name+`.layers[l].name;
+				    }
+                }
+                for (var m in `+json_var_name+`.metrics) {
+                    `+port_name+`_data[h] = {};
+                    if (`+json_var_name+`.layers[l].name.includes(":")) {
+                        `+port_name+`_serviceUri = "http://www.disit.org/km4city/resource/iot/" + `+json_var_name+`.layers[l].name.split(":")[1] + "/" + `+json_var_name+`.layers[l].name.split(":")[0] + "/" + `+json_var_name+`.layers[l].name.split(":")[2];
+                        `+port_name+`_data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+                        `+port_name+`_data[h].metricHighLevelType = "IoT Device Variable";
+                        `+port_name+`_coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+                        `+port_name+`_coordsAndType[i].queryType = "Default";
+                    } else if ((`+json_var_name+`.layers[l].brokerName && `+json_var_name+`.layers[l].brokerName != "") && (`+json_var_name+`.layers[l].organization && `+json_var_name+`.layers[l].organization != "")) {
+                        `+port_name+`_serviceUri = "http://www.disit.org/km4city/resource/iot/"+ `+json_var_name+`.layers[l].brokerName + "/" + `+json_var_name+`.layers[l].organization + "/" + `+json_var_name+`.layers[l].name;
+                        `+port_name+`_data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+                        `+port_name+`_data[h].metricHighLevelType = "IoT Device Variable";
+                        `+port_name+`_coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+                        `+port_name+`_coordsAndType[i].queryType = "Default";
+                    } else if (`+json_var_name+`.layers[l].serviceUri && `+json_var_name+`.layers[l].serviceUri != "") {
+                        `+port_name+`_serviceUri = `+json_var_name+`.layers[l].serviceUri;
+                        `+port_name+`_data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+                        `+port_name+`_data[h].metricHighLevelType = "IoT Device Variable";
+                        `+port_name+`_coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + `+port_name+`_serviceUri + "&format=json";
+                        `+port_name+`_coordsAndType[i].queryType = "Default";
+                    } else {
+                        if (`+json_var_name+`.layers[l].name.includes("_")) {
+                            `+port_name+`_serviceUri = "datamanager/api/v1/poidata/" + `+json_var_name+`.layers[l].name.split("_")[1];
+                        } else {
+                            `+port_name+`_serviceUri = "datamanager/api/v1/poidata/" + `+json_var_name+`.layers[l].name;
+                        }
+                        `+port_name+`_data[h].metricId = `+port_name+`_serviceUri;
+                        `+port_name+`_data[h].metricHighLevelType = "MyKPI";
+                        `+port_name+`_coordsAndType[i].query = `+port_name+`_serviceUri;
+                        `+port_name+`_coordsAndType[i].queryType = "MyPOI";
+                    }
+                    `+port_name+`_data[h].metricName = `+json_var_name+`.layers[l].name;
+                    `+port_name+`_data[h].metricType = `+json_var_name+`.metrics[m];
+                    `+port_name+`_data[h].smField = `+json_var_name+`.metrics[m];
+                    `+port_name+`_data[h].serviceUri = `+port_name+`_serviceUri;
+                    
+                    `+port_name+`_h++;
+                }
+                `+port_name+`_i++;
+            }
+        }
+    `
 
-function sendJSON(port_name,data){}
+    
+    //Find and check validity of the specific port of an event of a widget
+    Object.keys(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes).forEach(port_box_id => {
+        if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].port_name == port_name){
+            if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].output_type == "ListSURI"){
+                finded_port_box_id = port_box_id;
+                check_validity = true;
+            }
+        }       
+    });
+
+    if(check_validity){
+        let widget_type,widget_name;
+        for(let i=0; i<connections.length;i++){
+            if(connections[i].output_id == node_id && connections[i].event_id == ev_id && connections[i].port_box_id == finded_port_box_id){
+                
+                widget_type = editor.getNodeFromId(connections[i].input_id).data.widget_type;
+                widget_name = editor.getNodeFromId(connections[i].input_id).name;
+                
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        code +=`
+
+                        `;
+                        break;
+            
+                    case 'TimeTrend':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        code +=`
+                            $('body').trigger({
+                                type: "showCurvedLinesFromExternalContent_" + "`+widget_name+`",	
+                                targetWidget: "`+widget_name+`",
+                                passedData: `+port_name+`_data
+                            });
+                        `;
+                        break;
+            
+                    case 'PieChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'BarSeries':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Map':
+                        code +=`
+                            for (let n=0; n<`+port_name+`_coordsAndType.length; n++) {
+                                $('body').trigger({
+                                    type: "addSelectorPin",
+                                    target: "`+widget_name+`",
+                                    passedData: `+port_name+`_coordsAndType[n]
+                                });
+                            }
+                        `;
+                        break;
+            
+                    case 'Speedometer':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'GaugeChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Knob':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'NumericKeyboard':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'SingleContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ExternalContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Table':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'DeviceTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'EventTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Button':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'OnOffButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ImpulseButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    default:
+                }
+
+            }
+        }
+        return code;
+    }
+    return "";
+}
+
+function sendTimeRange(port_name, t1, t2, node_id, ev_id){
+    let code="",check_validity=false,finded_port_box_id;
+
+    code += `
+        var `+port_name+`_minT = `+t1+`;
+        var `+port_name+`_maxT = `+t2+`;
+        var `+port_name+`_dt1 = new Date(`+port_name+`_minT);
+        var `+port_name+`_dt1_iso = `+port_name+`_dt1.toISOString().split(".")[0];
+        var `+port_name+`_dt2 = new Date(`+port_name+`_maxT);
+        var `+port_name+`_dt2_iso = `+port_name+`_dt2.toISOString().split(".")[0];
+    `
+    
+    //Find and check validity of the specific port of an event of a widget
+    Object.keys(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes).forEach(port_box_id => {
+        if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].port_name == port_name){
+            if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].output_type == "DateTime_Interval"){
+                finded_port_box_id = port_box_id;
+                check_validity = true;
+            }
+        }       
+    });
+
+    if(check_validity){
+        let widget_type,widget_name;
+        for(let i=0; i<connections.length;i++){
+            if(connections[i].output_id == node_id && connections[i].event_id == ev_id && connections[i].port_box_id == finded_port_box_id){
+                
+                widget_type = editor.getNodeFromId(connections[i].input_id).data.widget_type;
+                widget_name = editor.getNodeFromId(connections[i].input_id).name;
+                
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        code +=`
+
+                        `;
+                        break;
+            
+                    case 'TimeTrend':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        code +=`
+                            $('body').trigger({
+                                type: "showCurvedLinesFromExternalContent_" + "`+widget_name+`",	
+                                targetWidget: "`+widget_name+`",
+                                t1: `+port_name+`_dt1_iso,
+                                t2: `+port_name+`_dt2_iso
+                            });	
+                        `;
+                        break;
+            
+                    case 'PieChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'BarSeries':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Map':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Speedometer':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'GaugeChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Knob':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'NumericKeyboard':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'SingleContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ExternalContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Table':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'DeviceTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'EventTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Button':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'OnOffButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ImpulseButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    default:
+                }
+
+            }
+        }
+        return code;
+    }
+    return "";
+}
+
+function sendJSON(port_name, json_var_name, node_id, ev_id){
+    let code="",check_validity=false,finded_port_box_id;
+    
+    //Find and check validity of the specific port of an event of a widget
+    Object.keys(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes).forEach(port_box_id => {
+        if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].port_name == port_name){
+            if(editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].output_type == "JSON"){
+                finded_port_box_id = port_box_id;
+                check_validity = true;
+            }
+        }       
+    });
+
+    if(check_validity){
+        let widget_type,widget_name;
+        for(let i=0; i<connections.length;i++){
+            if(connections[i].output_id == node_id && connections[i].event_id == ev_id && connections[i].port_box_id == finded_port_box_id){
+                
+                widget_type = editor.getNodeFromId(connections[i].input_id).data.widget_type;
+                widget_name = editor.getNodeFromId(connections[i].input_id).name;
+                
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        code +=`
+
+                        `;
+                        break;
+            
+                    case 'TimeTrend':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        code +=`
+                            $('body').trigger({
+                                type: "showCurvedLinesFromExternalContent_" + "`+widget_name+`",	
+                                targetWidget: "`+widget_name+`",
+                                passedData: `+json_var_name+`
+                            });	
+                        `;
+                        break;
+            
+                    case 'PieChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'BarSeries':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Map':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Speedometer':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'GaugeChart':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Knob':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'NumericKeyboard':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'SingleContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ExternalContent':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Table':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'DeviceTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'EventTable':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'Button':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'OnOffButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    case 'ImpulseButton':
+                        code +=`
+                            
+                        `;
+                        break;
+            
+                    default:
+                }
+
+            }
+        }
+        return code;
+    }
+    return "";
+}
