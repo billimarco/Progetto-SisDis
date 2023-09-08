@@ -12,54 +12,38 @@ editor.start();
 
 //IMPORTANT events[0] is only for externalCommands
 var widget_data = {
-    "RadarSeries" : {"widget_ports":"IN/OUT", "widget_type":"RadarSeries", "events":{"0":{"event_name":"externalCommands", "code":"", "next_port_box": 0, "port_boxes":{}},"1":{"event_name":"click", "code":"", "next_port_box": 0, "port_boxes":{}},"2":{"event_name":"legendItemClick", "code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "TimeTrend" : {"widget_ports":"IN/OUT", "widget_type":"TimeTrend", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "CurvedLineSeries" : {"widget_ports":"IN/OUT", "widget_type":"CurvedLineSeries", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "PieChart" : {"widget_ports":"IN/OUT", "widget_type":"PieChart", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "BarSeries" : {"widget_ports":"IN/OUT", "widget_type":"BarSeries", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "Map" : {"widget_ports":"IN/OUT", "widget_type":"Map", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "Speedometer" : {"widget_ports":"IN", "widget_type":"Speedometer", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "GaugeChart" : {"widget_ports":"IN", "widget_type":"GaugeChart", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "Knob" : {"widget_ports":"IN/OUT", "widget_type":"Knob", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "NumericKeyboard" : {"widget_ports":"IN/OUT", "widget_type":"NumericKeyboard", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "SingleContent" : {"widget_ports":"IN", "widget_type":"SingleContent", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "ExternalContent" : {"widget_ports":"IN/OUT", "widget_type":"ExternalContent", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "Table" : {"widget_ports":"IN", "widget_type":"Table", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "DeviceTable" : {"widget_ports":"IN", "widget_type":"DeviceTable", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "EventTable" : {"widget_ports":"OUT", "widget_type":"EventTable", "events":{"1":{"event_name":"click","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "Button" : {"widget_ports":"OUT", "widget_type":"Button", "events":{"1":{"event_name":"click","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "OnOffButton" : {"widget_ports":"IN/OUT", "widget_type":"OnOffButton", "events":{"0":{"event_name":"externalCommands","code":"", "next_port_box": 0, "port_boxes":{}}}},
-    "ImpulseButton" : {"widget_ports":"OUT", "widget_type":"ImpulseButton", "events":{"1":{"event_name":"click","code":"", "next_port_box": 0, "port_boxes":{}}}}
+    "RadarSeries" : {"widget_ports":"IN/OUT", "widget_type":"RadarSeries", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":"","click":"","legendItemClick":""}},
+    "TimeTrend" : {"widget_ports":"IN/OUT", "widget_type":"TimeTrend", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "CurvedLineSeries" : {"widget_ports":"IN/OUT", "widget_type":"CurvedLineSeries", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "PieChart" : {"widget_ports":"IN/OUT", "widget_type":"PieChart", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "BarSeries" : {"widget_ports":"IN/OUT", "widget_type":"BarSeries", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "Map" : {"widget_ports":"IN/OUT", "widget_type":"Map", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "Speedometer" : {"widget_ports":"IN", "widget_type":"Speedometer", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "GaugeChart" : {"widget_ports":"IN", "widget_type":"GaugeChart", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "Knob" : {"widget_ports":"IN/OUT", "widget_type":"Knob", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "NumericKeyboard" : {"widget_ports":"IN/OUT", "widget_type":"NumericKeyboard", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "SingleContent" : {"widget_ports":"IN", "widget_type":"SingleContent", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "ExternalContent" : {"widget_ports":"IN/OUT", "widget_type":"ExternalContent", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "Table" : {"widget_ports":"IN", "widget_type":"Table", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "DeviceTable" : {"widget_ports":"IN", "widget_type":"DeviceTable", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "EventTable" : {"widget_ports":"OUT", "widget_type":"EventTable", "next_port_box": 0, "port_boxes":{}, "events":{"click":""}},
+    "Button" : {"widget_ports":"OUT", "widget_type":"Button", "next_port_box": 0, "port_boxes":{}, "events":{"click":""}},
+    "OnOffButton" : {"widget_ports":"IN/OUT", "widget_type":"OnOffButton", "next_port_box": 0, "port_boxes":{}, "events":{"externalCommands":""}},
+    "ImpulseButton" : {"widget_ports":"OUT", "widget_type":"ImpulseButton", "next_port_box": 0, "port_boxes":{}, "events":{"click":""}}
 };
 
-var port_designs_input = {
-    "External" : {"type":"External","color_class": "port_white"}
-};
+var port_box = {"port_name": "", "associated_output_node": 0, "port_type":{}};
 
-var port_designs_output = {
-    "ListSURI" : {"type":"ListSURI","color_class": "port_red","associated_event_id": "0","associated_port_box_id":"0"},
-    "DateTime_Interval" : {"type":"DateTime_Interval","color_class": "port_green","associated_event_id": "0","associated_port_box_id":"0"},
-    "SURI" : {"type":"SURI","color_class": "port_blue","associated_event_id": "0","associated_port_box_id":"0"},
-    "DateTime" : {"type":"DateTime","color_class": "port_yellow","associated_event_id": "0","associated_port_box_id":"0"},
-    "Action" : {"type":"Action","color_class": "port_orange","associated_event_id": "0","associated_port_box_id":"0"},
-    "GPS_coordinates" : {"type":"GPS_coordinates","color_class": "port_purple","associated_event_id": "0","associated_port_box_id":"0"},
-    "ResetCommand" : {"type":"ResetCommand","color_class": "port_brown","associated_event_id": "0","associated_port_box_id":"0"},
-    "JSON" : {"type":"JSON","color_class": "port_black","associated_event_id": "0","associated_port_box_id":"0"}
-};
-
-var connections = [];
-
-var dashboard_connection = {"output_id": "0" , "event_id": "0", "port_box_id": "0", "input_id":"0"};
-
-var port_box_types = [
-    {"output_type": "JSON", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "ListSURI", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "DateTime_Interval", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "SURI", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "DateTime", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "Action", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "GPS_coordinates", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}},
-    {"output_type": "ResetCommand", "port_name": "", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "others": {}}
+var port_types = [
+    {"output_type": "JSON", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-white"},
+    {"output_type": "ListSURI", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-red"},
+    {"output_type": "DateTime_Interval", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-green",},
+    {"output_type": "SURI", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-blue"},
+    {"output_type": "DateTime", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-yellow"},
+    {"output_type": "Action", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-orange"},
+    {"output_type": "GPS_coordinates", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-purple"},
+    {"output_type": "ResetCommand", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-brown"}
+    //,"color_class": "port-white"
 ];
 
 // TRIAL EXAMPLE
@@ -121,28 +105,20 @@ editor.on('connectionCreated', function (connection) {
     let input_class = connection.input_class;
     let output_id = connection.output_id;
     let output_class = connection.output_class;
-    let output_port_design = editor.getNodeFromId(output_id).outputs[output_class].port_design;
-
-    if(editor.getNodeFromId(output_id).data.events[output_port_design.associated_event_id].port_boxes[output_port_design.associated_port_box_id].target_widgets_typologies.includes(editor.getNodeFromId(input_id).data.widget_type)){
-        addSinglePortConnection(output_id,output_port_design.associated_event_id,output_port_design.associated_port_box_id,input_id);
-    }else{
-        editor.removeSingleConnection(output_id,input_id,output_class,input_class);
-    }
+    Object.keys(editor.getNodeFromId(output_id).data.port_boxes).forEach(port_box_id =>{
+        if(output_class == "output_"+editor.getNodeFromId(output_id).data.port_boxes[port_box_id].associated_output_node){
+            let output_port_type = editor.getNodeFromId(output_id).data.port_boxes[port_box_id].port_type;
+            if(!output_port_type.target_widgets_typologies.includes(editor.getNodeFromId(input_id).data.widget_type)){
+                editor.removeSingleConnection(output_id,input_id,output_class,input_class);
+            }
+        }
+    })
     
     console.log("Connection created");
-    console.log(connections);
 })
 
 editor.on('connectionRemoved', function (connection) {
-    let input_id = connection.input_id;
-    let output_id = connection.output_id;
-    let output_class = connection.output_class;
-    let output_port_design = editor.getNodeFromId(output_id).outputs[output_class].port_design;
-
-    removeSinglePortConnection(output_id,output_port_design.associated_event_id,output_port_design.associated_port_box_id,input_id);
-
-    console.log("Connection created");
-    console.log(connections);
+    console.log("Connection removed");
 })
 
 
@@ -214,23 +190,29 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
         html += `
         <div class="box-full">
             <div class="widget-body">
-                <div class="widget-body-element-half">
-                    <label for="widgetname-`+id+`">WidgetName</label>
-                    <input id="widgetname-`+id+`" type="text" value=`+name+` readonly></input>
+                <div class="widget-body-sixty">
+                    <div class="widget-body-element-name bottom-separator">
+                        <label for="widgetname-`+id+`">WidgetName</label>
+                        <input id="widgetname-`+id+`" type="text" value=`+name+` readonly></input>
+                    </div>
+                    <div id="events-room-`+id+`" class="widget-body-element-events-room">
+                        <div class="widget-body-element-event-select bottom-separator">
+                            <label for="events-select-`+id+`">Event</label>
+                            <select id="events-select-`+id+`" onchange="switchEventDisplayed(`+id+`)"></select>
+                        </div>
+                    </div>
+                    <button onclick="addPortBox(`+id+`)" class="btn-add-port-box">add output port</button>
                 </div>
-                <div class="widget-body-element-half">
-                    <label for="events-select-`+id+`">Event</label>
-                    <select id="events-select-`+id+`" onchange="switchEventDisplayed(`+id+`)"></select>
+                <div class="widget-body-forty">
+                    <div id="ports-room-`+id+`" class="ports-room"></div>
+                    </div>
                 </div>
-            </div>
-            <div id="events-room-`+id+`">
             </div>
         </div>
         `;
         
         if(widget_data[type].widget_ports == "IN/OUT"){
             editor.addNode(name, 1, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
-            assignPort(id,"IN",1,"External");
         }else if(widget_data[type].widget_ports == "OUT"){
             editor.addNode(name, 0, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
         }
@@ -239,22 +221,22 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
         html += `
         <div class="box-full">
             <div class="widget-body">
-                <div class="widget-body-element-half">
-                    <label for="widgetname-`+id+`">WidgetName</label>
-                    <input id="widgetname-`+id+`" type="text" value=`+name+` readonly></input>
+                <div class="widget-body-one-hundred">
+                    <div class="widget-body-element-name bottom-separator">
+                        <label for="widgetname-`+id+`">WidgetName</label>
+                        <input id="widgetname-`+id+`" type="text" value=`+name+` readonly></input>
+                    </div>
+                    <div id="events-room-`+id+`" class="widget-body-element-events-room">
+                        <div class="widget-body-element-event-select bottom-separator">
+                            <label for="events-select-`+id+`">Event</label>
+                            <select id="events-select-`+id+`" onchange="switchEventDisplayed(`+id+`)"></select>
+                        </div>
+                    </div>
                 </div>
-                <div class="widget-body-element-half">
-                    <label for="events-select-`+id+`">Event</label>
-                    <select id="events-select-`+id+`"></select>
-                </div>
-            </div>
-            <div id="events-room-`+id+`">
             </div>
         </div>
         `;
-
         editor.addNode(name, 1, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
-        assignPort(id,"IN",1,"External");
     }
     
     //NOTE let the switch in case of future different implementation
@@ -342,55 +324,42 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
     */
 
     //add all events of a widget
-    addEventsBasedOnWidgetType(id,widget_data[type].widget_ports);
+    addEventsToNodes(id);
 
     console.log("addNodeToEditor("+id+","+type+","+name+","+"splitted_ck_editor"+","+pos_x+","+pos_y+")");
     console.log(editor);
 }
 
-//add events to the nodes with a certain widget type
-function addEventsBasedOnWidgetType(id,widget_ports){
+//add events to the nodes 
+function addEventsToNodes(id){
     let node_event_room = document.getElementById("events-room-"+id);
     let node_select_event = document.getElementById("events-select-"+id);
-    if(widget_ports != "IN"){
-        Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_id => {
-            node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_id+`>`+editor.getNodeFromId(id).data.events[ev_id].event_name+`</option>`);
-            node_event_room.insertAdjacentHTML("beforeend",`
-                <div id="ck-editor-`+id+`-`+ev_id+`" class="ck-editor accordion accordion-flush">
-                    <div id="code-room-`+id+`-`+ev_id+`" class="code-room">
-                        <label for="code-`+id+`-`+ev_id+`">Code</label>
-                        <textarea id="code-`+id+`-`+ev_id+`" df-events-`+ev_id+`-code class="code-box"></textarea>
-                        <button onclick="addPortBox(`+id+","+ev_id+`)" class="btn-add-port-box">add output port</button>
-                    </div>
-                    <div id="ports-room-`+id+`-`+ev_id+`" class="ports-room"></div>
-                </div>`);
-        });
-        switchEventDisplayed(id);
-    } else {
-        Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_id => {
-            node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_id+`>`+editor.getNodeFromId(id).data.events[ev_id].event_name+`</option>`);
-            node_event_room.insertAdjacentHTML("beforeend",`
-                <div id="ck-editor-`+id+`-`+ev_id+`" class="ck-editor accordion accordion-flush">
-                    <div id="code-room-`+id+`-`+ev_id+`" class="code-room-in">
-                        <label for="code-`+id+`-`+ev_id+`">Code</label>
-                        <textarea id="code-`+id+`-`+ev_id+`" df-events-`+ev_id+`-code class="code-box-in"></textarea>
-                    </div>
-                </div>`);
-        });
-    }
+
+    Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_name => {
+        node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_name+`>`+ev_name+`</option>`);
+        node_event_room.insertAdjacentHTML("beforeend",`
+                <div id="code-room-`+id+`-`+ev_name+`" class="widget-body-element-code-room bottom-separator">
+                    <label for="code-`+id+`-`+ev_name+`">Code</label>
+                    <textarea id="code-`+id+`-`+ev_name+`" df-events-`+ev_name+` class="widget-body-element-code-box"></textarea>
+                </div>
+            `);
+    });
+
+    switchEventDisplayed(id);
+
     updateHTMLFromNodeId(id);
 
-    console.log("addEventsBasedOnWidgetType("+id+","+widget_ports+")");
+    console.log("addEventsToNodes("+id+")");
     console.log(editor);
 }
 
 //switch widget event to display in a widget node
 function switchEventDisplayed(id){
-    let ev_id = document.getElementById("events-select-"+id).value;
+    let switch_ev_name = document.getElementById("events-select-"+id).value;
     let node_event_editor;
-    Object.keys(editor.getNodeFromId(id).data.events).forEach(ev =>{
-        node_event_editor = document.getElementById("ck-editor-"+id+"-"+ev);
-        if(ev!=ev_id){
+    Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_name =>{
+        node_event_editor = document.getElementById("code-room-"+id+"-"+ev_name);
+        if(ev_name!=switch_ev_name){
             if(!node_event_editor.classList.contains("hide"))
                 node_event_editor.classList.add("hide");
         } else {
@@ -398,10 +367,6 @@ function switchEventDisplayed(id){
                 node_event_editor.classList.remove("hide");
         }
     });
-
-    calculateEventOutputPorts(id, ev_id);
-
-    calculateEventOutputPortsConnections(id , ev_id);
 
     console.log("switchEventDisplayed("+id+")");
     console.log(editor);
@@ -502,11 +467,11 @@ function splitCKeditorCode(ck_editor){
 function addExistingTriggersToNode(id,triggers){
     let trigger;
     for(let i=0;i< Object.keys(triggers).length;i++){
-        for(let j=0;j < port_box_types.length;j++)
-            if(port_box_types[j].type==triggers[i].type)
-                trigger=port_box_types[j];
+        for(let j=0;j < port_types.length;j++)
+            if(port_types[j].type==triggers[i].type)
+                trigger=port_types[j];
         trigger["target_widget"] = triggers[i].targetWidget;
-        addPortBox(id,ev_id,trigger);
+        addPortBox(id,trigger);
     }
 
     console.log("addExistingTriggersToNode("+id+",triggers)");
@@ -594,95 +559,102 @@ function rebuildCKeditorCode(id){
 
 
 //add a port box to a node event
-function addPortBox(id,ev_id,port_box=port_box_types[0]){
+function addPortBox(id,port_type=port_types[0]){
 
     //Add a new port box to node.data.port_boxes
-    let port_box_id = editor.drawflow.drawflow[module].data[id].data.events[ev_id].next_port_box;
+    let port_box_id = editor.drawflow.drawflow[module].data[id].data.next_port_box;
     let new_port_box = JSON.parse(JSON.stringify(port_box));
-    editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id] = new_port_box;
-    editor.drawflow.drawflow[module].data[id].data.events[ev_id].next_port_box += 1;
-
+    new_port_box.port_type = JSON.parse(JSON.stringify(port_type));
+    editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id] = new_port_box;
+    editor.drawflow.drawflow[module].data[id].data.next_port_box += 1;
+    addPortOutput(id,port_box_id);
+    editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].port_name = "Out_"+(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node)
 
     //Modify node HTML with a new port box form
-    let portBoxRoom = document.getElementById("ports-room-"+id+"-"+ev_id);
+    let portBoxRoom = document.getElementById("ports-room-"+id);
     portBoxRoom.insertAdjacentHTML("beforeend",`
-    <div class="port-box accordion-item" id="port-box-`+id+"-"+ev_id+"-"+port_box_id+`">
+    <div class="port-box accordion-item" id="port-box-`+id+"-"+port_box_id+`">
         <div class="accordion-header">
-            <button class="accordion-button port-box-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse`+id+"-"+ev_id+"-"+port_box_id+`" aria-expanded="true" aria-controls="collapse`+id+"-"+ev_id+"-"+port_box_id+`">
-                <input id="port-`+id+"-"+ev_id+"-"+port_box_id+`" type="text" value="Out_`+(Object.keys(editor.getNodeFromId(id).outputs).length+1)+`" df-events-`+ev_id+`-port_boxes-`+port_box_id+`-port_name class="port-box-name" readonly></input>
+            <button id="port-button-`+id+"-"+port_box_id+`" class="accordion-button port-box-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse`+id+"-"+port_box_id+`" aria-expanded="true" aria-controls="collapse`+id+"-"+port_box_id+`">
+                <input id="port-name-`+id+"-"+port_box_id+`" type="text" value="Out_`+(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node)+`" df-port_boxes-`+port_box_id+`-port_name class="port-box-name" readonly></input>
             </button>
         </div>
-        <div id="collapse`+id+"-"+ev_id+"-"+port_box_id+`" class="accordion-collapse collapse show" data-bs-parent="#ports-room-`+id+`">
+        <div id="collapse`+id+"-"+port_box_id+`" class="accordion-collapse collapse" data-bs-parent="#ports-room-`+id+`">
             <div class="accordion-body">
                 <div class="separator">
-                    <label for="output-type-`+id+"-"+ev_id+"-"+port_box_id+`">OutputType</label>
-                    <select onchange="changePortBoxComposition(`+id+`,`+ev_id+`,`+port_box_id+`)" id="output-type-`+id+"-"+ev_id+"-"+port_box_id+`" df-events-`+ev_id+`-port_boxes-`+port_box_id+`-output_type type="text"></select>
+                    <label for="output-type-`+id+"-"+port_box_id+`">OutputType</label>
+                    <select onchange="changePortBoxType(`+id+`,`+port_box_id+`)" id="output-type-`+id+"-"+port_box_id+`" type="text"></select>
                 </div>
-                <button onclick="deletePortBox(`+id+`,`+ev_id+`,`+port_box_id+`)" class="btn-delete-port-box">delete</button>
+                <button onclick="deletePortBox(`+id+`,`+port_box_id+`)" class="btn-delete-port-box">delete</button>
             </div>
         </div>
     </div>
     `);
 
+    document.getElementById("port-button-"+id+"-"+port_box_id).classList.add(port_type.color_class);
+
     //take port box output type list based on widget type
-    let output_type_select = document.getElementById("output-type-"+id+"-"+ev_id+"-"+port_box_id);
-    for(let i=0; i< port_box_types.length;i++){
-        if(port_box_types[i].perform_widgets_typologies.includes(editor.getNodeFromId(id).data.widget_type))
-            if(port_box_types[i].output_type == port_box.output_type){
-                output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_box_types[i].output_type+`" selected>`+port_box_types[i].output_type+`</option>`);
+    let output_type_select = document.getElementById("output-type-"+id+"-"+port_box_id);
+    for(let i=0; i< port_types.length;i++){
+        if(port_types[i].perform_widgets_typologies.includes(editor.getNodeFromId(id).data.widget_type))
+            if(port_types[i].output_type == port_type.output_type){
+                output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_types[i].output_type+`" selected>`+port_types[i].output_type+`</option>`);
             } else {
-                output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_box_types[i].output_type+`">`+port_box_types[i].output_type+`</option>`);
+                output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_types[i].output_type+`">`+port_types[i].output_type+`</option>`);
             }
     }
 
-    addOutputPort(id,ev_id,port_box_id);
-
     updateHTMLFromNodeId(id);
 
-    changePortBoxComposition(id,ev_id,port_box_id);
-
-    console.log("addPortBox("+id+","+ev_id+",port_box)");
+    console.log("addPortBox("+id+",port_box)");
     console.log(editor);
 }
 
 //delete a port box from a node event
-function deletePortBox(id,ev_id,port_box_id){
-    let portBoxRoom = document.getElementById("port-box-"+id+"-"+ev_id+"-"+port_box_id);
-    let node = editor.getNodeFromId(id);
-
-    //Delete a port box from node.data.port_boxes
-    delete node.data.events[ev_id].port_boxes[port_box_id];
-    editor.updateNodeDataFromId(id,node.data);
+function deletePortBox(id,port_box_id){
+    let portBoxRoom = document.getElementById("port-box-"+id+"-"+port_box_id);
 
     //Remove node HTML of a port box
+    removePortOutput(id,port_box_id);
+
     portBoxRoom.remove();
 
-    removeOutputPort(id,ev_id,port_box_id);
-
-    Object.keys(editor.getNodeFromId(id).data.events[ev_id].port_boxes).forEach(iter_port_box_id => {
-        document.getElementById("port-"+id+"-"+ev_id+"-"+iter_port_box_id).value = editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[iter_port_box_id].port_name;
-    });
+    //Delete a port box from node.data.port_boxes
+    delete editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id];
 
     updateHTMLFromNodeId(id);
 
-    console.log("deletePortBox("+id+","+ev_id+","+port_box_id+")");
+    console.log("deletePortBox("+id+","+port_box_id+")");
     console.log(editor);
 }
 
 //change a port box composition based on the choice of a specified port box
-function changePortBoxComposition(id, ev_id, port_box_id){
+function changePortBoxType(id, port_box_id){
     //generating new port box composition
-    Object.keys(port_box_types).forEach(pbt_id =>{
-        if(port_box_types[pbt_id].output_type==document.getElementById("output-type-"+id+"-"+ev_id+"-"+port_box_id).value){
-            editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].output_type = document.getElementById("output-type-"+id+"-"+ev_id+"-"+port_box_id).value;
+    Object.keys(port_types).forEach(pbt_id =>{
+        if(document.getElementById("port-button-"+id+"-"+port_box_id).classList.contains(port_types[pbt_id].color_class)){
+            document.getElementById("port-button-"+id+"-"+port_box_id).classList.remove(port_types[pbt_id].color_class);
+        }
+        if(port_types[pbt_id].output_type==document.getElementById("output-type-"+id+"-"+port_box_id).value){
+            editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].port_type = JSON.parse(JSON.stringify(port_types[pbt_id]));
+            document.getElementById("port-button-"+id+"-"+port_box_id).classList.add(port_types[pbt_id].color_class);
         }
     });
 
-    changeOutputPort(id,ev_id,port_box_id);
+    Object.keys(editor.getNodeFromId(id).outputs).forEach(output_class =>{
+        if(output_class == "output_"+editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node){
+            let input_id,input_class;
+            for(let conn_id = editor.drawflow.drawflow[module].data[id].outputs[output_class].connections.length-1; conn_id >= 0; conn_id--){
+                input_id = parseInt(editor.drawflow.drawflow[module].data[id].outputs[output_class].connections[conn_id].node);
+                input_class = editor.drawflow.drawflow[module].data[id].outputs[output_class].connections[conn_id].output;
+                editor.removeSingleConnection(id,input_id,output_class,input_class);
+            }
+        }
+    });
 
     updateHTMLFromNodeId(id);
 
-    console.log("changePortBoxComposition("+id+","+ev_id+","+port_box_id+")");
+    console.log("changePortBoxComposition("+id+","+port_box_id+")");
     console.log(editor);
 }
 
@@ -690,169 +662,63 @@ function changePortBoxComposition(id, ev_id, port_box_id){
 //OUTPUT PORTS METHODS
 
 
-//calculate event output ports every time a node change its event
-function calculateEventOutputPorts(id, ev_id){
-    let output_counter, save_conns = [], changed_ev_id, changed_port_box_id;
-
-    for(output_counter=Object.keys(editor.getNodeFromId(id).outputs).length; output_counter > 0; output_counter--){
-        //saving connections from delete
-        changed_ev_id = editor.getNodeFromId(id).outputs["output_"+output_counter].port_design.associated_event_id;
-        changed_port_box_id = editor.getNodeFromId(id).outputs["output_"+output_counter].port_design.associated_port_box_id;
-        for(let i=0;i < connections.length; i++){
-            if(connections[i].output_id == id && connections[i].event_id == changed_ev_id && connections[i].port_box_id == changed_port_box_id){
-                save_conns.push(JSON.parse(JSON.stringify(connections[i])));
-            }
-        }
-
-        //removing output port
-        editor.removeNodeOutput(id, "output_"+output_counter);
-    }
-
-    //re-insert deleted connections for the next switch event
-    connections = connections.concat(save_conns);
-
-    //adding new output ports
-    Object.keys(editor.getNodeFromId(id).data.events[ev_id].port_boxes).forEach(port_box_id =>{
-        addOutputPort(id,ev_id,port_box_id);
-    });
-
-    console.log("changeEventOutputPorts("+id+","+ev_id+")");
-    console.log(editor);
-}
-
-//assign a port type to a node port
-function assignPort(node_id, type, port_id, port_design_type, associated_event_id="0", associated_port_box_id="0"){
-    if(type==="IN"){
-        editor.drawflow.drawflow[module].data[node_id].inputs["input_"+port_id].port_design = JSON.parse(JSON.stringify(port_designs_input[port_design_type]));
-        document.getElementById("node-"+node_id).childNodes[0].childNodes[(port_id-1)].classList.add(port_designs_input[port_design_type].color_class);
-    } else if (type==="OUT"){
-        editor.drawflow.drawflow[module].data[node_id].outputs["output_"+port_id].port_design = JSON.parse(JSON.stringify(port_designs_output[port_design_type]));
-        editor.drawflow.drawflow[module].data[node_id].outputs["output_"+port_id].port_design.associated_event_id = associated_event_id+"";
-        editor.drawflow.drawflow[module].data[node_id].outputs["output_"+port_id].port_design.associated_port_box_id = associated_port_box_id+"";
-        document.getElementById("node-"+node_id).childNodes[2].childNodes[(port_id-1)].classList.add(port_designs_output[port_design_type].color_class);
-    }
-}
-
 //add an output port based on output_type of a certain port box
-function addOutputPort(id,ev_id,port_box_id){
+function addPortOutput(id,port_box_id){
     let output_number = Object.keys(editor.getNodeFromId(id).outputs).length+1;
-    let output_type = editor.getNodeFromId(id).data.events[ev_id].port_boxes[port_box_id].output_type;
     
-    editor.drawflow.drawflow[module].data[id].data.events[ev_id].port_boxes[port_box_id].port_name = "Out_"+output_number;
+    editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node = output_number;
     
     editor.addNodeOutput(id);
-    assignPort(id, "OUT", output_number, output_type, ev_id, port_box_id);
 
-    console.log("addOutputPort("+id+","+ev_id+","+port_box_id+")");
-    console.log(editor);
-}
-
-//change an output port based on output_type of a certain port box
-function changeOutputPort(id,ev_id,port_box_id){
-    let output_type = editor.getNodeFromId(id).data.events[ev_id].port_boxes[port_box_id].output_type;
-    Object.keys(editor.getNodeFromId(id).outputs).forEach(output_class =>{
-        if(editor.getNodeFromId(id).outputs[output_class].port_design.associated_event_id == ev_id && editor.getNodeFromId(id).outputs[output_class].port_design.associated_port_box_id == port_box_id){
-            for(let i=connections.length-1; i>=0; i--){
-                if(connections[i].output_id==id && connections[i].event_id==ev_id && connections[i].port_box_id==port_box_id){
-                    editor.removeSingleConnection(id,connections[i].input_id,output_class,"input_1");
-                }
-            }
-            port_id = output_class.slice(7);
-            document.getElementById("node-"+id).childNodes[2].childNodes[(port_id-1)].classList.remove(editor.getNodeFromId(id).outputs[output_class].port_design.color_class);
-            assignPort(id, "OUT", port_id, output_type, ev_id, port_box_id);
-        }
-    });
-
-    console.log("changeOutputPort("+id+","+ev_id+","+port_box_id+")");
+    console.log("addOutputPort("+id+","+port_box_id+")");
     console.log(editor);
 }
 
 //remove an output port linked with a certain port box
-function removeOutputPort(id,ev_id,port_box_id){
+function removePortOutput(id,port_box_id){
 
-    removeOutputPortConnections(id,ev_id,port_box_id);
-
-    for(i=Object.keys(editor.getNodeFromId(id).outputs).length; i>0 ;i--){
-        if(editor.getNodeFromId(id).outputs["output_"+i].port_design.associated_event_id == ev_id && editor.getNodeFromId(id).outputs["output_"+i].port_design.associated_port_box_id == port_box_id){
-            editor.removeNodeOutput(id, "output_"+i);
-            calculateEventOutputPorts(id,ev_id);
-            calculateEventOutputPortsConnections(id , ev_id);
-            break;
+    Object.keys(editor.getNodeFromId(id).data.port_boxes).forEach(iter_port_box_id => {
+        if(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node < editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node){
+            editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node -= 1;
+            editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].port_name = "Out_"+editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node;
+            document.getElementById("port-name-"+id+"-"+iter_port_box_id).value = "Out_"+editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node;
         }
-    }
+    });
+    
+    editor.removeNodeOutput(id, "output_"+editor.getNodeFromId(id).data.port_boxes[port_box_id].associated_output_node);
 
 
-    console.log("removeOutputPort("+id+","+ev_id+","+port_box_id+")");
+    console.log("removeOutputPort("+id+","+port_box_id+")");
     console.log(editor);
 }
 
 
 //CONNECTIONS METHODS
 
-
-//calculate node connections based on port_boxes of the node event
-function calculateEventOutputPortsConnections(id,ev_id){
-    Object.keys(editor.getNodeFromId(id).outputs).forEach(output_class =>{
-        if(editor.getNodeFromId(id).outputs[output_class].port_design.associated_event_id==ev_id){
-            for(let i=0;i<connections.length;i++){
-                if(connections[i].output_id==id && connections[i].event_id==ev_id && connections[i].port_box_id==editor.getNodeFromId(id).outputs[output_class].port_design.associated_port_box_id){
-                    editor.addConnection(connections[i].output_id, connections[i].input_id, output_class, "input_1")
-                }
-            }
-        }
+//take a modelled connections table of a widget
+function getConnectionsTableByNodeId(id){
+    let singleConn = {"port_name":"","output_type":"","linked_target_widgets":[]};
+    let connections = [];
+    Object.keys(editor.getNodeFromId(id).data.port_boxes).forEach(port_box_id =>{
+        let new_conn = JSON.parse(JSON.stringify(singleConn));
+        let output_class = "output_"+editor.getNodeFromId(id).data.port_boxes[port_box_id].associated_output_node;
+        let input_id;
+        new_conn.port_name = editor.getNodeFromId(id).data.port_boxes[port_box_id].port_name;
+        new_conn.output_type = editor.getNodeFromId(id).data.port_boxes[port_box_id].port_type.output_type;
+        Object.keys(editor.getNodeFromId(id).outputs[output_class].connections).forEach(conn_id =>{
+            input_id=editor.getNodeFromId(id).outputs[output_class].connections[conn_id].node;
+            new_conn.linked_target_widgets.push(editor.getNodeFromId(input_id).name);
+        });
+        connections.push(new_conn);
     });
-
-    console.log("calculateEventOutputPortsConnections("+id+","+ev_id+")");
-    console.log(editor);
-}
-
-//add a single port box connection to connections
-function addSinglePortConnection(output_id,ev_id,port_box_id,input_id){
-    let new_connection=JSON.parse(JSON.stringify(dashboard_connection));
-    let check_presence = false;
-    new_connection.output_id = output_id;
-    new_connection.event_id = ev_id;
-    new_connection.port_box_id = port_box_id;
-    new_connection.input_id = input_id;
-
-    for(let i=0;i<connections.length;i++){
-        if(connections[i].output_id==output_id && connections[i].event_id==ev_id && connections[i].port_box_id==port_box_id && connections[i].input_id==input_id){
-            check_presence = true;
-        }
-    }
-
-    if(!check_presence){
-        connections.push(new_connection);
-    }
-
-    console.log("addSinglePortsConnection("+output_id+","+ev_id+","+port_box_id+","+input_id+")");
+    console.log("getConnectionsTableByNodeId("+id+")");
     console.log(connections);
-}
-
-//remove a single port box connection from connections
-function removeSinglePortConnection(output_id,ev_id,port_box_id,input_id){
-    for(let i=0;i<connections.length;i++){
-        if(connections[i].output_id==output_id && connections[i].event_id==ev_id && connections[i].trigger_id==port_box_id && connections[i].input_id==input_id){
-            connections.splice(i,1);
-        }
-    }
-
-    console.log("removeSinglePortsConnection("+output_id+","+ev_id+","+port_box_id+","+input_id+")");
-    console.log(connections);
-}
-
-//remove all connections of a port box from connections
-function removeOutputPortConnections(output_id,ev_id,port_box_id){
-    Object.keys(editor.drawflow.drawflow[module].data).forEach(input_id => {
-        removeSinglePortConnection(output_id,ev_id,port_box_id,input_id);
-    });
-
-    console.log("removeOutputPortsConnections("+output_id+","+ev_id+","+port_box_id+")");
-    console.log(connections);
+    return connections;
 }
 
 
-//USERS METHODS
+
+//USERS METHODS //TODO ALLs
 //methods formalizzation : first insert the code, next check validity and at last for every connection insert triggers
 //possible problems : create code with the same variables name. This can create conflicts if we want to use more than one in an event
 //possible solutions : distinguish every variables create of each events using `+port_name+`_var_name
