@@ -329,6 +329,7 @@ header a {
   background: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
 }
 
 .drawflow .port-red{
