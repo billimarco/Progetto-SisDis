@@ -43,12 +43,26 @@ var port_types = [
     {"output_type": "Action", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-orange"},
     {"output_type": "GPS_coordinates", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-purple"},
     {"output_type": "ResetCommand", "perform_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","OUT"]), "target_widgets_typologies":takeWidgetTypeListFromPortTypes(["IN/OUT","IN"]), "color_class": "port-brown"}
-    //,"color_class": "port-white"
+    //,"color_class": "port-black"
 ];
 
 // TRIAL EXAMPLE
 let dashboard = [
-    {"widget_type":"RadarSeries","widget_name":"w_radar_series_1","ck_editor":``},
+    {"widget_type":"RadarSeries","widget_name":"w_radar_series_1","ck_editor":`function execute(){
+        Var e = JSON.parse(param);
+        Var connections = [{"port_name":"Out_1","output_type":"JSON","linked_target_widgets":[{"widget_name":"w_radar_series_2","widget_type":"RadarSeries"}]},{"port_name":"Out_2","output_type":"JSON","linked_target_widgets":[{"widget_name":"w_single_content_5","widget_type":"SingleContent"}]}];
+    
+        if(e.event == "click"){
+            asdasdsa;
+            BOOOOO;
+        }else if(e.event == "legendItemClick"){
+            
+        }else{
+            sdasdlasd;
+            dsaasdas;
+            sdasd;
+        }
+    }`},
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_2","ck_editor":``},
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_3","ck_editor":``},
     {"widget_type":"CurvedLineSeries","widget_name":"w_curved_line_series_4","ck_editor":``},
@@ -167,13 +181,12 @@ function importDashboard(dashboard){
     editor.clearModuleSelected();
     let splitted_ck_editor;
     for(var i=0;i<dashboard.length;i++){
-        //splitted_ck_editor = splitCKeditorCode(dashboard[i].ck_editor);
-        addNodeToEditor(i+1, dashboard[i].widget_type, dashboard[i].widget_name, "splitted_ck_editor",50+800*(i%3),50+500*(Math.floor(i/3)));
-    }
-    /**for(var i=0;i<dashboard.length;i++){
         splitted_ck_editor = splitCKeditorCode(dashboard[i].ck_editor);
-        addExistingTriggersToNode(i+1, splitted_ck_editor.triggers);
-    }*/
+        addNodeToEditor(i+1, dashboard[i].widget_type, dashboard[i].widget_name, splitted_ck_editor,50+800*(i%3),50+500*(Math.floor(i/3)));
+    }
+    for(var i=0;i<dashboard.length;i++){
+        addExistingPortsToNode(i+1, dashboard[i].ck_editor);
+    }
 
     console.log("importDashboard(dashboard)");
     console.log(dashboard);
@@ -238,93 +251,18 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
         `;
         editor.addNode(name, 1, 0, pos_x, pos_y, widget_data[type].widget_ports , data, html);
     }
-    
-    //NOTE let the switch in case of future different implementation
-    /**
-    switch (type) {
-        case 'RadarSeries':
-            editor.addNode(name, 1, 0, pos_x, pos_y, 'radarseries', data, html);
-            assignPort(id,"IN",1,"External");
-            break;
-
-        case 'TimeTrend':
-            editor.addNode(name, 1, 0, pos_x, pos_y, 'timetrend', data, html);
-            assignPort(id,"IN",1,"External");
-            break;
-
-        case 'CurvedLineSeries':
-            editor.addNode(name, 1, 0, pos_x, pos_y, 'curvedlineseries', data, html);
-            assignPort(id,"IN",1,"External");
-            break;
-
-        case 'PieChart':
-            editor.addNode(name, 1, 0, pos_x, pos_y, 'piechart', data, html);
-            assignPort(id,"IN",1,"External");
-            break;
-
-        case 'BarSeries':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'Map':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'Speedometer':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'GaugeChart':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'Knob':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'NumericKeyboard':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'SingleContent':
-            editor.addNode(name, 1, 0, pos_x, pos_y, 'singlecontent', data, html);
-            assignPort(id,"IN",1,"External");
-            break;
-
-        case 'ExternalContent':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'Table':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'DeviceTable':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'EventTable':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'Button':
-            editor.addNode(name, 0, 0, pos_x, pos_y, 'button', data, html);
-            break;
-
-        case 'OnOffButton':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        case 'ImpulseButton':
-            editor.addNode(name, 1, 3, pos_x, pos_y, 'timetrend', data, html);
-            break;
-
-        default:
-    }
-    */
 
     //add all events of a widget
     addEventsToNodes(id);
+
+    Object.keys(splitted_ck_editor).forEach(ck_id =>{
+        Object.keys(editor.drawflow.drawflow[module].data[id].data.events).forEach(ev_id =>{
+            if(splitted_ck_editor[ck_id].ev_name == editor.drawflow.drawflow[module].data[id].data.events[ev_id].ev_name){
+                editor.drawflow.drawflow[module].data[id].data.events[ev_id].code = splitted_ck_editor[ck_id].code;
+                document.getElementById("code-"+id+"-"+ev_id).innerHTML = splitted_ck_editor[ck_id].code;
+            }
+        });
+    });
 
     console.log("addNodeToEditor("+id+","+type+","+name+","+"splitted_ck_editor"+","+pos_x+","+pos_y+")");
     console.log(editor);
@@ -376,14 +314,13 @@ function switchEventDisplayed(id){
 //TODO incompleted, we have to assume that "e.event" and "else" are only in certain parts of the code (otherwise it doesn't work)
 function splitCKeditorCode(ck_editor){
     let arr = [];
-    let splitted = {"event_name":"","code":"","port_boxes":[]};
+    let splitted = {"ev_name":"","code":""};
     let event_counter = 0;
     let new_splitted = "";
 
     //removing function execute(){}
     ck_editor = ck_editor.trim();
     ck_editor = ck_editor.slice(ck_editor.indexOf("{")+1,ck_editor.lastIndexOf("}"));
-    ck_editor = ck_editor.slice(ck_editor.indexOf(";")+1);
     ck_editor = ck_editor.trim();
 
     //take events codes and triggers
@@ -392,11 +329,11 @@ function splitCKeditorCode(ck_editor){
         ck_editor = ck_editor.slice(ck_editor.indexOf("e.event"));
         ck_editor = ck_editor.slice(ck_editor.indexOf("\"")+1);
 
-        new_splitted["event_name"] = ck_editor.slice(0,ck_editor.indexOf("\""));
+        new_splitted["ev_name"] = ck_editor.slice(0,ck_editor.indexOf("\""));
 
         ck_editor = ck_editor.slice(ck_editor.indexOf("{")+1);
 
-        takeEventCodeAndTriggers();
+        takeEventCode();
 
         arr.push(new_splitted);
         event_counter++;
@@ -405,55 +342,27 @@ function splitCKeditorCode(ck_editor){
 
     //take externalCommands codes and triggers
     new_splitted = JSON.parse(JSON.stringify(splitted));
-    new_splitted["event_name"] = "externalCommands";
+    new_splitted["ev_name"] = "externalCommands";
 
     if(event_counter != 0){
         ck_editor = ck_editor.slice(ck_editor.indexOf("{")+1);
     }
 
-    takeEventCodeAndTriggers();
+    takeEventCode();
     arr.push(new_splitted);
     event_counter++;
     
 
-    //Internal function for take code and triggers code //TODO
-    function takeEventCodeAndTriggers(){
-        if(ck_editor.indexOf("$('body').trigger") > ck_editor.indexOf("else") && ck_editor.indexOf("else")!=-1){
-            new_splitted["code"] = ck_editor.slice(0,ck_editor.indexOf("else"));
-            new_splitted["code"] = new_splitted["code"].slice(0,new_splitted["code"].lastIndexOf("}"));
-        } else {
-            new_splitted["code"] = ck_editor.slice(0,ck_editor.indexOf("$('body').trigger"));
-
-            ck_editor = ck_editor.slice(ck_editor.indexOf("$('body').trigger"));
-
-            let trigger_code = ck_editor.slice(ck_editor.indexOf("$('body').trigger"),ck_editor.indexOf("else"));
-            let trigger, trigger_number = 0;
-            while(trigger_code.indexOf("$('body').trigger")!=-1){
-                new_splitted.triggers[trigger_number] = {};
-
-                //removing $('body').trigger({});
-                trigger = trigger_code.slice(trigger_code.indexOf("{")+1,trigger_code.indexOf("}"))
-                trigger = trigger.trim();
-
-                //split fields
-                let array = trigger.split(",");
-                for(let i=0;i<array.length;i++){
-                    field = array[i].slice(0,array[i].indexOf(":")).trim();
-                    value = array[i].slice(array[i].indexOf(":")+1).trim();
-                    if(value.indexOf("\"")!=-1){
-                        value = value.slice(value.indexOf("\"")+1, value.lastIndexOf("\""));
-                        if(field=="type")
-                            value = value.slice(0, value.indexOf("_"));
-                    }
-                    new_splitted.triggers[trigger_number][field] = value;
-                }
-
-                //take next trigger
-                trigger_code = trigger_code.slice(1);
-                trigger_code = trigger_code.slice(trigger_code.indexOf("$('body').trigger"));
-                trigger_number++;
-            }
-        }
+    //Internal function for take code and triggers code //TODO could be problems with if else
+    function takeEventCode(){
+        let ev_code = ck_editor.slice(0,ck_editor.indexOf("else"));
+        ev_code = ev_code.slice(0,ev_code.lastIndexOf("}"));
+        ev_code = ev_code.trim();
+        let code_strings = [];
+        code_strings = ev_code.split("\n");
+        for (let i=0 ; i < code_strings.length; i++){
+            new_splitted["code"] += code_strings[i].trim()+"\n";
+        };
     }
 
 
@@ -463,18 +372,29 @@ function splitCKeditorCode(ck_editor){
     return arr;
 }
 
-//add existing ports to a node event finded into a splitted code//TODO
-function addExistingPortsToNode(id,ports){
-    let trigger;
-    for(let i=0;i< Object.keys(triggers).length;i++){
-        for(let j=0;j < port_types.length;j++)
-            if(port_types[j].type==triggers[i].type)
-                trigger=port_types[j];
-        trigger["target_widget"] = triggers[i].targetWidget;
-        addPortBox(id,trigger);
+//add existing ports to a node event finded into a splitted code
+function addExistingPortsToNode(id,ck_editor){
+    let tableConnections = ck_editor.slice(ck_editor.indexOf("Var connections"));
+    tableConnections = tableConnections.slice(tableConnections.indexOf("=")+1,tableConnections.indexOf(";"));
+    if(tableConnections != ""){
+        let jsonPortsConnections = JSON.parse(tableConnections);
+        Object.keys(jsonPortsConnections).forEach(port_id =>{
+            for(let i=0;i<port_types.length;i++)
+                if(port_types[i].output_type == jsonPortsConnections[port_id].output_type){
+                    addPortBox(id,port_types[i]);
+                    let output_class = parseInt(port_id)+1;
+                    Object.keys(jsonPortsConnections[port_id].linked_target_widgets).forEach(target_id =>{
+                        for(let input_id=1;input_id<=Object.keys(editor.drawflow.drawflow[module].data).length;input_id++)
+                            if(editor.drawflow.drawflow[module].data[input_id].name == jsonPortsConnections[port_id].linked_target_widgets[target_id].widget_name){
+                                editor.addConnection(id,input_id,"output_"+output_class,"input_1");
+                                break;
+                            }
+                    });
+                    break;
+                }
+        });
     }
-
-    console.log("addExistingTriggersToNode("+id+",triggers)");
+    console.log("addExistingTriggersToNode("+id+",ck_editor)");
     console.log(editor);
 }
 

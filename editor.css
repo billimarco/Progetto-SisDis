@@ -182,11 +182,12 @@ header a {
 
 .drawflow .drawflow-node .output {
   right: 10px;
+  background: var(--primary-color);
 }
 
 .drawflow .drawflow-node .input {
   left: -10px;
-  background: white;
+  background: var(--primary-color);
 }
 
 .drawflow-delete {
