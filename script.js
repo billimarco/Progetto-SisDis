@@ -9,381 +9,13 @@ editor.start();
 
 
 //COPY MODELS
-var sendFunctions = `function sendSURI(port_name, jsonData){
+
+/**HOW TO CONSTRUCT A FUNCTION
+function sendFunction(port_name, ....){
+
     //data code
-    var data = [];
-    data[0] = {};
-    var coordsAndType = [];
-    coordsAndType[0] = {};
-    var serviceUri = "";
-    if (jsonData.value.metricName.includes(":")) {
-        serviceUri = "http://www.disit.org/km4city/resource/iot/" + jsonData.value.metricName.split(":")[1] + "/" + jsonData.value.metricName.split(":")[0] + "/" + jsonData.value.metricName.split(":")[2];
-        data[0].metricId = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
-        data[0].metricHighLevelType = "IoT Device Variable";
-        coordsAndType[0].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
-        coordsAndType[0].queryType = "Default";
-    } else {
-        serviceUri = jsonData.value.metricId;
-        data[0].metricId = serviceUri;
-        data[0].metricHighLevelType = "MyKPI";
-        coordsAndType[0].query = "datamanager/api/v1/poidata/" + serviceUri;
-        coordsAndType[0].queryType = "MyPOI";
-    }
-    data[0].metricName = jsonData.value.metricName;
-    data[0].metricType = jsonData.value.metricType;
-    data[0].smField = jsonData.value.metricType;
-    data[0].serviceUri = serviceUri;
-
-    coordsAndType[0].desc = data[0].metricName;
-    coordsAndType[0].color1 = "#ebb113";
-    coordsAndType[0].color2 = "#eb8a13";
+    ....
     //end data code
-    
-    
-    //Find and check validity of the specific port of an event of a widget
-    let check_validity = false,conn_id;
-    Object.keys(connections).forEach(id => {
-        if(connections[id].port_name == port_name){
-            if(connections[id].output_type == "SURI"){
-                conn_id = id;
-                check_validity = true;
-            }
-        }       
-    });
-
-    if(check_validity){
-        let widget_type,widget_name;
-        for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
-                
-            widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
-            widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
-            
-            switch (widget_type) {
-                case 'RadarSeries':
-                    break;
-        
-                case 'TimeTrend':
-                    break;
-        
-                case 'CurvedLineSeries':
-                    $('body').trigger({
-                        type: "showCurvedLinesFromExternalContent_" + widget_name,	
-                        targetWidget: widget_name,
-                        field: data[0].smField,
-                        passedData: data
-                    });	        
-                    break;
-        
-                case 'PieChart':
-                    break;
-        
-                case 'BarSeries':
-                    break;
-        
-                case 'Map':
-                    for (let n=0; n<coordsAndType.length; n++) {
-                        $('body').trigger({
-                            type: "addSelectorPin",
-                            target: widget_name,
-                            passedData: coordsAndType[n]
-                        });
-                    }
-                    break;
-        
-                case 'Speedometer':
-                    break;
-        
-                case 'GaugeChart':
-                    break;
-        
-                case 'Knob':
-                    break;
-        
-                case 'NumericKeyboard':
-                    break;
-        
-                case 'SingleContent':
-                    break;
-        
-                case 'ExternalContent':
-                    break;
-        
-                case 'Table':
-                    break;
-        
-                case 'DeviceTable':
-                    break;
-        
-                case 'EventTable':
-                    break;
-        
-                case 'Button':
-                    break;
-        
-                case 'OnOffButton':
-                    break;
-        
-                case 'ImpulseButton':
-                    break;
-        
-                default:
-            }
-        }
-    }
-}
-
-function sendListSURIandMetrics(port_name, jsonData){
-    //data code
-    var coordsAndType = [];
-    var data = [];
-    var h = 0;
-    var i = 0;
-    var serviceUri = "";
-    for (var l in jsonData.layers) {
-        if (!jsonData.layers[l].visible || (jsonData.layers[l].visible == true)) {
-            coordsAndType[i] = {};
-            coordsAndType[i].desc = jsonData.layers[l].name;
-            coordsAndType[i].color1 = "#ebb113";
-            coordsAndType[i].color2 = "#eb8a13";
-            if (!jsonData.metrics || jsonData.metrics.length<1) {
-                if (jsonData.layers[l].realtimeAttributes) {
-                    jsonData.metrics = Object.keys(jsonData.layers[l].realtimeAttributes);
-                }
-                if (jsonData.layers[l].kpidata) {
-                    jsonData.metrics = jsonData.layers[l].name;
-                }
-            }
-            for (var m in jsonData.metrics) {
-                data[h] = {};
-                if (jsonData.layers[l].name.includes(":")) {
-                    serviceUri = "http://www.disit.org/km4city/resource/iot/" + jsonData.layers[l].name.split(":")[1] + "/" + jsonData.layers[l].name.split(":")[0] + "/" + jsonData.layers[l].name.split(":")[2];
-                    data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + serviceUri + "&format=json";
-                    data[h].metricHighLevelType = "IoT Device Variable";
-                    coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
-                    coordsAndType[i].queryType = "Default";
-                } else if ((jsonData.layers[l].brokerName && jsonData.layers[l].brokerName != "") && (jsonData.layers[l].organization && jsonData.layers[l].organization != "")) {
-                    serviceUri = "http://www.disit.org/km4city/resource/iot/"+ jsonData.layers[l].brokerName + "/" + jsonData.layers[l].organization + "/" + jsonData.layers[l].name;
-                    data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + serviceUri + "&format=json";
-                    data[h].metricHighLevelType = "IoT Device Variable";
-                    coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
-                    coordsAndType[i].queryType = "Default";
-                } else if (jsonData.layers[l].serviceUri && jsonData.layers[l].serviceUri != "") {
-                    serviceUri = jsonData.layers[l].serviceUri;
-                    data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + serviceUri + "&format=json";
-                    data[h].metricHighLevelType = "IoT Device Variable";
-                    coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
-                    coordsAndType[i].queryType = "Default";
-                } else {
-                    if (jsonData.layers[l].name.includes("_")) {
-                        serviceUri = "datamanager/api/v1/poidata/" + jsonData.layers[l].name.split("_")[1];
-                    } else {
-                        serviceUri = "datamanager/api/v1/poidata/" + jsonData.layers[l].name;
-                    }
-                    data[h].metricId = serviceUri;
-                    data[h].metricHighLevelType = "MyKPI";
-                    coordsAndType[i].query = serviceUri;
-                    coordsAndType[i].queryType = "MyPOI";
-                }
-                data[h].metricName = jsonData.layers[l].name;
-                data[h].metricType = jsonData.metrics[m];
-                data[h].smField = jsonData.metrics[m];
-                data[h].serviceUri = serviceUri;
-                
-                h++;
-            }
-            i++;
-        }
-    }
-    //end data code
-    
-    //Find and check validity of the specific port of an event of a widget
-    let check_validity = false,conn_id;
-    Object.keys(connections).forEach(id => {
-        if(connections[id].port_name == port_name){
-            if(connections[id].output_type == "ListSURI"){
-                conn_id = id;
-                check_validity = true;
-            }
-        }       
-    });
-
-    if(check_validity){
-        let widget_type,widget_name;
-        for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
-                
-            widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
-            widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
-                
-            switch (widget_type) {
-                case 'RadarSeries':
-                    break;
-        
-                case 'TimeTrend':
-                    break;
-        
-                case 'CurvedLineSeries':
-                    $('body').trigger({
-                        type: "showCurvedLinesFromExternalContent_" + widget_name,	
-                        targetWidget: widget_name,
-                        passedData: data
-                    });
-                    break;
-        
-                case 'PieChart':
-                    break;
-        
-                case 'BarSeries':
-                    break;
-        
-                case 'Map':
-                    for (let n=0; n<coordsAndType.length; n++) {
-                        $('body').trigger({
-                            type: "addSelectorPin",
-                            target: widget_name,
-                            passedData: coordsAndType[n]
-                        });
-                    }
-                    break;
-        
-                case 'Speedometer':
-                    break;
-        
-                case 'GaugeChart':
-                    break;
-        
-                case 'Knob':
-                    break;
-        
-                case 'NumericKeyboard':
-                    break;
-        
-                case 'SingleContent':
-                    break;
-        
-                case 'ExternalContent':
-                    break;
-        
-                case 'Table':
-                    break;
-        
-                case 'DeviceTable':
-                    break;
-        
-                case 'EventTable':
-                    break;
-        
-                case 'Button':
-                    break;
-        
-                case 'OnOffButton':
-                    break;
-        
-                case 'ImpulseButton':
-                    break;
-        
-                default:
-            }
-
-        }
-    }
-}
-
-function sendTimeRange(port_name, jsonData){
-
-    var minT = jsonData["t1"];
-    var maxT = jsonData["t2"];
-    var dt1 = new Date(minT);
-    var dt1_iso = dt1.toISOString().split(".")[0];
-    var dt2 = new Date(maxT);
-    var dt2_iso = dt2.toISOString().split(".")[0];
-    
-    //Find and check validity of the specific port of an event of a widget
-    let check_validity = false,conn_id;
-    Object.keys(connections).forEach(id => {
-        if(connections[id].port_name == port_name){
-            if(connections[id].output_type == "DateTime_Interval"){
-                conn_id = id;
-                check_validity = true;
-            }
-        }       
-    });
-
-    if(check_validity){
-        let widget_type,widget_name;
-        for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
-                
-            widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
-            widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
-                
-            switch (widget_type) {
-                case 'RadarSeries':
-                    break;
-        
-                case 'TimeTrend':
-                    break;
-        
-                case 'CurvedLineSeries':
-                    $('body').trigger({
-                        type: "showCurvedLinesFromExternalContent_" + widget_name,	
-                        targetWidget: widget_name,
-                        t1: dt1_iso,
-                        t2: dt2_iso
-                    });
-                    break;
-        
-                case 'PieChart':
-                    break;
-        
-                case 'BarSeries':
-                    break;
-        
-                case 'Map':
-                    break;
-        
-                case 'Speedometer':
-                    break;
-        
-                case 'GaugeChart':
-                    break;
-        
-                case 'Knob':
-                    break;
-        
-                case 'NumericKeyboard':
-                    break;
-        
-                case 'SingleContent':
-                    break;
-        
-                case 'ExternalContent':
-                    break;
-        
-                case 'Table':
-                    break;
-        
-                case 'DeviceTable':
-                    break;
-        
-                case 'EventTable':
-                    break;
-        
-                case 'Button':
-                    break;
-        
-                case 'OnOffButton':
-                    break;
-        
-                case 'ImpulseButton':
-                    break;
-        
-                default:
-            }
-
-        }
-    }
-}
-
-function sendJSON(port_name, jsonData){
     
     //Find and check validity of the specific port of an event of a widget
     let check_validity = false,conn_id;
@@ -411,11 +43,6 @@ function sendJSON(port_name, jsonData){
                     break;
         
                 case 'CurvedLineSeries':
-                    $('body').trigger({
-                        type: "showCurvedLinesFromExternalContent_" + widget_name,	
-                        targetWidget: widget_name,
-                        passedData: jsonData
-                    });	
                     break;
         
                 case 'PieChart':
@@ -468,7 +95,468 @@ function sendJSON(port_name, jsonData){
 
         }
     }
-}`;
+}
+*/
+var functions = [
+    {"func_name":"sendSURI", "func_code":`function sendSURI(port_name, jsonData){
+        //data code
+        var data = [];
+        data[0] = {};
+        var coordsAndType = [];
+        coordsAndType[0] = {};
+        var serviceUri = "";
+        if (jsonData.value.metricName.includes(":")) {
+            serviceUri = "http://www.disit.org/km4city/resource/iot/" + jsonData.value.metricName.split(":")[1] + "/" + jsonData.value.metricName.split(":")[0] + "/" + jsonData.value.metricName.split(":")[2];
+            data[0].metricId = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
+            data[0].metricHighLevelType = "IoT Device Variable";
+            coordsAndType[0].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
+            coordsAndType[0].queryType = "Default";
+        } else {
+            serviceUri = jsonData.value.metricId;
+            data[0].metricId = serviceUri;
+            data[0].metricHighLevelType = "MyKPI";
+            coordsAndType[0].query = "datamanager/api/v1/poidata/" + serviceUri;
+            coordsAndType[0].queryType = "MyPOI";
+        }
+        data[0].metricName = jsonData.value.metricName;
+        data[0].metricType = jsonData.value.metricType;
+        data[0].smField = jsonData.value.metricType;
+        data[0].serviceUri = serviceUri;
+    
+        coordsAndType[0].desc = data[0].metricName;
+        coordsAndType[0].color1 = "#ebb113";
+        coordsAndType[0].color2 = "#eb8a13";
+        //end data code
+        
+        
+        //Find and check validity of the specific port of an event of a widget
+        let check_validity = false,conn_id;
+        Object.keys(connections).forEach(id => {
+            if(connections[id].port_name == port_name){
+                if(connections[id].output_type == "SURI"){
+                    conn_id = id;
+                    check_validity = true;
+                }
+            }       
+        });
+    
+        if(check_validity){
+            let widget_type,widget_name;
+            for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
+                    
+                widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
+                widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
+                
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        break;
+            
+                    case 'TimeTrend':
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        $('body').trigger({
+                            type: "showCurvedLinesFromExternalContent_" + widget_name,	
+                            targetWidget: widget_name,
+                            field: data[0].smField,
+                            passedData: data
+                        });	        
+                        break;
+            
+                    case 'PieChart':
+                        break;
+            
+                    case 'BarSeries':
+                        break;
+            
+                    case 'Map':
+                        for (let n=0; n<coordsAndType.length; n++) {
+                            $('body').trigger({
+                                type: "addSelectorPin",
+                                target: widget_name,
+                                passedData: coordsAndType[n]
+                            });
+                        }
+                        break;
+            
+                    case 'Speedometer':
+                        break;
+            
+                    case 'GaugeChart':
+                        break;
+            
+                    case 'Knob':
+                        break;
+            
+                    case 'NumericKeyboard':
+                        break;
+            
+                    case 'SingleContent':
+                        break;
+            
+                    case 'ExternalContent':
+                        break;
+            
+                    case 'Table':
+                        break;
+            
+                    case 'DeviceTable':
+                        break;
+            
+                    case 'EventTable':
+                        break;
+            
+                    case 'Button':
+                        break;
+            
+                    case 'OnOffButton':
+                        break;
+            
+                    case 'ImpulseButton':
+                        break;
+            
+                    default:
+                }
+            }
+        }
+    }`},
+    {"func_name":"sendListSURIandMetrics", "func_code":`function sendListSURIandMetrics(port_name, jsonData){
+        //data code
+        var coordsAndType = [];
+        var data = [];
+        var h = 0;
+        var i = 0;
+        var serviceUri = "";
+        for (var l in jsonData.layers) {
+            if (!jsonData.layers[l].visible || (jsonData.layers[l].visible == true)) {
+                coordsAndType[i] = {};
+                coordsAndType[i].desc = jsonData.layers[l].name;
+                coordsAndType[i].color1 = "#ebb113";
+                coordsAndType[i].color2 = "#eb8a13";
+                if (!jsonData.metrics || jsonData.metrics.length<1) {
+                    if (jsonData.layers[l].realtimeAttributes) {
+                        jsonData.metrics = Object.keys(jsonData.layers[l].realtimeAttributes);
+                    }
+                    if (jsonData.layers[l].kpidata) {
+                        jsonData.metrics = jsonData.layers[l].name;
+                    }
+                }
+                for (var m in jsonData.metrics) {
+                    data[h] = {};
+                    if (jsonData.layers[l].name.includes(":")) {
+                        serviceUri = "http://www.disit.org/km4city/resource/iot/" + jsonData.layers[l].name.split(":")[1] + "/" + jsonData.layers[l].name.split(":")[0] + "/" + jsonData.layers[l].name.split(":")[2];
+                        data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + serviceUri + "&format=json";
+                        data[h].metricHighLevelType = "IoT Device Variable";
+                        coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
+                        coordsAndType[i].queryType = "Default";
+                    } else if ((jsonData.layers[l].brokerName && jsonData.layers[l].brokerName != "") && (jsonData.layers[l].organization && jsonData.layers[l].organization != "")) {
+                        serviceUri = "http://www.disit.org/km4city/resource/iot/"+ jsonData.layers[l].brokerName + "/" + jsonData.layers[l].organization + "/" + jsonData.layers[l].name;
+                        data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + serviceUri + "&format=json";
+                        data[h].metricHighLevelType = "IoT Device Variable";
+                        coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
+                        coordsAndType[i].queryType = "Default";
+                    } else if (jsonData.layers[l].serviceUri && jsonData.layers[l].serviceUri != "") {
+                        serviceUri = jsonData.layers[l].serviceUri;
+                        data[h].metricId = "https://www.disit.org/superservicemap/api/v1/?serviceUri=" + serviceUri + "&format=json";
+                        data[h].metricHighLevelType = "IoT Device Variable";
+                        coordsAndType[i].query = "https://www.disit.org/superservicemap//api/v1/?serviceUri=" + serviceUri + "&format=json";
+                        coordsAndType[i].queryType = "Default";
+                    } else {
+                        if (jsonData.layers[l].name.includes("_")) {
+                            serviceUri = "datamanager/api/v1/poidata/" + jsonData.layers[l].name.split("_")[1];
+                        } else {
+                            serviceUri = "datamanager/api/v1/poidata/" + jsonData.layers[l].name;
+                        }
+                        data[h].metricId = serviceUri;
+                        data[h].metricHighLevelType = "MyKPI";
+                        coordsAndType[i].query = serviceUri;
+                        coordsAndType[i].queryType = "MyPOI";
+                    }
+                    data[h].metricName = jsonData.layers[l].name;
+                    data[h].metricType = jsonData.metrics[m];
+                    data[h].smField = jsonData.metrics[m];
+                    data[h].serviceUri = serviceUri;
+                    
+                    h++;
+                }
+                i++;
+            }
+        }
+        //end data code
+        
+        //Find and check validity of the specific port of an event of a widget
+        let check_validity = false,conn_id;
+        Object.keys(connections).forEach(id => {
+            if(connections[id].port_name == port_name){
+                if(connections[id].output_type == "ListSURI"){
+                    conn_id = id;
+                    check_validity = true;
+                }
+            }       
+        });
+    
+        if(check_validity){
+            let widget_type,widget_name;
+            for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
+                    
+                widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
+                widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
+                    
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        break;
+            
+                    case 'TimeTrend':
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        $('body').trigger({
+                            type: "showCurvedLinesFromExternalContent_" + widget_name,	
+                            targetWidget: widget_name,
+                            passedData: data
+                        });
+                        break;
+            
+                    case 'PieChart':
+                        break;
+            
+                    case 'BarSeries':
+                        break;
+            
+                    case 'Map':
+                        for (let n=0; n<coordsAndType.length; n++) {
+                            $('body').trigger({
+                                type: "addSelectorPin",
+                                target: widget_name,
+                                passedData: coordsAndType[n]
+                            });
+                        }
+                        break;
+            
+                    case 'Speedometer':
+                        break;
+            
+                    case 'GaugeChart':
+                        break;
+            
+                    case 'Knob':
+                        break;
+            
+                    case 'NumericKeyboard':
+                        break;
+            
+                    case 'SingleContent':
+                        break;
+            
+                    case 'ExternalContent':
+                        break;
+            
+                    case 'Table':
+                        break;
+            
+                    case 'DeviceTable':
+                        break;
+            
+                    case 'EventTable':
+                        break;
+            
+                    case 'Button':
+                        break;
+            
+                    case 'OnOffButton':
+                        break;
+            
+                    case 'ImpulseButton':
+                        break;
+            
+                    default:
+                }
+    
+            }
+        }
+    }`},
+    {"func_name":"sendTimeRange", "func_code":`function sendTimeRange(port_name, jsonData){
+
+        var minT = jsonData["t1"];
+        var maxT = jsonData["t2"];
+        var dt1 = new Date(minT);
+        var dt1_iso = dt1.toISOString().split(".")[0];
+        var dt2 = new Date(maxT);
+        var dt2_iso = dt2.toISOString().split(".")[0];
+        
+        //Find and check validity of the specific port of an event of a widget
+        let check_validity = false,conn_id;
+        Object.keys(connections).forEach(id => {
+            if(connections[id].port_name == port_name){
+                if(connections[id].output_type == "DateTime_Interval"){
+                    conn_id = id;
+                    check_validity = true;
+                }
+            }       
+        });
+    
+        if(check_validity){
+            let widget_type,widget_name;
+            for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
+                    
+                widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
+                widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
+                    
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        break;
+            
+                    case 'TimeTrend':
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        $('body').trigger({
+                            type: "showCurvedLinesFromExternalContent_" + widget_name,	
+                            targetWidget: widget_name,
+                            t1: dt1_iso,
+                            t2: dt2_iso
+                        });
+                        break;
+            
+                    case 'PieChart':
+                        break;
+            
+                    case 'BarSeries':
+                        break;
+            
+                    case 'Map':
+                        break;
+            
+                    case 'Speedometer':
+                        break;
+            
+                    case 'GaugeChart':
+                        break;
+            
+                    case 'Knob':
+                        break;
+            
+                    case 'NumericKeyboard':
+                        break;
+            
+                    case 'SingleContent':
+                        break;
+            
+                    case 'ExternalContent':
+                        break;
+            
+                    case 'Table':
+                        break;
+            
+                    case 'DeviceTable':
+                        break;
+            
+                    case 'EventTable':
+                        break;
+            
+                    case 'Button':
+                        break;
+            
+                    case 'OnOffButton':
+                        break;
+            
+                    case 'ImpulseButton':
+                        break;
+            
+                    default:
+                }
+    
+            }
+        }
+    }`},
+    {"func_name":"sendJSON", "func_code":`function sendJSON(port_name, jsonData){
+    
+        //Find and check validity of the specific port of an event of a widget
+        let check_validity = false,conn_id;
+        Object.keys(connections).forEach(id => {
+            if(connections[id].port_name == port_name){
+                if(connections[id].output_type == "JSON"){
+                    conn_id = id;
+                    check_validity = true;
+                }
+            }       
+        });
+    
+        if(check_validity){
+            let widget_type,widget_name;
+            for(let i=0; i<connections[conn_id].linked_target_widgets.length;i++){
+                    
+                widget_type = connections[conn_id].linked_target_widgets[i].widget_type;
+                widget_name = connections[conn_id].linked_target_widgets[i].widget_name;
+                    
+                switch (widget_type) {
+                    case 'RadarSeries':
+                        break;
+            
+                    case 'TimeTrend':
+                        break;
+            
+                    case 'CurvedLineSeries':
+                        $('body').trigger({
+                            type: "showCurvedLinesFromExternalContent_" + widget_name,	
+                            targetWidget: widget_name,
+                            passedData: jsonData
+                        });	
+                        break;
+            
+                    case 'PieChart':
+                        break;
+            
+                    case 'BarSeries':
+                        break;
+            
+                    case 'Map':
+                        break;
+            
+                    case 'Speedometer':
+                        break;
+            
+                    case 'GaugeChart':
+                        break;
+            
+                    case 'Knob':
+                        break;
+            
+                    case 'NumericKeyboard':
+                        break;
+            
+                    case 'SingleContent':
+                        break;
+            
+                    case 'ExternalContent':
+                        break;
+            
+                    case 'Table':
+                        break;
+            
+                    case 'DeviceTable':
+                        break;
+            
+                    case 'EventTable':
+                        break;
+            
+                    case 'Button':
+                        break;
+            
+                    case 'OnOffButton':
+                        break;
+            
+                    case 'ImpulseButton':
+                        break;
+            
+                    default:
+                }
+    
+            }
+        }
+    }`},
+
+]
 
 var widget_data = {
     "RadarSeries" : {"widget_ports":"IN/OUT", "widget_type":"RadarSeries", "next_port_box": 0, "port_boxes":{}, "events":{"external_commands":{"ev_name":"externalCommands","code":""},"click":{"ev_name":"click","code":""},"legend_item_click":{"ev_name":"legendItemClick","code":""}}},
@@ -509,7 +597,7 @@ var port_types = [
 let dashboard = [
     {"widget_type":"RadarSeries","widget_name":"w_radar_series_1","ck_editor":`function execute(){
         Var e = JSON.parse(param);
-        Var connections = [{"port_name":"Out_1","output_type":"JSON","linked_target_widgets":[{"widget_name":"w_radar_series_2","widget_type":"RadarSeries"}]},{"port_name":"Out_2","output_type":"JSON","linked_target_widgets":[{"widget_name":"w_single_content_5","widget_type":"SingleContent"}]}];
+        Var connections = [{"port_name":"Pippo","output_type":"JSON","linked_target_widgets":[{"widget_name":"w_radar_series_2","widget_type":"RadarSeries"}]},{"port_name":"Out_2","output_type":"JSON","linked_target_widgets":[{"widget_name":"w_single_content_5","widget_type":"SingleContent"}]}];
     
         if(e.event == "click"){
             asdasdsa;
@@ -641,10 +729,13 @@ function addNodeToEditor(id, type, name, splitted_ck_editor , pos_x, pos_y){
                             <select id="events-select-`+id+`" onchange="switchEventDisplayed(`+id+`)"></select>
                         </div>
                     </div>
-                    <button onclick="addPortBox(`+id+`)" class="btn-add-port-box">add output port</button>
                 </div>
                 <div class="widget-body-forty">
                     <div id="ports-room-`+id+`" class="ports-room"></div>
+                    <div id="create-ports-`+id+`" class="create-ports">
+                        <label>Output Port Creator</label>
+                        <input id="new-port-name-`+id+`" type="text" class="bottom-separator" placeholder="name"></input>
+                        <button onclick="addPortBox(`+id+`, document.getElementById('new-port-name-`+id+`').value)" class="btn-add-port-box">add output port</button>
                     </div>
                 </div>
             </div>
@@ -703,7 +794,7 @@ function addEventsToNodes(id){
     Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_name => {
         node_select_event.insertAdjacentHTML("beforeend",`<option value=`+ev_name+`>`+ev_name+`</option>`);
         node_event_room.insertAdjacentHTML("beforeend",`
-                <div id="code-room-`+id+`-`+ev_name+`" class="widget-body-element-code-room bottom-separator">
+                <div id="code-room-`+id+`-`+ev_name+`" class="widget-body-element-code-room">
                     <label for="code-`+id+`-`+ev_name+`">Code</label>
                     <textarea id="code-`+id+`-`+ev_name+`" df-events-`+ev_name+`-code class="widget-body-element-code-box"></textarea>
                 </div>
@@ -808,7 +899,7 @@ function addExistingPortsToNode(id,ck_editor){
         Object.keys(jsonPortsConnections).forEach(port_id =>{
             for(let i=0;i<port_types.length;i++)
                 if(port_types[i].output_type == jsonPortsConnections[port_id].output_type){
-                    addPortBox(id,port_types[i]);
+                    addPortBox(id,jsonPortsConnections[port_id].port_name,port_types[i]);
                     let output_class = parseInt(port_id)+1;
                     Object.keys(jsonPortsConnections[port_id].linked_target_widgets).forEach(target_id =>{
                         for(let input_id=1;input_id<=Object.keys(editor.drawflow.drawflow[module].data).length;input_id++)
@@ -851,7 +942,9 @@ function rebuildCKeditorCode(id){
     let rebuilded = "function execute(){\n\n";
     rebuilded += "\t".repeat(tab_counter) + "Var e = JSON.parse(param);\n";
     rebuilded += "\t".repeat(tab_counter) + "Var connections = " + JSON.stringify(getConnectionsTableByNodeId(id)) + ";\n\n";
-    formatCode(sendFunctions);
+    Object.keys(functions).forEach(id =>{
+        formatCode(functions[id].func_code);
+    });
     rebuilded += "\n";
     Object.keys(node.data.events).forEach(ev_id => {
         if(ev_id != "external_commands"){
@@ -904,56 +997,71 @@ function rebuildCKeditorCode(id){
 
 //PORTBOX METHODS
 
-
 //add a port box to a node event
-function addPortBox(id,port_type=port_types[0]){
+function addPortBox(id,port_name,port_type=port_types[0]){
+    let check_name_validity = true;
 
-    //Add a new port box to node.data.port_boxes
-    let port_box_id = editor.drawflow.drawflow[module].data[id].data.next_port_box;
-    let new_port_box = JSON.parse(JSON.stringify(port_box));
-    new_port_box.port_type = JSON.parse(JSON.stringify(port_type));
-    editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id] = new_port_box;
-    editor.drawflow.drawflow[module].data[id].data.next_port_box += 1;
-    addPortOutput(id,port_box_id);
-    editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].port_name = "Out_"+(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node)
+    //Check if port name is available and valid
+    if(port_name == ""){
+        check_name_validity = false;
+    }
+    Object.keys(editor.drawflow.drawflow[module].data[id].data.port_boxes).forEach(port_box_id =>{
+        if(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].port_name == port_name){
+            check_name_validity = false;
+        }
+    });
 
-    //Modify node HTML with a new port box form
-    let portBoxRoom = document.getElementById("ports-room-"+id);
-    portBoxRoom.insertAdjacentHTML("beforeend",`
-    <div class="port-box accordion-item" id="port-box-`+id+"-"+port_box_id+`">
-        <div class="accordion-header">
-            <button id="port-button-`+id+"-"+port_box_id+`" class="accordion-button port-box-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse`+id+"-"+port_box_id+`" aria-expanded="true" aria-controls="collapse`+id+"-"+port_box_id+`">
-                <input id="port-name-`+id+"-"+port_box_id+`" type="text" value="Out_`+(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node)+`" df-port_boxes-`+port_box_id+`-port_name class="port-box-name" readonly></input>
-            </button>
-        </div>
-        <div id="collapse`+id+"-"+port_box_id+`" class="accordion-collapse collapse" data-bs-parent="#ports-room-`+id+`">
-            <div class="accordion-body">
-                <div class="separator">
-                    <label for="output-type-`+id+"-"+port_box_id+`">OutputType</label>
-                    <select onchange="changePortBoxType(`+id+`,`+port_box_id+`)" id="output-type-`+id+"-"+port_box_id+`" type="text"></select>
+    if(check_name_validity){
+        //Add a new port box to node.data.port_boxes
+        let port_box_id = editor.drawflow.drawflow[module].data[id].data.next_port_box;
+        let new_port_box = JSON.parse(JSON.stringify(port_box));
+        new_port_box.port_type = JSON.parse(JSON.stringify(port_type));
+        editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id] = new_port_box;
+        editor.drawflow.drawflow[module].data[id].data.next_port_box += 1;
+        addPortOutput(id,port_box_id);
+        editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].port_name = port_name;
+
+        //Modify node HTML with a new port box form
+        let portBoxRoom = document.getElementById("ports-room-"+id);
+        portBoxRoom.insertAdjacentHTML("beforeend",`
+        <div class="port-box accordion-item" id="port-box-`+id+"-"+port_box_id+`">
+            <div class="accordion-header">
+                <button id="port-button-`+id+"-"+port_box_id+`" class="accordion-button port-box-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse`+id+"-"+port_box_id+`" aria-expanded="true" aria-controls="collapse`+id+"-"+port_box_id+`">
+                    <input id="port-name-`+id+"-"+port_box_id+`" type="text" value="`+port_name+`" df-port_boxes-`+port_box_id+`-port_name class="port-box-name" readonly></input>
+                </button>
+            </div>
+            <div id="collapse`+id+"-"+port_box_id+`" class="accordion-collapse collapse" data-bs-parent="#ports-room-`+id+`">
+                <div class="accordion-body">
+                    <div class="separator">
+                        <label for="output-type-`+id+"-"+port_box_id+`">OutputType</label>
+                        <select onchange="changePortBoxType(`+id+`,`+port_box_id+`)" id="output-type-`+id+"-"+port_box_id+`" type="text"></select>
+                    </div>
+                    <button onclick="deletePortBox(`+id+`,`+port_box_id+`)" class="btn-delete-port-box">delete</button>
                 </div>
-                <button onclick="deletePortBox(`+id+`,`+port_box_id+`)" class="btn-delete-port-box">delete</button>
             </div>
         </div>
-    </div>
-    `);
+        `);
 
-    document.getElementById("port-button-"+id+"-"+port_box_id).classList.add(port_type.color_class);
+        document.getElementById("port-button-"+id+"-"+port_box_id).classList.add(port_type.color_class);
 
-    //take port box output type list based on widget type
-    let output_type_select = document.getElementById("output-type-"+id+"-"+port_box_id);
-    for(let i=0; i< port_types.length;i++){
-        if(port_types[i].perform_widgets_typologies.includes(editor.getNodeFromId(id).data.widget_type))
-            if(port_types[i].output_type == port_type.output_type){
-                output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_types[i].output_type+`" selected>`+port_types[i].output_type+`</option>`);
-            } else {
-                output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_types[i].output_type+`">`+port_types[i].output_type+`</option>`);
-            }
+        //take port box output type list based on widget type
+        let output_type_select = document.getElementById("output-type-"+id+"-"+port_box_id);
+        for(let i=0; i< port_types.length;i++){
+            if(port_types[i].perform_widgets_typologies.includes(editor.getNodeFromId(id).data.widget_type))
+                if(port_types[i].output_type == port_type.output_type){
+                    output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_types[i].output_type+`" selected>`+port_types[i].output_type+`</option>`);
+                } else {
+                    output_type_select.insertAdjacentHTML("beforeend",`<option value="`+port_types[i].output_type+`">`+port_types[i].output_type+`</option>`);
+                }
+        }
+
+        updateHTMLFromNodeId(id);
+
+    }else{
+        alert("Il seguente nome per il widget scelto è gia stato utilizzato oppure non è valido. Riprovare con un altro nome.")
     }
 
-    updateHTMLFromNodeId(id);
-
-    console.log("addPortBox("+id+",port_box)");
+    console.log("addPortBox("+id+","+port_name+",port_box)");
     console.log(editor);
 }
 
@@ -965,6 +1073,32 @@ function deletePortBox(id,port_box_id){
     removePortOutput(id,port_box_id);
 
     portBoxRoom.remove();
+
+    //remove code that use this port box
+    Object.keys(editor.getNodeFromId(id).data.events).forEach(ev_id => {
+        let old_code = editor.getNodeFromId(id).data.events[ev_id].code;
+        let new_code = "";
+        let del_port_name = "";
+        let parenthesis = /\(".+".*\);/g;
+        Object.keys(functions).forEach(f_id =>{
+            let reg = new RegExp(functions[f_id].func_name + parenthesis.source, "g");
+            while(old_code.search(reg) != -1){
+                new_code += old_code.slice(0,old_code.search(reg));
+                old_code = old_code.slice(old_code.search(reg));
+                del_port_name = old_code.slice(old_code.indexOf("(")+2,old_code.indexOf(",")-1);
+                if(del_port_name != editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].port_name){
+                    new_code += old_code.slice(0,old_code.indexOf(";")+1);
+                }
+                old_code = old_code.slice(old_code.indexOf(";")+1);
+            }
+            new_code += old_code;
+            old_code = new_code;
+            new_code = "";
+        });
+        new_code = old_code;
+        editor.drawflow.drawflow[module].data[id].data.events[ev_id].code = new_code;
+        document.getElementById("code-"+id+"-"+ev_id).value = editor.drawflow.drawflow[module].data[id].data.events[ev_id].code 
+    });
 
     //Delete a port box from node.data.port_boxes
     delete editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id];
@@ -1027,8 +1161,6 @@ function removePortOutput(id,port_box_id){
     Object.keys(editor.getNodeFromId(id).data.port_boxes).forEach(iter_port_box_id => {
         if(editor.drawflow.drawflow[module].data[id].data.port_boxes[port_box_id].associated_output_node < editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node){
             editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node -= 1;
-            editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].port_name = "Out_"+editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node;
-            document.getElementById("port-name-"+id+"-"+iter_port_box_id).value = "Out_"+editor.drawflow.drawflow[module].data[id].data.port_boxes[iter_port_box_id].associated_output_node;
         }
     });
     

@@ -73,19 +73,15 @@ header a {
 .legenda{
   float: right;
   position: absolute;
+  width: 300px;
   top: 60px;
   right: 10px;
   color: white;
-  font-weight: bold;
   border: 1px solid var(--border-color);
   background: var(--tertiary-color);
   padding: 5px 10px;
   border-radius: 4px;
   z-index: 5;
-}
-
-.swal-wide{
-    width:80% !important;
 }
 
 .btn-lock {
@@ -118,10 +114,12 @@ header a {
   border: 1px solid var(--border-color);
   z-index: 5;
 }
+
 .bar-zoom svg {
   cursor: pointer;
   padding: 2px;
 }
+
 .bar-zoom svg:nth-child(2) {
   margin-right:10px;
   margin-left: 10px;
@@ -150,6 +148,10 @@ header a {
   box-shadow: 0 0 15px 2px var(--border-color-node);
   padding: 0px;
   width: auto;
+}
+
+.drawflow .drawflow-node .drawflow-delete {
+  display: none;
 }
 
 .drawflow .drawflow-node.selected  {
@@ -274,7 +276,6 @@ header a {
 .drawflow .widget-body-forty{
   overflow: auto;
   width: 40%;
-  padding: 5px;
 }
 
 .drawflow .widget-body-element-widget-name{
@@ -308,6 +309,11 @@ header a {
   flex-grow: 1;
 }
 
+.drawflow-node .ports-room{
+  height: 74%;
+  padding: 5px;
+}
+
 .drawflow-node .port-box{
   width: 100%;
   border: 1px solid white;
@@ -331,6 +337,12 @@ header a {
   border: none;
   outline: none;
   cursor: pointer;
+}
+
+.drawflow-node .widget-body-forty .create-ports{
+  height: 26%;
+  padding: 5px;
+  border-top: 1px solid white;
 }
 
 .drawflow .port-red{
@@ -384,7 +396,6 @@ header a {
 
 .btn-add-port-box {
   width: 100%;
-  height: 10%;
   text-align: center;
   color: white;
   font-weight: bold;

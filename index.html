@@ -34,20 +34,16 @@
           Legenda
         </a>
         <div class="legenda collapse" id="legenda">
-          <p><b><u>Input Ports</u></b></p>
+          <p><b><u>Output Port Types</u></b></p>
           <p>
-            ⚫ External #f2f2f2<br>
-          </p>
-          <p><b><u>Output Ports</u></b></p>
-          <p>
-            🔴 List of SURI #e81224<br>   
-            🟢 DateTime Interval #16c60c<br>   
-            🔵 SURI #0078d7<br>   
-            🟡 DateTime #fff100<br>  
-            🟠 Action #f7630c<br>  
-            🟣 GPS Coordinates #886ce4<br>   
-            🟤 ResetCommand #8e562e<br>   
-            ⚪ JSON #383838<br> 
+            🔴 ListSURI<br>   
+            🟢 DateTime Interval<br>   
+            🔵 SURI<br>   
+            🟡 DateTime<br>  
+            🟠 Action<br>  
+            🟣 GPS Coordinates<br>   
+            🟤 ResetCommand<br>   
+            ⚪ JSON<br> 
           </p>     
           <p><b><u>Shortkeys</u></b></p>        
           <p>   
@@ -57,11 +53,11 @@
           </p>
           <p><b><u>Info</u></b></p>        
           <p>   
-            Every Widget have a variable <br>
-            <b><u>e = parseJSON(param)</u></b><br>
-            standardly. It's rappresent a JSON<br> 
-            of parameter given to JS <br>
-            after an event occur.<br>    
+            Every widget have standard variables : <br>
+            <ul>
+              <li><b>e</b> : It's rappresent a JSON of parameter given to JS after an event occur.</li>
+              <li><b>connections</b> : It's rappresent a JSON of connections table.</li>
+            </ul>
           </p>
         </div>
         <div class="btn-lock">
